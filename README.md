@@ -9,5 +9,6 @@ FIDO UAF协议中文文档。包括文档翻译和知识梳理。皆为原创。
 我的博客地址：[http://sickworm.com](http://sickworm.com)
 
 
-版权所有，转载请注明出处。
+版权所有，转载请注明出处：
+
 [https://github.com/SickWorm/FIDO-UAF-Chinese-Document](https://github.com/SickWorm/FIDO-UAF-Chinese-Document)
