@@ -1067,3 +1067,7 @@ Wrap.sym                    |   如果authenticator有打包密钥（Wrap.sym）
 </dd><dt id="bib-TEESecureDisplay">[TEESecureDisplay]</dt><dd rel="dcterms:references"><a href="https://www.globalplatform.org/specifications.asp"><cite>GlobalPlatform Trusted User Interface API Specifications</cite></a> GlobalPlatform. Accessed March 2014. URL: <a href="https://www.globalplatform.org/specifications.asp">https://www.globalplatform.org/specifications.asp</a>
 </dd><dt id="bib-TPM">[TPM]</dt><dd rel="dcterms:references"><a href="http://www.trustedcomputinggroup.org/resources/tpm_main_specification"><cite>TPM Main Specification</cite></a> Trusted Computing Group. Accessed March 2014. URL: <a href="http://www.trustedcomputinggroup.org/resources/tpm_main_specification">http://www.trustedcomputinggroup.org/resources/tpm_main_specification</a>
 </dd></dl></section>
+
+版权所有，转载请注明出处：
+
+[https://github.com/SickWorm/FIDO-UAF-Chinese-Document](https://github.com/SickWorm/FIDO-UAF-Chinese-Document)
