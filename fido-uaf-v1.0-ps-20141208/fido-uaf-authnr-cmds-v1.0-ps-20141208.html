@@ -1,0 +1,5038 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document w3p:REC" about="" property="dcterms:language" content="en">
+<head>
+    <title>FIDO UAF Authenticator Commands v1.0</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    
+    
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #003a7c;
+}
+
+.simple th {
+    background: #003a7c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><link rel="stylesheet" href="resources/FIDO-PS.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+
+  <body style="" class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    
+      <a href="https://www.fidoalliance.org/"><img width="250" id="toplogo" src="resources/logo.png" alt="FIDO Alliance"></a>
+    
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">FIDO UAF Authenticator Commands v1.0</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-12-08T08:00:00.000Z" id="fido-alliance-proposed-standard-08-december-2014"><abbr title="FIDO Alliance">FIDO Alliance</abbr> Proposed Standard <time class="dt-published" datetime="2014-12-08">08 December 2014</time></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-cmds-v1.0-ps-20141208.html">https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-cmds-v1.0-ps-20141208.html</a></dd>
+      <!--<dt>Latest published version:</dt>
+      <dd><a href='https://fidoalliance.org/specs/fido-uaf-authnr-cmds/'>https://fidoalliance.org/specs/fido-uaf-authnr-cmds/</a></dd>
+    
+    -->
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="https://fidoalliance.org/specs/fido-uaf-authnr-cmds-v1.0-rd-20141008.pdf">https://fidoalliance.org/specs/fido-uaf-authnr-cmds-v1.0-rd-20141008.pdf</a></dd>
+    
+    
+    <dt>Editors:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Davit Baghdasaryan" href="davit@noknok.com">Davit Baghdasaryan</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">John Kemp</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a></span>
+</dd>
+
+    
+      <dt>Contributors:</dt>
+      <dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Dr. Rolf Lindemann" href="rlindemann@noknok.com">Dr. Rolf Lindemann</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Roni Sasson" href="Roni.Sasson@discretix.com">Roni Sasson</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.discretix.com/">Discretix</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Brad Hill" href="bhill@paypal.com">Brad Hill</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.paypal.com/">PayPal, Inc.</a></span>
+</dd>
+
+    
+    
+  </dl>
+  
+  
+  
+    <p>
+      The English version of this specification is the only normative version. Non-normative
+      <a href="https://www.fidoalliance.org/specifications/translation/">translations</a> may also be available.
+    </p>
+  
+  
+    
+      <p class="copyright">
+        Copyright ©
+        2013-2014
+        
+        <a href="https://www.fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a>
+        All Rights Reserved.
+      </p>
+    
+  
+  <hr>
+</div>
+    <!-- only modify this if a custom Status of this Document is needed -->
+
+    
+
+    <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+      <p>UAF Authenticators may take different forms. Implementations
+	may range from a secure application running inside
+	tamper-resistant hardware to software-only solutions on
+	consumer devices.</p>
+
+      <p>
+        This document defines normative aspects of UAF Authenticators and offers security and implementation
+        guidelines for authenticator implementors.
+      </p>
+
+    </section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="FIDO Alliance">FIDO Alliance</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="https://www.fidoalliance.org/specifications/"><abbr title="FIDO Alliance">FIDO Alliance</abbr> specifications index</a> at
+          https://www.fidoalliance.org/specifications/.</em>
+        </p>
+        
+        <p>
+          This document was published by the <a href="https://fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a> as a Proposed Standard.
+          
+          
+            If you wish to make comments regarding this document, please 
+            <a href="https://fidoalliance.org/contact">Contact Us</a>.
+          
+          
+          
+          
+            All comments are welcome.
+          
+        </p>
+        
+	
+	
+	
+        
+          <p>
+	    Implementation of certain elements of this Specification may require licenses under third party intellectual 
+	    property rights, including without limitation, patent rights. The <abbr title="FIDO Alliance">FIDO Alliance</abbr>, Inc. and its Members
+            and any other contributors to the Specification are not, and shall not be held, responsible in any manner
+            for identifying or failing to identify any or all such third party intellectual property rights.
+	  </p>
+	  <p>
+	    THIS FIDO ALLIANCE SPECIFICATION IS PROVIDED “AS IS” AND WITHOUT ANY 
+            WARRANTY OF ANY KIND, INCLUDING, WITHOUT LIMITATION, ANY EXPRESS OR IMPLIED
+	    WARRANTY OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A
+	    PARTICULAR PURPOSE.
+          </p>
+        
+        
+          <p>
+            This document has been reviewed by FIDO Aliance Members
+            and is endorsed as a Proposed Standard.
+            It is a stable document and may be used as reference material or cited from another
+            document. <abbr title="FIDO Alliance">FIDO Alliance</abbr>'s role in making the Recommendation is to draw attention to the
+            specification and to promote its widespread deployment.
+          </p>
+        
+        
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#notation" class="tocxref"><span class="secno">1. </span>Notation</a><ul class="toc"><li class="tocline"><a href="#key-words" class="tocxref"><span class="secno">1.1 </span>Key Words</a></li></ul></li><li class="tocline"><a href="#overview" class="tocxref"><span class="secno">2. </span>Overview</a></li><li class="tocline"><a href="#additional-notations" class="tocxref"><span class="secno">3. </span>Additional Notations</a></li><li class="tocline"><a href="#uaf-authenticator" class="tocxref"><span class="secno">4. </span>UAF Authenticator</a><ul class="toc"><li class="tocline"><a href="#types-of-authenticators" class="tocxref"><span class="secno">4.1 </span>Types of Authenticators</a></li></ul></li><li class="tocline"><a href="#tags" class="tocxref"><span class="secno">5. </span>Tags</a><ul class="toc"><li class="tocline"><a href="#command-tags" class="tocxref"><span class="secno">5.1 </span>Command Tags</a></li><li class="tocline"><a href="#tags-used-only-in-authenticator-commands" class="tocxref"><span class="secno">5.2 </span>Tags used only in Authenticator Commands</a></li><li class="tocline"><a href="#tags-used-in-uaf-protocol" class="tocxref"><span class="secno">5.3 </span>Tags used in UAF Protocol</a></li><li class="tocline"><a href="#status-codes" class="tocxref"><span class="secno">5.4 </span>Status Codes</a></li></ul></li><li class="tocline"><a href="#structures" class="tocxref"><span class="secno">6. </span>Structures</a><ul class="toc"><li class="tocline"><a href="#rawkeyhandle" class="tocxref"><span class="secno">6.1 </span>RawKeyHandle</a><ul class="toc"><li class="tocline"><a href="#structures-to-be-parsed-by-fido-server" class="tocxref"><span class="secno">6.1.1 </span>Structures to be parsed by FIDO Server</a><ul class="toc"><li class="tocline"><a href="#tag_uafv1_reg_assertion" class="tocxref"><span class="secno">6.1.1.1 </span>TAG_UAFV1_REG_ASSERTION</a></li><li class="tocline"><a href="#tag_uafv1_auth_assertion" class="tocxref"><span class="secno">6.1.1.2 </span>TAG_UAFV1_AUTH_ASSERTION</a></li></ul></li><li class="tocline"><a href="#userverificationtoken" class="tocxref"><span class="secno">6.1.2 </span>UserVerificationToken</a></li></ul></li><li class="tocline"><a href="#commands" class="tocxref"><span class="secno">6.2 </span>Commands</a><ul class="toc"><li class="tocline"><a href="#getinfo-command" class="tocxref"><span class="secno">6.2.1 </span>GetInfo Command</a><ul class="toc"><li class="tocline"><a href="#command-description" class="tocxref"><span class="secno">6.2.1.1 </span>Command Description</a></li><li class="tocline"><a href="#command-structure" class="tocxref"><span class="secno">6.2.1.2 </span>Command Structure</a></li><li class="tocline"><a href="#command-response" class="tocxref"><span class="secno">6.2.1.3 </span>Command Response</a></li><li class="tocline"><a href="#status-codes-1" class="tocxref"><span class="secno">6.2.1.4 </span>Status Codes</a></li></ul></li><li class="tocline"><a href="#register-command" class="tocxref"><span class="secno">6.2.2 </span>Register Command</a><ul class="toc"><li class="tocline"><a href="#command-structure-1" class="tocxref"><span class="secno">6.2.2.1 </span>Command Structure</a></li><li class="tocline"><a href="#command-response-1" class="tocxref"><span class="secno">6.2.2.2 </span>Command Response</a></li><li class="tocline"><a href="#status-codes-2" class="tocxref"><span class="secno">6.2.2.3 </span>Status Codes</a></li><li class="tocline"><a href="#command-description-1" class="tocxref"><span class="secno">6.2.2.4 </span>Command Description</a></li></ul></li><li class="tocline"><a href="#sign-command" class="tocxref"><span class="secno">6.2.3 </span>Sign Command</a><ul class="toc"><li class="tocline"><a href="#command-structure-2" class="tocxref"><span class="secno">6.2.3.1 </span>Command Structure</a></li><li class="tocline"><a href="#command-response-2" class="tocxref"><span class="secno">6.2.3.2 </span>Command Response</a></li><li class="tocline"><a href="#status-codes-3" class="tocxref"><span class="secno">6.2.3.3 </span>Status Codes</a></li><li class="tocline"><a href="#command-description-2" class="tocxref"><span class="secno">6.2.3.4 </span>Command Description</a></li></ul></li><li class="tocline"><a href="#deregister-command" class="tocxref"><span class="secno">6.2.4 </span>Deregister Command</a><ul class="toc"><li class="tocline"><a href="#command-structure-3" class="tocxref"><span class="secno">6.2.4.1 </span>Command Structure</a></li><li class="tocline"><a href="#command-response-3" class="tocxref"><span class="secno">6.2.4.2 </span>Command Response</a></li><li class="tocline"><a href="#status-codes-4" class="tocxref"><span class="secno">6.2.4.3 </span>Status Codes</a></li><li class="tocline"><a href="#command-description-3" class="tocxref"><span class="secno">6.2.4.4 </span>Command Description</a></li></ul></li><li class="tocline"><a href="#opensettings-command" class="tocxref"><span class="secno">6.2.5 </span>OpenSettings Command</a><ul class="toc"><li class="tocline"><a href="#command-structure-4" class="tocxref"><span class="secno">6.2.5.1 </span>Command Structure</a></li><li class="tocline"><a href="#command-response-4" class="tocxref"><span class="secno">6.2.5.2 </span>Command Response</a></li><li class="tocline"><a href="#status-codes-5" class="tocxref"><span class="secno">6.2.5.3 </span>Status Codes</a></li></ul></li></ul></li></ul></li><li class="tocline"><a href="#keyids-and-key-handles" class="tocxref"><span class="secno">7. </span>KeyIDs and key handles</a><ul class="toc"><li class="tocline"><a href="#first-factor-bound-authenticator" class="tocxref"><span class="secno">7.1 </span>first-factor Bound Authenticator</a></li><li class="tocline"><a href="#x2ndf-bound-authenticator" class="tocxref"><span class="secno">7.2 </span>2ndF Bound Authenticator</a></li><li class="tocline"><a href="#first-factor-roaming-authenticator" class="tocxref"><span class="secno">7.3 </span>first-factor Roaming Authenticator</a></li><li class="tocline"><a href="#x2ndf-roaming-authenticator" class="tocxref"><span class="secno">7.4 </span>2ndF Roaming Authenticator</a></li></ul></li><li class="tocline"><a href="#access-control-for-commands" class="tocxref"><span class="secno">8. </span>Access Control for Commands</a></li><li class="tocline"><a href="#relationship-to-other-standards" class="tocxref"><span class="secno">9. </span>Relationship to other standards</a><ul class="toc"><li class="tocline"><a href="#tee" class="tocxref"><span class="secno">9.1 </span>TEE</a></li><li class="tocline"><a href="#secure-elements" class="tocxref"><span class="secno">9.2 </span>Secure Elements</a></li><li class="tocline"><a href="#tpm" class="tocxref"><span class="secno">9.3 </span>TPM</a></li><li class="tocline"><a href="#unreliable-transports" class="tocxref"><span class="secno">9.4 </span>Unreliable Transports</a></li></ul></li><li class="tocline"><a href="#security-guidelines" class="tocxref"><span class="secno">A. </span>Security Guidelines</a></li><li class="tocline"><a href="#tof" class="tocxref"><span class="secno">B. </span>Table of Figures</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">C. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">C.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">C.2 </span>Informative references</a></li></ul></li></ul></section>
+
+    <section id="notation">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_notation"><span class="secno">1. </span>Notation</h2>
+
+      <p>Type names, attribute names and element names are written as
+	<code>code</code>.</p>
+
+      <p>String literals are enclosed in “”, e.g. “UAF-TLV”.</p>
+
+      <p>In formulas we use “|” to denote byte wise concatenation
+	operations.</p>
+
+      <p>UAF specific terminology used in this document is defined in
+	[<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>].</p>
+
+      <p>All diagrams, examples, notes in this specification are non-normative.</p>
+      <section id="key-words">
+	<h3 aria-level="2" role="heading" id="h3_key-words"><span class="secno">1.1 </span>Key Words</h3>
+	<p>The key words <em class="rfc2119" title="MUST">MUST</em>, <em class="rfc2119" title="MUST NOT">MUST NOT</em>, <em class="rfc2119" title="REQUIRED">REQUIRED</em> <em class="rfc2119" title="SHALL">SHALL</em>, <em class="rfc2119" title="SHALL NOT">SHALL NOT</em>,
+	  <em class="rfc2119" title="SHOULD">SHOULD</em>, <em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em>, <em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em>, <em class="rfc2119" title="MAY">MAY</em>, and <em class="rfc2119" title="OPTIONAL">OPTIONAL</em> in this
+	  document are to be interpreted as described in
+	  [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].</p>
+      </section>
+    </section>
+
+    <section class="informative" id="overview">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_overview"><span class="secno">2. </span>Overview</h2><p><em>This section is non-normative.</em></p>
+
+      <p>This document specifies low-level functionality which UAF
+	Authenticators should implement in order to support the UAF
+	protocol. It has the following goals: </p>
+
+      <ul>
+        <li>Define normative aspects of UAF Authenticator implementations</li>
+
+        <li>Define a set of commands
+          implementing UAF functionality that may be implemented by different types of authenticators</li>
+
+        <li>Define <code>UAFV1TLV</code> assertion scheme-specific structures which will be parsed by a FIDO Server</li>
+      </ul>
+
+      <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_1"><span>Note</span></div><div class="">
+	<p>
+          The UAF Protocol supports various assertion schemes.
+          Commands and structures defined in this document assume that 
+	  an authenticator supports the <code>UAFV1TLV</code> assertion scheme.
+          Authenticators implementing a different assertion scheme do 
+	  not have to follow requirements specified
+          in this document.
+      </p></div></div>
+
+      <p>The overall architecture of the UAF protocol and its various
+	operations is described in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]. The following
+	simplified architecture diagram illustrates the interactions
+	and actors this document is concerned with:</p>
+
+      <figure id="fig-uaf-authenticator-commands">
+	<img src="./img/fido-uaf-authnr-cmds-interface.png" onerror="./img/fido-uaf-authnr-cmds-interface.png" alt="FIDO UAF Client Side Interfaces">
+
+	<figcaption>Fig. <span class="figno">1</span> <span class="fig-title">
+          UAF Authenticator Commands
+	</span></figcaption>
+      </figure>
+
+    </section>
+
+    <section class="normativeDisclaimer" id="additional-notations">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_additional-notations"><span class="secno">3. </span>Additional Notations</h2><p><em>This section is normative.</em></p>
+
+      <p>Unless otherwise specified all data described in this document <em class="rfc2119" title="MUST">MUST</em> be encoded in
+	<strong>little-endian</strong> format.</p>
+
+      <p>All TLV structures can be parsed using a "recursive-descent"
+	parsing approach, and tag order is not significant. In some
+	cases multiple occurrences of a single tag <em class="rfc2119" title="MAY">MAY</em> be allowed
+	within a structure, in which case all values <em class="rfc2119" title="MUST">MUST</em> be
+	preserved.</p>
+
+      <p>All fields in TLV structures are <i>mandatory</i>, unless
+	explicitly mentioned as otherwise.</p>
+
+    </section>
+
+    <section class="informative" id="uaf-authenticator">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_uaf-authenticator"><span class="secno">4. </span>UAF Authenticator</h2><p><em>This section is non-normative.</em></p>
+
+      <p>The UAF Authenticator is an authentication component that
+	meets the UAF protocol requirements as described in
+	[<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]. The main functions to be provided by UAF
+	Authenticators are:</p>
+
+      <ol>
+	<li>[Mandatory] Verifying the user with the verification
+	  mechanism built into the authenticator. The verification
+	  technology can vary, from biometric verification to simply
+	  verifying physical presence, or no user verification at all
+	  (the so-called <em>Silent Authenticator</em>).</li>
+
+	<li>[Mandatory] Performing the cryptographic operations
+	  defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]</li>
+
+	<li>[Mandatory] Creating data structures that can be parsed by FIDO Server.</li>
+
+	<li>[Mandatory] Attesting itself to the FIDO Server if there
+	  is a built-in support for attestation</li>
+
+	<li>[Optional] Displaying the transaction content to the user
+	  using the transaction confirmation display</li>
+      </ol>
+
+      <figure id="fig-fido-authenticator-logical-sub-components">
+	<img src="./img/fido-uaf-authnr-cmds-logical-components.png" onerror="./img/fido-uaf-authnr-cmds-logical-components.png" alt="FIDO Authenticator Logical Sub-Components">
+
+	<figcaption>Fig. <span class="figno">2</span> <span class="fig-title">
+          FIDO Authenticator Logical Sub-Components
+	</span></figcaption>
+      </figure>
+
+      <p>Some examples of UAF Authenticators:</p>
+
+      <ul>
+	<li>A fingerprint sensor built into a mobile device</li>
+
+	<li>PIN authenticator implemented inside a <em>secure
+	  element</em></li>
+
+	<li>A mobile phone acting as an authenticator to a different
+	  device</li>
+
+	<li>A USB token with built-in user presence verification</li>
+
+	<li>A voice or face verification technology built into a
+	  device</li>
+      </ul>
+
+      <section id="types-of-authenticators">
+	<h3 aria-level="2" role="heading" id="h3_types-of-authenticators"><span class="secno">4.1 </span>Types of Authenticators</h3>
+
+	<p>There are four types of authenticators defined in this
+	  document. These definitions are not normative (unless otherwise
+	  stated) and are provided merely for simplifying some of the
+	  descriptions.</p>
+
+        <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_2"><span>Note</span></div><div class="">
+
+          <p>The following is the rationale for considering only these 4 types of authenticators:
+            </p><ul>
+              <li>
+                Bound authenticators are typically embedded into a
+                user's computing device and thus can utilize
+                the host's storage for their needs. It makes more
+                sense from an economic perspective to utilize
+                the host's storage rather than have embedded
+                storage. Trusted Execution Environments (TEE), Secure
+                Elements and Trusted Platform Modules (TPM) are
+                typically designed in this manner.
+              </li>
+              <li>
+                First-factor roaming authenticators must have an internal storage for key handles.
+              </li>
+              <li>
+                Second-factor roaming authenticators can store
+                their key handles on an associated server, in
+                order to avoid the need for internal storage.
+              </li>
+              <li>
+                Defining such constraints makes the specification
+                simpler and clearer for defining the mainstream
+                use-cases.
+              </li>
+            </ul>
+          <p></p>
+
+          <p>Vendors, however, are not limited to these
+            constraints. For example a bound authenticator which
+            has internal storage for storing key handles is
+            possible.  Vendors are free to design and implement
+            such authenticators as long as their design follows
+            the normative requirements described in this document. </p>
+        </div></div>
+
+	<ul>
+          <li><strong>First-factor Bound Authenticator </strong> </li>
+
+          <li style="list-style: none; display: inline">
+            <ul>
+              <li>These authenticators have an
+		internal matcher. The matcher is able to verify an
+		already enrolled user. If there is more than one user
+		enrolled - the matcher can also identify a user.</li>
+	      
+              <li>There is a logical binding between this authenticator and the 
+		device it is attached to (the binding
+		is expressed through a concept called KeyHandleAccessToken). This 
+		authenticator cannot be bound with more
+		than one device.</li>
+
+              <li>These authenticators do not store key handles
+		in their own internal storage.
+		They always return the key handle to the ASM and the latter stores it in its local database.</li>
+              <li>Authenticators of this type may also work as a second factor.</li>
+
+              <li>Examples</li>
+
+              <li style="list-style: none; display: inline">
+		<ul>
+                  <li>A fingerprint sensor built into a laptop, phone or
+                    tablet</li>
+
+                  <li>Embedded secure element in a mobile device</li>
+
+                  <li>Voice verification built into a device</li>
+		</ul>
+              </li>
+            </ul>
+          </li>
+
+          <p>
+            </p><li><strong>Second-factor (2ndF) Bound Authenticator</strong></li>
+
+            <li style="list-style: none; display: inline">
+              <ul>
+		<li>This type of authenticator is similar to
+                  first-factor bound authenticators, except that it can
+                  operate only as the second-factor in a multi-factor
+                  authentication</li>
+		
+                <li>Examples</li>
+
+                <li style="list-style: none; display: inline">
+                  <ul>
+                    <li>USB dongle with a built-in capacitive touch
+                      device for verifying user presence</li>
+
+                    <li>A "Trustlet" application running on the trusted
+                      execution environment of a mobile phone, and
+                      leveraging a secure keyboard to verify user
+                      presence</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <p>
+              </p><li><strong>First Factor (1stF) Roaming Authenticator</strong></li>
+
+              <li style="list-style: none; display: inline">
+		<ul>
+		  <li>
+                    These authenticators are not bound to any device. User can use them with any number of devices.
+		  </li>
+
+		  <li>It is assumed that these authenticators have an
+		    internal matcher. The matcher is able to verify an
+		    already enrolled user. If there is more than one user
+		    enrolled - the matcher can also identify a user.</li>
+
+		  <li>It is assumed that these authenticators are
+		    designed to store key handles in their own internal
+		    secure storage and not expose externally.</li>
+
+		  <li>These authenticators may also work as a second
+		    factor.</li>
+
+		  <li>Examples</li>
+
+		  <li style="list-style: none; display: inline">
+		    <ul>
+                      <li>A Bluetooth LE based hardware token with
+			built-in fingerprint sensor</li>
+
+                      <li>PIN protected USB hardware token</li>
+
+                      <li>A first-factor bound authenticator acting as a
+			roaming authenticator for a different device on
+			the user's behalf</li>
+		    </ul>
+		  </li>
+		</ul>
+              </li>
+              <p>
+		</p><li><strong>Second-factor Roaming Authenticator</strong></li>
+
+		<li style="list-style: none; display: inline">
+		  <ul>
+                    <li>
+                      These authenticators are not bound to any
+                      device. A user may use them with any number of
+                      devices.
+                    </li>
+
+                    <li>These authenticators may have an internal
+                      matcher. The matcher is able to verify an
+                      already enrolled user. If there is more than one
+                      user enrolled then the matcher can also identify
+                      a particular specific user.</li>
+
+                    <li>It is assumed that these authenticators do not
+                      store key handles in their own internal storage.
+                      Instead they push key handles to the FIDO Server
+                      and receive them back during the authentication
+                      operation.</li>
+
+                    <li>These authenticators can only work as second
+                      factors.</li>
+
+                    <li>Examples</li>
+
+                    <li style="list-style: none; display: inline">
+                      <ul>
+                        <li>USB dongle with a built-in capacitive touch
+                          device for verifying user presence</li>
+
+                        <li>A "Trustlet" application running on the trusted
+                          execution environment of a mobile phone, and
+                          leveraging a secure keyboard to verify user
+                          presence</li>
+                      </ul>
+                    </li>
+		  </ul>
+		</li>
+
+	</ul>
+
+	<p>Throughout the document there will be special conditions
+	  applying to these types of authenticators.</p>
+
+	<div class="normative">
+          <p>In some deployments, the combination of ASM and a bound
+            authenticator can act as a roaming authenticator (for
+            example when an ASM with an embedded authenticator on a
+            mobile device acts as a roaming authenticator for
+            another device). When this happens such an authenticator
+            <em class="rfc2119" title="MUST">MUST</em> follow the requirements applying to bound
+            authenticators within the boundary of the system the
+            authenticator is bound to, and follow the requirements
+            that apply to roaming authenticators in any other system
+            it connects to externally.</p>
+
+	</div>
+
+
+	<div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_3"><span>Note</span></div><p class="">As stated above, the bound authenticator does not store key handles and roaming authenticators
+	  to store them. In the example above the ASM would store the key handles of the bound authenticator 
+	  and hence meets this assumptions.
+	</p></div>
+      </section>
+    </section>
+
+    <section class="normativeDisclaimer" id="tags">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_tags"><span class="secno">5. </span>Tags</h2><p><em>This section is normative.</em></p>
+
+      <p>In this document UAF Authenticators use "Tag-Length-Value"
+	(TLV) format to communicate with the outside world. All
+	requests and response data <em class="rfc2119" title="MUST">MUST</em> be encoded as TLVs.</p>
+
+      <p>Commands and existing predefined TLV tags can be extended by
+	appending other TLV tags (custom or predefined).</p>
+
+      <p>Refer to [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>] for information about predefined
+	TLV tags.</p>
+
+
+      <p>TLV formatted data has the following simple structure:</p>
+
+      <table class="tlv">
+	<tbody><tr class="subhead">
+          <td>2 bytes</td>
+
+          <td>2 bytes</td>
+
+          <td>Length bytes</td>
+	</tr>
+
+	<tr>
+          <td>Tag</td>
+
+          <td>Length in bytes</td>
+
+          <td>Data</td>
+	</tr>
+      </tbody></table>
+      <p> All lengths are in bytes. e.g. a UINT32[4] will have
+	length 16.</p>
+      <p>Although 2 bytes are allotted for the tag, only
+        the first 14 bits (values up to 0x3FFF) should be used to
+        accommodate the limitations of some hardware platforms.</p>
+      <p>Arrays are implicit.  The description of some structures
+        indicates where multiple values are permitted, and
+        in these cases, if same tag appears more than once, all values are
+        signifanct and should be treated as an array.</p>
+      <p> For convenience in decoding TLV-formatted messages,
+	all composite tags - those with values that must be parsed by
+	recursive descent - have the 13th bit (0x1000) set.</p>
+      <p>A tag that has the 14th bit (0x2000) set indicates that it is
+	critical and a receiver <em class="rfc2119" title="MUST">MUST</em> abort processing
+	the entire message if it cannot process that tag.
+      </p>
+      <p>Since UAF Authenticators may have extremely constrained
+	processing environments, an ASM <em class="rfc2119" title="MUST">MUST</em> follow
+	a normative ordering of structures when sending
+	commands.
+      </p>
+      <p>It is assumed that ASM and
+	Server have sufficient resources to handle parsing
+	tags in any order so structures send from authenticator <em class="rfc2119" title="MAY">MAY</em> use tags in any order.
+      </p>
+      <section id="command-tags">
+	<h3 aria-level="2" role="heading" id="h3_command-tags"><span class="secno">5.1 </span>Command Tags</h3>
+	
+	<table class="tlv">
+	  <thead>
+	    <tr>
+	      <th>Name</th>
+	      
+	      <th>Value</th>
+	      
+	      <th>Description</th>
+	    </tr>
+	  </thead>
+	  
+	  <tbody>
+	    <tr>
+	      <td>TAG_UAFV1_GETINFO_CMD</td>
+	      
+	      <td>0x3401</td>
+	      
+	      <td>Tag for GetInfo command.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_GETINFO_CMD_RESPONSE</td>
+	      
+	      <td>0x3601</td>
+	      
+	      <td>Tag for GetInfo command response.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_REGISTER_CMD</td>
+	      
+	      <td>0x3402</td>
+	      
+	      <td>Tag for Register command.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_REGISTER_CMD_RESPONSE</td>
+	      
+	      <td>0x3602</td>
+	      
+	      <td>Tag for Register command response.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_SIGN_CMD</td>
+	      
+	      <td>0x3403</td>
+	      
+	      <td>Tag for Sign command.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_SIGN_CMD_RESPONSE</td>
+	      
+	      <td>0x3603</td>
+	      
+	      <td>Tag for Sign command response.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_DEREGISTER_CMD</td>
+	      
+	      <td>0x3404</td>
+	      
+	      <td>Tag for Deregister command.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_DEREGISTER_CMD_RESPONSE</td>
+	      
+	      <td>0x3604</td>
+	      
+	      <td>Tag for Deregister command response.</td>
+	    </tr>
+	    
+	    
+	    <tr>
+	      <td>TAG_UAFV1_OPEN_SETTINGS_CMD</td>
+	      
+	      <td>0x3406</td>
+	      
+	      <td>Tag for OpenSettings command.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_OPEN_SETTINGS_CMD_RESPONSE</td>
+	      
+	      <td>0x3606</td>
+	      
+	      <td>Tag for OpenSettings command response.</td>
+	    </tr>
+	    
+	  </tbody>
+	</table>
+	
+	<p><em>Table 4.1.1: UAF Authenticator Command TLV tags (0x3400 -
+	  0x34FF, 0x3600-0x36FF)</em></p>
+	
+      </section>
+
+      
+      <section id="tags-used-only-in-authenticator-commands">
+	<h3 aria-level="2" role="heading" id="h3_tags-used-only-in-authenticator-commands"><span class="secno">5.2 </span>Tags used only in Authenticator Commands</h3>
+	
+	<table class="tlv">
+	  <thead>
+	    <tr>
+	      <th>Name</th>
+	      
+	      <th>Value</th>
+	      
+	      <th>Description</th>
+	    </tr>
+	  </thead>
+	  
+	  <tbody>
+	    <tr>
+	      <td>TAG_KEYHANDLE</td>
+	      
+	      <td>0x2801</td>
+	      
+	      <td>
+		Represents key handle.
+		
+		<p>Refer to [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>] for more information about
+		  key handle.</p>
+	      </td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_USERNAME_AND_KEYHANDLE</td>
+	      
+	      <td>0x3802</td>
+	      
+	      <td>
+		Represents an associated Username and key handle.
+		<p>This is a composite tag that contains a TAG_USERNAME and TAG_KEYHANDLE
+		  that identify a registration valid oin the authenticator.
+		</p>
+		<p>Refer to [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>] for more information about
+		  username.</p>
+	      </td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_USERVERIFY_TOKEN</td>
+	      
+	      <td>0x2803</td>
+	      
+	      <td>
+		Represents a User Verification Token.
+		
+		<p>Refer to [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>] for more information about
+		  user verification tokens.</p>
+	      </td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_APPID</td>
+	      
+	      <td>0x2804</td>
+	      
+	      <td>
+		A full AppID as a UINT8[] encoding of a UTF-8 string.
+		
+		<p>Refer to [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>] for more information about
+		  AppID.</p>
+	      </td>
+	    </tr>
+	    
+	    
+	    <tr>
+	      <td>TAG_KEYHANDLE_ACCESS_TOKEN</td>
+	      
+	      <td>0x2805</td>
+	      
+	      <td>Represents a key handle Access Token.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_USERNAME</td>
+	      
+	      <td>0x2806</td>
+	      
+	      <td>A Username as a UINT8[] encoding of a UTF-8 string.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_ATTESTATION_TYPE</td>
+	      
+	      <td>0x2807</td>
+	      
+	      <td>Represents an Attestation Type.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_STATUS_CODE</td>
+	      
+	      <td>0x2808</td>
+	      
+	      <td>Represents a Status Code.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_AUTHENTICATOR_METADATA</td>
+	      
+	      <td>0x2809</td>
+	      
+	      <td>Represents a more detailed set of authenticator information.
+	    </td></tr>
+	    
+	    <tr>
+	      <td>TAG_ASSERTION_SCHEME</td>
+	      
+	      <td>0x280A</td>
+	      
+	      <td>A UINT8[] containing the UTF8-encoded Assertion Scheme as defined in
+		[<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]. ("UAFV1TLV")
+	      </td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_TC_DISPLAY_PNG_CHARACTERISTICS</td>
+	      
+	      <td>0x280B</td>
+	      
+	      <td>If an authenticator contains a PNG-capable transaction confirmation display that
+		is not implemented by a higher-level layer, this tag is describing this display.
+		See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] for additional information on the format of this field.</td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_TC_DISPLAY_CONTENT_TYPE</td>
+	      
+	      <td>0x280C</td>
+	      
+	      <td>A UINT8[] containing the UTF-8-encoded transaction display content type as defined in
+		[<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>]. ("image/png")</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_AUTHENTICATOR_INDEX</td>
+	      
+	      <td>0x280D</td>
+	      
+	      <td>Authenticator Index</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_API_VERSION</td>
+	      
+	      <td>0x280E</td>
+	      
+	      <td>API Version</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_AUTHENTICATOR_ASSERTION</td>
+	      
+	      <td>0x280F</td>
+	      
+	      <td>The content of this TLV tag is an assertion generated by the authenticator. Since authenticators
+		may generate assertions in different formats - the content format may vary from authenticator to
+		authenticator.
+	      </td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_TRANSACTION_CONTENT</td>
+	      
+	      <td>0x2810</td>
+	      
+	      <td>Represents transaction content sent to the authenticator.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_AUTHENTICATOR_INFO</td>
+	      
+	      <td>0x3811</td>
+	      
+	      <td>Includes detailed information about authenticator's capabilities.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_SUPPORTED_EXTENSION_ID</td>
+	      
+	      <td>0x2812</td>
+	      
+	      <td>Represents extension ID supported by authenticator.</td>
+	    </tr>
+	    
+	  </tbody>
+	</table>
+	
+	<p><em>Table 4.2.1: Non-Command Tags (0x2800 - 0x28FF, 0x3800 - 0x38FF)</em></p>
+	
+      </section>
+      
+      
+      <section id="tags-used-in-uaf-protocol">
+	
+	<h3 aria-level="2" role="heading" id="h3_tags-used-in-uaf-protocol"><span class="secno">5.3 </span>Tags used in UAF Protocol</h3>
+	
+	<table class="tlv">
+	  <thead>
+	    <tr>
+	      <th>Name</th>
+	      
+	      <th>Value</th>
+	      
+	      <th>Description</th>
+	    </tr>
+	  </thead>
+	  
+	  <tbody>
+	    <tr>
+	      <td>TAG_UAFV1_REG_ASSERTION</td>
+	      
+	      <td>0x3E01</td>
+	      
+	      <td>Authenticator response to Register command.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_AUTH_ASSERTION</td>
+	      
+	      <td>0x3E02</td>
+	      
+	      <td>Authenticator response to Sign command.</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_KRD</td>
+	      
+	      <td>0x3E03</td>
+	      
+	      <td>Key Registration Data</td>
+	    </tr>
+	    
+	    <tr>
+	      <td>TAG_UAFV1_SIGNED_DATA</td>
+
+	      <td>0x3E04</td>
+
+	      <td>Data signed by authenticator with the UAuth.priv key</td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_ATTESTATION_CERT</td>
+
+	      <td>0x2E05</td>
+
+	      <td>Each entry contains a single X.509 DER-encoded [<cite><a class="bibref" href="#bib-ITU-X690-2008">ITU-X690-2008</a></cite>] certificate. 
+		Multiple occurrences are allowed and form the attestation certificate chain.
+		Multiple occurrences must be ordered.  The attestation certificate itself <em class="rfc2119" title="MUST">MUST</em> occur first.
+		Each subsequent occurrence (if exists) <em class="rfc2119" title="MUST">MUST</em> be the issuing certificate 
+		of the previous occurrence.
+	      </td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_SIGNATURE</td>
+
+	      <td>0x2E06</td>
+
+	      <td>A cryptographic signature</td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_ATTESTATION_BASIC_FULL</td>
+
+	      <td>0x3E07</td>
+
+	      <td>Full Basic Attestation as defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]</td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_ATTESTATION_BASIC_SURROGATE</td>
+
+	      <td>0x3E08</td>
+
+	      <td>Surrogate Basic Attestation as defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]</td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_KEYID</td>
+
+	      <td>0x2E09</td>
+
+	      <td>Represents a KeyID.</td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_FINAL_CHALLENGE</td>
+
+	      <td>0x2E0A</td>
+
+	      <td>
+		Represents a Final Challenge.
+
+		<p>Refer to [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>] for more information about
+		  the Final Challenge.</p>
+	      </td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_AAID</td>
+
+	      <td>0x2E0B</td>
+
+	      <td>Represents an authenticator Attestation ID.
+		<p>Refer to [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>] for more information about
+		  the AAID.</p>
+	      </td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_PUB_KEY</td>
+
+	      <td>0x2E0C</td>
+
+	      <td>Represents a Public Key.</td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_COUNTERS</td>
+
+	      <td>0x2E0D</td>
+
+	      <td>Represents a use counters for the authenticator.  </td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_ASSERTION_INFO</td>
+
+	      <td>0x2E0E</td>
+
+	      <td>Represents assertion information necessary for message processing.</td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_AUTHENTICATOR_NONCE</td>
+
+	      <td>0x2E0F</td>
+
+	      <td>Represents a nonce value generated by the authenticator.</td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_TRANSACTION_CONTENT_HASH</td>
+
+	      <td>0x2E10</td>
+
+	      <td>Represents a hash of transaction content.</td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_EXTENSION</td>
+
+	      <td>0x3E11, 0x3E12</td>
+
+	      <td>This is a composite tag indicating that the content is an extension.
+		<p>If the tag is 0x3E11 - it's a critical extension and if the recipient does not
+		  understand the contents of this tag, it <em class="rfc2119" title="MUST">MUST</em> abort processing of the
+		  entire message.
+
+		  </p><p>This tag has two embedded tags - TAG_EXTENSION_ID and TAG_EXTENSION_DATA. For more information
+		    about UAF extensions refer to [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]</p>
+
+		  <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_4"><span>Note</span></div><div class="">
+		    <p>This tag can be appended to any command and response.</p>
+		    <p>Using tag 0x3E11 (as opposed to tag 0x3E12) has the same meaning as the flag 
+		      <code>fail_if_unknown</code> in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].</p>
+		  </div></div>
+	      </td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_EXTENSION_ID</td>
+
+	      <td>0x2E13</td>
+
+	      <td>Represents extension ID. Content of this tag is a UINT8[] encoding of a UTF-8 string.
+	      </td>
+	    </tr>
+
+	    <tr>
+	      <td>TAG_EXTENSION_DATA</td>
+
+	      <td>0x2E14</td>
+
+	      <td>Represents extension data. Content of this tag is a UINT8[] byte array.
+	      </td>
+	    </tr>
+
+	  </tbody>
+	</table>
+
+	<p><em>Table 4.3.1: Tags used in the UAF Protocol (0x2E00 - 0x2EFF, 0x3E00 - 0x3EFF).
+	  Normatively defined in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]</em></p>
+
+      </section>
+
+
+      <section id="status-codes">
+
+	<h3 aria-level="2" role="heading" id="h3_status-codes"><span class="secno">5.4 </span>Status Codes</h3>
+	<table class="tlv">
+	  <thead>
+	    <tr>
+	      <th>Name</th>
+
+	      <th>Value</th>
+
+	      <th>Description</th>
+	    </tr>
+	  </thead>
+
+	  <tbody>
+	    <tr>
+	      <td>UAF_CMD_STATUS_OK</td>
+
+	      <td>0x00</td>
+
+	      <td>Success</td>
+	    </tr>
+
+	    <tr>
+	      <td>UAF_CMD_STATUS_ERR_UNKNOWN</td>
+
+	      <td>0x01</td>
+
+	      <td>An unknown error</td>
+	    </tr>
+
+	    <tr>
+	      <td>UAF_CMD_STATUS_ACCESS_DENIED</td>
+
+	      <td>0x02</td>
+
+	      <td>Access to this operation is denied</td>
+	    </tr>
+
+	    <tr>
+	      <td>UAF_CMD_STATUS_USER_NOT_ENROLLED</td>
+
+	      <td>0x03</td>
+
+	      <td>User is not enrolled with the authenticator</td>
+	    </tr>
+
+	    <tr>
+	      <td>UAF_CMD_STATUS_CANNOT_RENDER_TRANSACTION_CONTENT</td>
+
+	      <td>0x04</td>
+
+	      <td>Transaction content cannot be rendered</td>
+	    </tr>
+
+	    <tr>
+	      <td>UAF_CMD_STATUS_USER_CANCELLED</td>
+
+	      <td>0x05</td>
+
+	      <td>User has cancelled the operation</td>
+	    </tr>
+
+	    <tr>
+	      <td>UAF_CMD_STATUS_CMD_NOT_SUPPORTED</td>
+
+	      <td>0x06</td>
+
+	      <td>Command not supported</td>
+	    </tr>
+
+	    <tr>
+	      <td>UAF_CMD_STATUS_ATTESTATION_NOT_SUPPORTED</td>
+
+	      <td>0x07</td>
+
+	      <td>Required attestation not supported</td>
+	    </tr>
+
+	  </tbody>
+	</table>
+
+	<p><em>Table 4.4.1: UAF Authenticator Status Codes (0x00 - 0xFF)</em></p>
+
+      </section>
+
+    </section>
+
+    <section class="normativeDisclaimer" id="structures">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_structures"><span class="secno">6. </span>Structures</h2><p><em>This section is normative.</em></p>
+
+      <section id="rawkeyhandle">
+	<h3 aria-level="2" role="heading" id="h3_rawkeyhandle"><span class="secno">6.1 </span>RawKeyHandle</h3>
+
+	<p>RawKeyHandle is a structure generated and parsed by the
+	  authenticator. Authenticators may define RawKeyHandle in
+	  different ways and the internal structure is relevant only to
+	  the specific authenticator implementation.</p>
+
+	<p>RawKeyHandle for a typical <strong>first-factor bound authenticator</strong> has the following structure.</p>
+
+	<table class="tlv">
+          <tbody><tr class="subhead">
+            <td>Depends on hashing <br>algorithm (e.g. 32 bytes)</td>
+
+            <td>Depends on key type.<br>
+              (e.g. 32 bytes)</td>
+
+            <td>Username Size<br>
+              (1 byte)</td>
+
+            <td>Max 128 bytes</td>
+          </tr>
+
+          <tr>
+            <td>KHAccessToken</td>
+
+            <td>UAuth.priv</td>
+
+            <td>Size</td>
+
+            <td>Username</td>
+          </tr>
+	</tbody></table>
+
+	<p><em>Table 5.1: RawKeyHandle Structure</em></p>
+
+	<p>First Factor authenticators <em class="rfc2119" title="MUST">MUST</em> store Username inside RawKeyHandle and
+          Second Factor authenticators <em class="rfc2119" title="MUST NOT">MUST NOT</em> store it. The ability
+          to support Username is a key difference between first-, and
+          second-factor authenticators.</p>
+
+	<p>RawKeyHandle <em class="rfc2119" title="MUST">MUST</em> be cryptographically wrapped before leaving the
+          authenticator boundary since it contains the user
+          authentication private key (UAuth.priv).</p>
+      
+
+      <section id="structures-to-be-parsed-by-fido-server">
+	<h4 aria-level="3" role="heading" id="h4_structures-to-be-parsed-by-fido-server"><span class="secno">6.1.1 </span>Structures to be parsed by FIDO Server</h4>
+        <p>The structures defined in this section are created by UAF Authenticators
+          and parsed by FIDO Servers.
+
+          </p><p>Authenticators <em class="rfc2119" title="MUST">MUST</em> generate these structures if they implement "UAFV1TLV" assertion scheme.
+
+	    </p><div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_5"><span>Note</span></div><div class="">
+              <p>
+		"UAFV1TLV" assertion scheme assumes that the authenticator has
+		exclusive control over all data included inside TAG_UAFV1_KRD and TAG_UAFV1_SIGNED_DATA.
+	    </p></div></div>
+
+            <p>The nesting structure
+              <em class="rfc2119" title="MUST">MUST</em> be preserved, but the order of tags within
+              a composite tag is not normative. FIDO Servers
+              <em class="rfc2119" title="MUST">MUST</em> be prepared to handle tags appearing in any
+              order.
+
+
+	      </p><section id="tag_uafv1_reg_assertion">
+		<h5 aria-level="4" role="heading" id="h5_tag_uafv1_reg_assertion"><span class="secno">6.1.1.1 </span>TAG_UAFV1_REG_ASSERTION</h5>
+
+		<p>The following TLV structure is generated by the
+		  authenticator during processing of a Register command. It
+		  is then delivered to FIDO Server intact, and parsed by the
+		  server. The structure embeds a TAG_UAFV1_KRD tag which
+		  among other data contains the newly generated UAuth.pub.</p>
+
+		<p>If the authenticator wants to append custom
+		  data to TAG_UAFV1_KRD structure (and thus sign with
+		  Attestation Key) - this data <em class="rfc2119" title="MUST">MUST</em> be included as an
+		  additional tag inside TAG_UAFV1_KRD.</p>
+
+		<p>If the authenticator wants to send additional data to
+		  FIDO Server without signing it - this data <em class="rfc2119" title="MUST">MUST</em> be included
+		  as an additional tag inside TAG_UAFV1_REG_ASSERTION and not inside TAG_UAFV1_KRD.</p>
+
+		<p>Currently this document only specifies
+		  TAG_ATTESTATION_BASIC_FULL and TAG_ATTESTATION_BASIC_SURROGATE. In case if the authenticator is
+		  required to perform "Some_Other_Attestation" on
+		  TAG_UAFV1_KRD - it <em class="rfc2119" title="MUST">MUST</em> use the TLV tag and content defined for
+		  "Some_Other_Attestation" (defined in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]).</p>
+
+		<table class="tlv">
+		  <thead>
+		    <tr>
+		      <th>&nbsp;</th>
+
+		      <th>TLV Structure</th>
+
+		      <th>Description</th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		    <tr class="subhead">
+		      <td>1</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_UAFV1_REG_ASSERTION</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of the structure</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_UAFV1_KRD</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of the structure</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.2</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_AAID</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.2.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of AAID</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.2.2</td>
+
+		      <td>UINT8[] AAID</td>
+
+		      <td>Authenticator Attestation ID</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.3</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_ASSERTION_INFO</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.3.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of Assertion Information</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.3.2</td>
+
+		      <td>UINT16 AuthenticatorVersion</td>
+
+		      <td>Vendor assigned authenticator version</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.3.3</td>
+
+		      <td>UINT8 AuthenticationMode</td>
+
+		      <td>For Registration this must be 0x01 indicating
+			that the user has explicitly verified the action.</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.3.4</td>
+
+		      <td>UINT16 SignatureAlgAndEncoding</td>
+
+		      <td>
+			Signature Algorithm and Encoding of the attestation signature.
+
+			<p>Refer to [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>] for information on
+			  supported algorithms and their values.</p>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.3.5</td>
+
+		      <td>UINT16 PublicKeyAlgAndEncoding</td>
+
+		      <td>
+			<p>Public Key algorithm and encoding of the newly generated <code>UAuth.pub</code> key.</p>
+
+			<p>Refer to [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>] for information on
+			  supported algorithms and their values.</p>
+		      </td>
+		    </tr>
+
+
+		    <tr class="subhead">
+		      <td>1.2.4</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_FINAL_CHALLENGE</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.4.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Final Challenge length</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.4.2</td>
+
+		      <td>UINT8[] FinalChallenge</td>
+
+		      <td>(binary value of) Final Challenge provided in the
+			Command</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.5</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_KEYID</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.5.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of KeyID</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.5.2</td>
+
+		      <td>UINT8[] KeyID</td>
+
+		      <td>(binary value of) KeyID generated by
+			Authenticator</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.6</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_COUNTERS</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.6.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of Counters</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.6.2</td>
+
+		      <td>UINT32 SignCounter</td>
+
+		      <td>
+			Signature Counter.
+
+			<p>Indicates how many times this authenticator has
+			  performed signatures in the past.</p>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.6.3</td>
+
+		      <td>UINT32 RegCounter</td>
+
+		      <td>
+			Registration Counter.
+
+			<p>Indicates how many times this authenticator has
+			  performed registrations in the past.</p>
+		      </td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.7</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_PUB_KEY</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.7.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of UAuth.pub</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.7.2</td>
+
+		      <td>UINT8[] PublicKey</td>
+
+		      <td>User authentication public key (UAuth.pub) newly
+			generated by authenticator</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.3 <b>(choice 1)</b></td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_ATTESTATION_BASIC_FULL</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.3.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of structure</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.3.2</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_SIGNATURE</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.3.2.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of signature</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.3.2.2</td>
+
+		      <td>UINT8[] Signature</td>
+
+		      <td>
+			Signature calculated with Basic Attestation Private
+			Key over TAG_UAFV1_KRD content.
+
+			<p>The entire TAG_UAFV1_KRD content,
+			  including the tag and it's length field, <em class="rfc2119" title="MUST">MUST</em> be
+			  included during signature computation.</p>
+		      </td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.3.3</td>
+
+		      <td>UINT16 Tag</td>
+		      
+		      <td>TAG_ATTESTATION_CERT (multiple occurrences possible)
+			
+			<p>Multiple occurrences must be ordered.  The attestation certificate <em class="rfc2119" title="MUST">MUST</em> occur first.
+			  Each subsequent occurrence (if exists) <em class="rfc2119" title="MUST">MUST</em> be the issuing certificate of 
+			  the previous occurrence.
+			  The last occurence <em class="rfc2119" title="MUST">MUST</em> be chained to one of the certificates included 
+			  in field <code>attestationRootCertificate</code> in 
+			  the related Metadata Statement [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>].</p>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>1.3.3.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of Attestation Cert</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.3.3.2</td>
+
+		      <td>UINT8[] Certificate</td>
+
+		      <td>Single X.509 DER-encoded [<cite><a class="bibref" href="#bib-ITU-X690-2008">ITU-X690-2008</a></cite>] Attestation Certificate or a single certificate 
+			from the attestation certificate chain (see description above).
+		      </td>
+		    </tr>
+
+
+		    <tr class="subhead">
+                      <td>1.3 <b>(choice 2)</b></td>
+
+                      <td>UINT16 Tag</td>
+
+                      <td>TAG_ATTESTATION_BASIC_SURROGATE</td>
+		    </tr>
+
+		    <tr>
+                      <td>1.3.1</td>
+
+                      <td>UINT16 Length</td>
+
+                      <td>Length of structure</td>
+		    </tr>
+
+		    <tr class="subhead">
+                      <td>1.3.2</td>
+
+                      <td>UINT16 Tag</td>
+
+                      <td>TAG_SIGNATURE</td>
+		    </tr>
+
+		    <tr>
+                      <td>1.3.2.1</td>
+
+                      <td>UINT16 Length</td>
+
+                      <td>Length of signature</td>
+		    </tr>
+
+		    <tr>
+                      <td>1.3.2.2</td>
+
+                      <td>UINT8[] Signature</td>
+
+                      <td>
+			Signature calculated with newly generated UAuth.priv key over TAG_UAFV1_KRD content.
+
+			<p>The entire TAG_UAFV1_KRD content,
+			  including the tag and it's length field, <em class="rfc2119" title="MUST">MUST</em> be
+			  included during signature computation.</p>
+                      </td>
+		    </tr>
+
+		  </tbody>
+		</table>
+
+
+	      </section>
+
+	      <section id="tag_uafv1_auth_assertion">
+		<h5 aria-level="4" role="heading" id="h5_tag_uafv1_auth_assertion"><span class="secno">6.1.1.2 </span>TAG_UAFV1_AUTH_ASSERTION</h5>
+
+		<p>The following TLV structure is generated by an
+		  authenticator during processing of a Sign command. It is
+		  then delivered to FIDO Server intact and parsed by the
+		  server. The structure embeds a TAG_UAFV1_SIGNED_DATA tag.
+		</p>
+
+		<p>If the authenticator wants to append custom
+		  data to TAG_UAFV1_SIGNED_DATA structure (and thus sign with
+		  Attestation Key) - this data <em class="rfc2119" title="MUST">MUST</em> be included as an
+		  additional tag inside TAG_UAFV1_SIGNED_DATA.</p>
+		
+		<p>If the authenticator wants to send additional data to
+		  FIDO Server without signing it - this data <em class="rfc2119" title="MUST">MUST</em> be included
+		  as an additional tag inside TAG_UAFV1_AUTH_ASSERTION and not inside TAG_UAFV1_SIGNED_DATA.</p>
+
+		<table class="tlv">
+		  <thead>
+		    <tr>
+		      <th>&nbsp;</th>
+
+		      <th>TLV Structure</th>
+
+		      <th>Description</th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		    <tr class="subhead">
+		      <td>1</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_UAFV1_AUTH_ASSERTION</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of the structure.</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_UAFV1_SIGNED_DATA</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of the structure.</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.2</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_AAID</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.2.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of AAID</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.2.2</td>
+
+		      <td>UINT8[] AAID</td>
+
+		      <td>Authenticator Attestation ID</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.3</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_ASSERTION_INFO</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.3.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of Assertion Information</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.3.2</td>
+
+		      <td>UINT16 AuthenticatorVersion</td>
+
+		      <td>Vendor assigned authenticator version.</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.3.3</td>
+
+		      <td>UINT8 AuthenticationMode</td>
+
+		      <td>
+			Authentication Mode indicating whether user
+			explicitly verified or not and indicating if there
+			is a transaction content or not.
+
+			<ul>
+			  <li>0x01 means that user has been explicitly
+			    verified</li>
+
+			  <li>0x02 means that transaction content has been
+			    shown on the display and user confirmed it by
+			    explicitly verifying with authenticator</li>
+			</ul>
+		      </td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.3.4</td>
+
+		      <td>UINT16 SignatureAlgAndEncoding</td>
+
+		      <td>
+			Signature algorithm and encoding format.
+
+			<p>Refer to [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>] for information on
+			  supported algorithms and their values.</p>
+		      </td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.4</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_AUTHENTICATOR_NONCE</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.4.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of authenticator Nonce - <em class="rfc2119" title="MUST">MUST</em> be at least 8
+			bytes</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.4.2</td>
+
+		      <td>UINT8[] AuthnrNonce</td>
+
+		      <td>(binary value of) A nonce randomly generated by
+			Authenticator</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.5</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_FINAL_CHALLENGE</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.5.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of Final Challenge</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.5.2</td>
+
+		      <td>UINT8[] FinalChallenge</td>
+
+		      <td>(binary value of) Final Challenge provided in the
+			Command</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.6</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_TRANSACTION_CONTENT_HASH</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.6.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of Transaction Content Hash.  This length is 0 if 
+			AuthenticationMode == 0x01, i.e. authentication, not transaction confirmation. </td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.6.2</td>
+
+		      <td>UINT8[] TCHash</td>
+
+		      <td>(binary value of) Transaction Content Hash</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.7</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_KEYID</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.7.1</td>
+
+                      <td>UINT16 Length</td>
+
+                      <td>Length of KeyID</td>
+		    </tr>
+
+		    <tr>
+                      <td>1.2.7.2</td>
+
+                      <td>UINT8[] KeyID</td>
+
+                      <td>(binary value of) KeyID</td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.2.8</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_COUNTERS</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.8.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of Counters</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.2.8.2</td>
+
+		      <td>UINT32 SignCounter</td>
+
+		      <td>
+			Signature Counter.
+
+			<p>Indicates how many times this authenticator has
+			  performed signatures in the past.</p>
+		      </td>
+		    </tr>
+
+		    <tr class="subhead">
+		      <td>1.3</td>
+
+		      <td>UINT16 Tag</td>
+
+		      <td>TAG_SIGNATURE</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.3.1</td>
+
+		      <td>UINT16 Length</td>
+
+		      <td>Length of Signature</td>
+		    </tr>
+
+		    <tr>
+		      <td>1.3.2</td>
+
+		      <td>UINT8[] Signature</td>
+
+		      <td>
+			Signature calculated using UAuth.priv over
+			TAG_UAFV1_SIGNED_DATA structure.
+
+			<p>The entire TAG_UAFV1_SIGNED_DATA content,
+			  including the tag and it's length field, <em class="rfc2119" title="MUST">MUST</em> be
+			  included during signature computation.</p>
+		      </td>
+		    </tr>
+		  </tbody>
+		</table>
+
+	      </section>
+      </section>
+
+      <section id="userverificationtoken">
+	<h4 aria-level="3" role="heading" id="h4_userverificationtoken"><span class="secno">6.1.2 </span>UserVerificationToken</h4>
+
+	<p>
+          This specification doesn't specify how exactly user verification must be performed 
+	  inside the authenticator. Verification is considered to be an authenticator, and vendor, specific operation.
+	</p>
+
+	<p>
+          This document provides an example on how the "vendor_specific_UserVerify" command (a command which
+          verifies the user using Authenticator's built-in technology) could be securely bound to
+          UAF Register and Sign commands. This binding is done through a concept called <code>UserVerificationToken</code>.
+          Such a binding allows decoupling "vendor_specific_UserVerify" and "UAF Register/Sign" commands
+          from each other.
+	</p>
+
+	<p>
+          Here is how it is defined:
+
+          </p><ul>
+            <li>
+              The ASM invokes the "vendor_specific_UserVerify" command.
+              The authenticator verifies the user and returns a <code>UserVerificationToken</code> back.
+            </li>
+            <li>
+              The ASM invokes UAF.Register/Sign command and passes <code>UserVerificationToken</code> to it.
+              The authenticator verifies the validity of <code>UserVerificationToken</code> and
+              performs the FIDO operation if it is valid.
+            </li>
+          </ul>
+	<p></p>
+
+	<p>
+          The concept of UserVerificationToken is non-normative. An authenticator might decide to implement this
+          binding in a very different way.
+          For example an authenticator vendor may decide to append a UAF Register request directly to their
+          "vendor_specific_UserVerify" command and process both as a single command.
+	</p>
+	<p>If <code>UserVerificationToken</code> binding is implemented, it should either meet one of the
+          following criteria or implement a mechanism providing similar, or better security:
+          </p><ul>
+            <li>
+              <code>UserVerificationToken</code> must allow performing only a single UAF Register or UAF Sign operation.
+            </li>
+            <li>
+              <code>UserVerificationToken</code> must be time bound, and allow performing multiple UAF operations
+              within the specified time.
+            </li>
+          </ul>
+      </section>
+
+      </section>
+      <section class="informative" id="commands">
+	<h3 aria-level="2" role="heading" id="h3_commands"><span class="secno">6.2 </span>Commands</h3><p><em>This section is non-normative.</em></p>
+
+	<div class="normative">
+          <p>
+            UAF Authenticators which are designed to be interoperable with ASMs from different vendors
+            <em class="rfc2119" title="MUST">MUST</em> implement the command interface defined in this section. Examples of such authenticators:
+            </p><ul>
+              <li>
+                Bound Authenticators in which the core authenticator functionality is
+                developed by one vendor, and the ASM is developed by another vendor
+              </li>
+              <li>
+                Roaming Authenticators
+              </li>
+            </ul>
+          <p></p>
+
+	</div>
+	<div class="normative">
+          <p>
+            UAF Authenticators which are tightly integrated with a custom ASM (typically bound authenticators) <em class="rfc2119" title="MAY">MAY</em>
+            implement a different command interface.
+          </p>
+
+	</div>
+
+	<p>All UAF Authenticator commands and responses are
+	  semantically similar - they are all represented as TLV-encoded
+	  blobs. The first 2 bytes of each command is the command code.
+	  After receiving a command, the authenticator must parse the
+	  first TLV tag and figure out which command is being issued.</p>
+
+	<section id="getinfo-command">
+	  <h4 aria-level="3" role="heading" id="h4_getinfo-command"><span class="secno">6.2.1 </span>GetInfo Command</h4>
+
+	  <section id="command-description">
+            <h5 aria-level="4" role="heading" id="h5_command-description"><span class="secno">6.2.1.1 </span>Command Description</h5>
+
+            <p>This command returns information about internal authenticators. It may return 0 or more authenticators. Each
+              authenticator has an assigned <code>authenticatorIndex</code> which is used in other commands as an
+              authenticator reference.
+            </p>
+	  </section>
+
+	  <section id="command-structure">
+            <h5 aria-level="4" role="heading" id="h5_command-structure"><span class="secno">6.2.1.2 </span>Command Structure</h5>
+
+            <table class="tlv">
+              <thead>
+		<tr>
+                  <th>&nbsp;</th>
+
+                  <th>TLV Structure</th>
+
+                  <th>Description</th>
+		</tr>
+              </thead>
+
+              <tbody>
+		<tr class="subhead">
+                  <td>1</td>
+
+                  <td>UINT16 Tag</td>
+
+                  <td>TAG_UAFV1_GETINFO_CMD</td>
+		</tr>
+
+		<tr>
+                  <td>1.1</td>
+
+                  <td>UINT16 Length</td>
+
+                  <td>Entire Command Length - must be 0 for this
+                    command</td>
+		</tr>
+              </tbody>
+            </table>
+	  </section>
+
+	  <section id="command-response">
+            <h5 aria-level="4" role="heading" id="h5_command-response"><span class="secno">6.2.1.3 </span>Command Response</h5>
+
+            <table class="tlv">
+              <thead>
+		<tr>
+		  <th>&nbsp;</th>
+
+		  <th>TLV Structure</th>
+
+		  <th>Description</th>
+		</tr>
+              </thead>
+
+              <tbody>
+		<tr class="subhead">
+		  <td>1</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_UAFV1_GETINFO_CMD_RESPONSE</td>
+		</tr>
+
+		<tr>
+		  <td>1.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Response length</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.2</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_STATUS_CODE</td>
+		</tr>
+		<tr>
+		  <td>1.2.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Status Code Length</td>
+		</tr>
+		<tr>
+		  <td>1.2.2</td>
+
+		  <td>UINT16 Value</td>
+
+		  <td>Status Code returned by Authenticator</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.3</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_API_VERSION</td>
+		</tr>
+
+		<tr>
+		  <td>1.3.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of API Version (must be 0x0001)</td>
+		</tr>
+
+		<tr>
+		  <td>1.3.2</td>
+
+		  <td>UINT8 Version</td>
+
+		  <td>Authenticator API Version (must be 0x01). This version indicates the types of commands,
+                    and formatting associated with them, that are supported by the authenticator.
+		  </td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.4</td>
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_AUTHENTICATOR_INFO (multiple occurrences possible)</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.1</td>
+		  <td>UINT16 Length</td>
+
+		  <td>Length of Authenticator Info</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.4.2</td>
+		  <td>UINT16 Tag</td>
+
+		  <td>
+                    TAG_AUTHENTICATOR_INDEX
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.4.2.1</td>
+		  <td>UINT16 Length</td>
+
+		  <td>Length of AuthenticatorIndex (must be 0x0001)</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.2.2</td>
+		  <td>UINT8 AuthenticatorIndex</td>
+
+		  <td>Authenticator Index</td>
+		</tr>
+
+
+		<tr class="subhead">
+		  <td>1.4.3</td>
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_AAID</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.3.1</td>
+		  <td>UINT16 Length</td>
+
+		  <td>Length of AAID</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.3.2</td>
+		  <td>UINT8[] AAID</td>
+
+		  <td>Vendor assigned AAID</td>
+		</tr>
+
+
+		<tr class="subhead">
+		  <td>1.4.4</td>
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_AUTHENTICATOR_METADATA</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.4.1</td>
+		  <td>UINT16 Length</td>
+
+		  <td>Length of Authenticator Metadata</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.4.2</td>
+		  <td>UINT16 AuthenticatorType</td>
+
+		  <td>Indicates whether the authenticator is bound or roaming, and whether it is first-, or second-factor only.
+                    The ASM must use this information to understand how to work with the authenticator.
+                    <p>
+                      Predefined values:
+                      </p><ul>
+                        <li>0x0001 - Indicates second-factor authenticator (first-factor when the flag is not set)</li>
+                        <li>0x0002 - Indicates roaming authenticator (bound authenticator when the flag is not set)</li>
+                        <li>0x0004 - Key handles will be stored inside authenticator and won't be returned to ASM</li>
+                        <li>0x0008 - Authenticator has a built-in UI for enrollment and verification.
+                          ASM should not show its custom UI</li>
+                        <li>0x0010 - Authenticator has a built-in UI for settings, and supports OpenSettings command.</li>
+                        <li>0x0020 - Authenticator expects TAG_APPID to be passed as an argument to commands where it
+                          is defined as an optional argument</li>
+                        <li>0x0040 - At least one user is enrolled in the authenticator.
+                          Authenticators which don't support the concept of user enrollment
+                          (e.g. USER_VERIFY_NONE, USER_VERIFY_PRESENCE) must always have this bit set.</li>
+                      </ul>
+                    <p></p>
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.4.4.3</td>
+		  <td>UINT8 MaxKeyHandles</td>
+
+		  <td>Indicates maximum number of key handles this authenticator can receive and process in a single command.
+                    This information will be used by the ASM when invoking SIGN command with multiple key handles.
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.4.4.4</td>
+		  <td>UINT32 UserVerification</td>
+
+		  <td>User Verification method (as defined in
+                    [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>])</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.4.5</td>
+		  <td>UINT16 KeyProtection</td>
+
+		  <td>Key Protection type (as defined in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]).</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.4.6</td>
+		  <td>UINT16 MatcherProtection</td>
+
+		  <td>Matcher Protection type (as defined in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]).</td>
+
+		</tr>
+
+		<tr>
+		  <td>1.4.4.7</td>
+		  <td>UINT16 TransactionConfirmationDisplay</td>
+
+		  <td>Transaction Confirmation type (as defined in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]).
+                    <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_6"><span>Note</span></div><div class="">
+                      If Authenticator doesn't support Transaction Confirmation - this value must be set to 0.
+                    </div></div>
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.4.4.8</td>
+		  <td>UINT16 AuthenticationAlg</td>
+
+		  <td>Authentication Algorithm (as defined in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]).</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.4.5 </td>
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_TC_DISPLAY_CONTENT_TYPE (optional) </td>
+		</tr>
+
+		<tr>
+		  <td>1.4.5.1</td>
+		  <td>UINT16 Length</td>
+
+		  <td>Length of content type.</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.5.2</td>
+		  <td>UINT8[] ContentType</td>
+
+		  <td>Transaction Confirmation Display Content Type. See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] for additional information on the format of this field.</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.4.6</td>
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_TC_DISPLAY_PNG_CHARACTERISTICS (optional,multiple occurrences permitted)</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.6.1</td>
+		  <td>UINT16 Length</td>
+
+		  <td>Length of display characteristics information.</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.6.2</td>
+		  <td>UINT32 Width</td>
+
+		  <td>See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] for additional information.</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.6.3</td>
+		  <td>UINT32 Height</td>
+
+		  <td>See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] for additional information.</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.6.4</td>
+		  <td>UINT8 BitDepth</td>
+
+		  <td>See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] for additional information.</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.6.5</td>
+
+		  <td>UINT8 ColorType</td>
+		  <td>See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] for additional information.</td>
+		</tr>
+		<tr>
+		  <td>1.4.6.6</td>
+		  <td>UINT8 Compression</td>
+
+		  <td>See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] for additional information.</td>
+		</tr>
+		<tr>
+		  <td>1.4.6.7</td>
+		  <td>UINT8 Filter</td>
+
+		  <td>See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] for additional information.</td>
+		</tr>
+		<tr>
+		  <td>1.4.6.8</td>
+		  <td>UINT8 Interlace</td>
+
+		  <td>See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] for additional information.</td>
+		</tr>
+		<tr>
+		  <td>1.4.6.9</td>
+		  <td>UINT8[] PLTE</td>
+
+		  <td>See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] for additional information.</td>
+		</tr>
+		
+		<tr class="subhead">
+		  <td>1.4.7</td>
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_ASSERTION_SCHEME</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.7.1</td>
+		  <td>UINT16 Length</td>
+
+		  <td>Length of Assertion Scheme</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.7.2</td>
+		  <td>UINT8[] AssertionScheme</td>
+
+		  <td>Assertion Scheme (as defined in
+                    [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>])</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.4.8</td>
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_ATTESTATION_TYPE (multiple occurrences possible)</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.8.1</td>
+		  <td>UINT16 Length</td>
+
+		  <td>Length of AttestationType</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.8.2</td>
+		  <td>UINT16 AttestationType</td>
+
+		  <td>Attestation Type (as defined in
+                    [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>])</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.4.9</td>
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_SUPPORTED_EXTENSION_ID (optional, multiple occurrences possible)</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.9.1</td>
+		  <td>UINT16 Length</td>
+
+		  <td>Length of SupportedExtensionID</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.9.2</td>
+		  <td>UINT8[] SupportedExtensionID</td>
+
+		  <td>SupportedExtensionID as a UINT8[] encoding of a UTF-8 string</td>
+		</tr>
+
+              </tbody>
+            </table>
+	  </section>
+
+	  <section id="status-codes-1">
+            <h5 aria-level="4" role="heading" id="h5_status-codes-1"><span class="secno">6.2.1.4 </span>Status Codes</h5>
+
+            <ul>
+              <li><code>UAF_CMD_STATUS_OK</code></li>
+
+              <li><code>UAF_CMD_STATUS_ERR_UNKNOWN</code></li>
+
+            </ul>
+
+	  </section>
+
+	</section>
+	<section id="register-command">
+	  <h4 aria-level="3" role="heading" id="h4_register-command"><span class="secno">6.2.2 </span>Register Command</h4>
+
+	  <p>This command generates a UAF registration assertion.
+            This assertion can be used to register the authenticator
+            with a FIDO Server.</p>
+
+	  <section id="command-structure-1">
+	    <h5 aria-level="4" role="heading" id="h5_command-structure-1"><span class="secno">6.2.2.1 </span>Command Structure</h5>
+
+	    <table class="tlv">
+	      <thead>
+		<tr>
+		  <th>&nbsp;</th>
+
+		  <th>TLV Structure</th>
+
+		  <th>Description</th>
+		</tr>
+	      </thead>
+
+	      <tbody>
+		<tr class="subhead">
+		  <td>1</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_UAFV1_REGISTER_CMD</td>
+		</tr>
+
+		<tr>
+		  <td>1.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Command Length</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.2</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>
+		    TAG_AUTHENTICATOR_INDEX
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.2.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of AuthenticatorIndex (must be 0x0001)</td>
+		</tr>
+
+		<tr>
+		  <td>1.2.2</td>
+
+		  <td>UINT8 AuthenticatorIndex</td>
+
+		  <td>Authenticator Index</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.3</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>
+		    TAG_APPID (optional)
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.3.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of AppID</td>
+		</tr>
+
+		<tr>
+		  <td>1.3.2</td>
+
+		  <td>UINT8[] AppID</td>
+
+		  <td>AppID (max 512 bytes)</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.4</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_FINAL_CHALLENGE</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Final Challenge Length</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.2</td>
+
+		  <td>UINT8[] FinalChallenge</td>
+
+		  <td>Final Challenge provided by ASM (max 32
+		    bytes)</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.5</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_USERNAME</td>
+		</tr>
+
+		<tr>
+		  <td>1.5.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of Username</td>
+		</tr>
+
+		<tr>
+		  <td>1.5.2</td>
+
+		  <td>UINT8[] Username</td>
+
+		  <td>Username provided by ASM (max 128 bytes)</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.6</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_ATTESTATION_TYPE</td>
+		</tr>
+
+		<tr>
+		  <td>1.6.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of AttestationType</td>
+		</tr>
+
+		<tr>
+		  <td>1.6.2</td>
+
+		  <td>UINT16 AttestationType</td>
+
+		  <td>Attestation Type to be used</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.7</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_KEYHANDLE_ACCESS_TOKEN</td>
+		</tr>
+
+
+		<tr>
+		  <td>1.7.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of KHAccessToken</td>
+		</tr>
+
+		<tr>
+		  <td>1.7.2</td>
+
+		  <td>UINT8[] KHAccessToken</td>
+
+		  <td>KHAccessToken provided by ASM (max 32 bytes)</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.8</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_USERVERIFY_TOKEN (optional)</td>
+		</tr>
+
+		<tr>
+		  <td>1.8.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of VerificationToken</td>
+		</tr>
+
+		<tr>
+		  <td>1.8.2</td>
+
+		  <td>UINT8[] VerificationToken</td>
+
+		  <td>
+		    User verification token
+		  </td>
+		</tr>
+
+	      </tbody>
+	    </table>
+	  </section>
+
+	  <section id="command-response-1">
+	    <h5 aria-level="4" role="heading" id="h5_command-response-1"><span class="secno">6.2.2.2 </span>Command Response</h5>
+
+	    <table class="tlv">
+              <thead>
+		<tr>
+		  <th>&nbsp;</th>
+
+		  <th>TLV Structure</th>
+
+		  <th>Description</th>
+		</tr>
+              </thead>
+
+              <tbody>
+		<tr class="subhead">
+		  <td>1</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_UAFV1_REGISTER_CMD_RESPONSE</td>
+		</tr>
+
+		<tr>
+		  <td>1.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Command Length</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.2</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_STATUS_CODE</td>
+		</tr>
+
+		<tr>
+		  <td>1.2.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Status Code Length</td>
+		</tr>
+
+		<tr>
+		  <td>1.2.2</td>
+
+		  <td>UINT16 Value</td>
+
+		  <td>Status code returned by Authenticator</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.3</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>
+                    TAG_AUTHENTICATOR_ASSERTION
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.3.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of Assertion</td>
+		</tr>
+
+		<tr>
+		  <td>1.3.2</td>
+
+		  <td>UINT8[] Assertion</td>
+
+		  <td>Registration Assertion
+		    (see section <a href="#tag_uafv1_reg_assertion">TAG_UAFV1_REG_ASSERTION</a>).
+		  </td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.4</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_KEYHANDLE (optional)</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of key handle</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.2</td>
+
+		  <td>UINT8[] Value</td>
+
+		  <td>(binary value of) key handle</td>
+		</tr>
+
+              </tbody>
+	    </table>
+
+	  </section>
+
+	  <section id="status-codes-2">
+            <h5 aria-level="4" role="heading" id="h5_status-codes-2"><span class="secno">6.2.2.3 </span>Status Codes</h5>
+
+            <ul>
+              <li><code>UAF_CMD_STATUS_OK</code></li>
+
+              <li><code>UAF_CMD_STATUS_ACCESS_DENIED</code></li>
+
+              <li><code>UAF_CMD_STATUS_USER_CANCELLED</code></li>
+
+              <li><code>UAF_CMD_STATUS_ATTESTATION_NOT_SUPPORTED</code></li>
+
+              <li><code>UAF_CMD_STATUS_ERR_UNKNOWN</code></li>
+
+            </ul>
+	  </section>
+
+	  <section id="command-description-1">
+            <h5 aria-level="4" role="heading" id="h5_command-description-1"><span class="secno">6.2.2.4 </span>Command Description</h5>
+
+            <p>The authenticator must perform the following steps (see below table for command structure):</p>
+
+            <ol>
+              <li>If this authenticator has a transaction confirmation display and is able to display AppID, then make
+		sure <code>Command.TAG_APPID</code> is provided, and show its
+		content on the display when verifying the user. Update <code>Command.KHAccessToken</code> 
+		with <code>TAG_APPID</code>:
+
+		<ul>
+                  <li>Update Command.KHAccessToken by mixing it with Command.TAG_APPID. An example of such mixing
+                    function is a cryptographic hash function.
+		    <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_7"><span>Note</span></div><p class="">This method allows us to avoid storing the AppID separately in the RawKeyHandle.</p></div>
+                  </li>
+                  <ul>
+                    <li>For example: Command.KHAccessToken=hash(Command.KHAccessToken | Command.TAG_APPID)</li>
+                  </ul>
+		</ul>
+              </li>
+
+              <li>If the user is already enrolled with this authenticator (via
+		biometric enrollment, PIN setup or similar mechanism) -
+		verify the user. If the verification has been already
+		done in a previous command - make sure that
+		Command.TAG_USERVERIFY_TOKEN is a valid token.
+
+		<ol>
+		  <li>If verification fails - return
+		    <code>UAF_CMD_STATUS_ACCESS_DENIED</code></li>
+		</ol>
+              </li>
+
+              <li>If the user is not enrolled with the authenticator then take the
+		user through the enrollment process.
+
+		<ol>
+		  <li>If enrollment fails - return
+                    <code>UAF_CMD_STATUS_ACCESS_DENIED</code></li>
+                  <li>If user explicitly cancels the operation - return
+                    <code>UAF_CMD_STATUS_USER_CANCELLED</code></li>
+		</ol>
+              </li>
+
+              <li>Make sure that Command.TAG_ATTESTATION_TYPE is supported. If not - return
+                <code>UAF_CMD_STATUS_ATTESTATION_NOT_SUPPORTED</code></li>
+
+              <li>Generate a new key pair (UAuth.pub/UAuth.priv)</li>
+
+              <li>Create a RawKeyHandle
+
+		<ol>
+		  <li>Add UAuth.priv to RawKeyHandle</li>
+
+		  <li>Add Command.KHAccessToken to RawKeyHandle</li>
+
+		  <li>If a first-factor authenticator, then add
+		    Command.Username to RawKeyHandle</li>
+		</ol>
+              </li>
+
+              <li>Wrap RawKeyHandle with Wrap.sym key</li>
+
+              <li>Create TAG_UAFV1_KRD structure
+
+		<ol>
+                  <li>If this is a second-factor roaming authenticator - place key handle inside TAG_KEYID.
+                    Otherwise generate a random KeyID and place it inside TAG_KEYID.</li>
+
+		  <li>Copy all the mandatory fields (see section
+		    <a href="#tag_uafv1_reg_assertion">TAG_UAFV1_REG_ASSERTION</a>)
+		  </li>
+		</ol>
+              </li>
+
+              <li>Perform attestation on TAG_UAFV1_KRD based on
+		provided Command.AttestationType.
+              </li>
+
+              <li>Create TAG_AUTHENTICATOR_ASSERTION
+
+		<ol>
+                  <li>Create TAG_UAFV1_REG_ASSERTION</li>
+                  <ol>
+                    <li>Copy all the mandatory fields (see section
+                      <a href="#tag_uafv1_reg_assertion">TAG_UAFV1_REG_ASSERTION</a>)
+                    </li>
+
+                    <li>If this is a first-factor roaming authenticator - add KeyID and key handle into internal
+                      storage
+                    </li>
+
+                    <li>If this is a bound authenticator - return key handle inside TAG_KEYHANDLE
+                    </li>
+                  </ol>
+                  <li>Put the entire TLV structure for TAG_UAFV1_REG_ASSERTION as the value of TAG_AUTHENTICATOR_ASSERTION</li>
+		</ol>
+              </li>
+
+              <li>Return TAG_UAFV1_REGISTER_CMD_RESPONSE
+                <ol>
+                  <li><code>UAF_CMD_STATUS_OK</code> as a status</li>
+                  <li>Add TAG_AUTHENTICATOR_ASSERTION</li>
+                  <li>Add TAG_KEY_HANDLE if the key handle must be stored outside the Authenticator</li>
+                </ol>
+              </li>
+            </ol>
+
+
+            <div class="normative">
+
+              <p>The authenticator <em class="rfc2119" title="MUST NOT">MUST NOT</em> process a <code>Register</code> command without verifying the user
+		(or enrolling the user, if this is the first time the user has used the authenticator).</p>
+
+              <p>The authenticator <em class="rfc2119" title="MUST">MUST</em> generate a unique UAuth key pair each time the Register command is called.</p>
+
+              <p>The authenticator <em class="rfc2119" title="SHOULD">SHOULD</em> either store key handle in its internal secure storage or cryptographically
+		wrap it and export it to the ASM.</p>
+
+              <p>For silent authenticators, the key handle <em class="rfc2119" title="MUST">MUST</em> never be
+		stored on a FIDO Server, otherwise this would enable
+		tracking of users without providing the ability for users
+		to clear key handles from the local device.</p>
+
+              <p>If KeyID is not the key handle itself (e.g. such as in case of a second-factor roaming authenticator) - it <em class="rfc2119" title="MUST">MUST</em> be
+		a unique and unguessable byte array with a maximum length of 32 bytes.
+		It <em class="rfc2119" title="MUST">MUST</em> be unique within the scope of the AAID.</p>
+	      <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_8"><span>Note</span></div><p class="">
+		If the KeyID is generated randomly (instead of, for example, being derived 
+		from a key handle) - it should be
+		stored inside RawKeyHandle so that it can be accessed by the authenticator while processing the Sign command.
+              </p></div>
+
+              <p>If the authenticator doesn't support <code>SignCounter</code> or <code>RegCounter</code>
+		it <em class="rfc2119" title="MUST">MUST</em> set these to 0 in TAG_UAFV1_KRD. The <code>RegCounter</code> <em class="rfc2119" title="MUST">MUST</em> be set to 0 when a factory reset
+		for the authenticator is performed. The <code>SignCounter</code> <em class="rfc2119" title="MUST">MUST</em> be set to 0 when a factory reset
+		for the authenticator is performed.
+              </p>
+
+            </div>
+	  </section>
+	</section>
+
+	<section id="sign-command">
+	  <h4 aria-level="3" role="heading" id="h4_sign-command"><span class="secno">6.2.3 </span>Sign Command</h4>
+
+	  <p>This command generates a UAF assertion. This assertion
+            can be further verified by a FIDO Server which has a prior
+            registration with this authenticator.</p>
+
+	  <section id="command-structure-2">
+	    <h5 aria-level="4" role="heading" id="h5_command-structure-2"><span class="secno">6.2.3.1 </span>Command Structure</h5>
+
+	    <table class="tlv">
+	      <thead>
+		<tr>
+		  <th>&nbsp;</th>
+
+		  <th>TLV Structure</th>
+
+		  <th>Description</th>
+		</tr>
+	      </thead>
+
+	      <tbody>
+		<tr class="subhead">
+		  <td>1</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_UAFV1_SIGN_CMD</td>
+		</tr>
+
+		<tr>
+		  <td>1.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of Command</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.2</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>
+		    TAG_AUTHENTICATOR_INDEX
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.2.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of AuthenticatorIndex (must be 0x0001)</td>
+		</tr>
+
+		<tr>
+		  <td>1.2.2</td>
+
+		  <td>UINT8 AuthenticatorIndex</td>
+
+		  <td>Authenticator Index</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.3</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>
+		    TAG_APPID (optional)
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.3.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of AppID</td>
+		</tr>
+
+		<tr>
+		  <td>1.3.2</td>
+
+		  <td>UINT8[] AppID</td>
+
+		  <td>AppID (max 512 bytes)</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.4</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_FINAL_CHALLENGE</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of Final Challenge</td>
+		</tr>
+
+		<tr>
+		  <td>1.4.2</td>
+
+		  <td>UINT8[] FinalChallenge</td>
+
+		  <td>(binary value of) Final Challenge provided by ASM
+		    (max 32 bytes)</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.5</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_TRANSACTION_CONTENT (optional)</td>
+		</tr>
+
+		<tr>
+		  <td>1.5.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of Transaction Content</td>
+		</tr>
+
+		<tr>
+		  <td>1.5.2</td>
+
+		  <td>UINT8[] TransactionContent</td>
+
+		  <td>(binary value of) Transaction Content provided by
+		    ASM </td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.6</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_KEYHANDLE_ACCESS_TOKEN</td>
+		</tr>
+
+		<tr>
+		  <td>1.6.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of KHAccessToken</td>
+		</tr>
+
+		<tr>
+		  <td>1.6.2</td>
+
+		  <td>UINT8[] KHAccessToken</td>
+
+		  <td>(binary value of) KHAccessToken provided by ASM
+		    (max 32 bytes)</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.7</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_USERVERIFY_TOKEN (optional)</td>
+		</tr>
+
+		<tr>
+		  <td>1.7.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of the User Verification Token</td>
+		</tr>
+
+		<tr>
+		  <td>1.7.2</td>
+
+		  <td>UINT8[] VerificationToken</td>
+
+		  <td>
+		    User Verification Token
+		  </td>
+		</tr>
+
+
+		<tr class="subhead">
+		  <td>1.8</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_KEYHANDLE (optional, multiple occurrences permitted)</td>
+		</tr>
+
+		<tr>
+		  <td>1.8.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of KeyHandle</td>
+		</tr>
+
+		<tr>
+		  <td>1.8.2</td>
+
+		  <td>UINT8[] KeyHandle</td>
+
+		  <td>(binary value of) key handle</td>
+		</tr>
+
+	      </tbody>
+	    </table>
+	  </section>
+
+	  <section id="command-response-2">
+	    <h5 aria-level="4" role="heading" id="h5_command-response-2"><span class="secno">6.2.3.2 </span>Command Response</h5>
+
+	    <table class="tlv">
+              <thead>
+		<tr>
+		  <th>&nbsp;</th>
+
+		  <th>TLV Structure</th>
+
+		  <th>Description</th>
+		</tr>
+              </thead>
+
+              <tbody>
+		<tr class="subhead">
+		  <td>1</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_UAFV1_SIGN_CMD_RESPONSE</td>
+		</tr>
+
+		<tr>
+		  <td>1.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Entire Length of Command Response</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.2</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_STATUS_CODE</td>
+		</tr>
+
+		<tr>
+		  <td>1.2.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Status Code Length</td>
+		</tr>
+
+		<tr>
+		  <td>1.2.2</td>
+
+		  <td>UINT16 Value</td>
+
+		  <td>Status code returned by authenticator</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.3 <strong>(choice 1)</strong></td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>
+                    TAG_USERNAME_AND_KEYHANDLE (optional, multiple occurances)
+
+                    <p>This TLV tag contains multiple (&gt;=1) {Username,
+                      Keyhandle} entries.</p>
+                    <p>If this tag is present, TAG_AUTHENTICATOR_ASSERTION must not be present</p>
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.3.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of the structure</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.3.2</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_USERNAME</td>
+		</tr>
+
+		<tr>
+		  <td>1.3.2.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of Username</td>
+		</tr>
+
+		<tr>
+		  <td>1.3.2.2</td>
+
+		  <td>UINT8[] Username</td>
+
+		  <td>Username</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.3.3</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_KEYHANDLE</td>
+		</tr>
+
+		<tr>
+		  <td>1.3.3.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of <code>KeyHandle</code></td>
+		</tr>
+
+		<tr>
+		  <td>1.3.3.2</td>
+
+		  <td>UINT8[] KeyHandle</td>
+
+		  <td>(binary value of) key handle</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.3 <strong>(choice 2)</strong></td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_AUTHENTICATOR_ASSERTION (optional)
+                    <p>If this tag is present, TAG_USERNAME_AND_KEYHANDLE must not be present</p>
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.3.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Assertion Length</td>
+		</tr>
+
+		<tr>
+		  <td>1.3.2</td>
+
+		  <td>UINT8[] Assertion</td>
+
+		  <td>Authentication assertion generated by the authenticator 
+		    (see section <a href="#tag_uafv1_auth_assertion">TAG_UAFV1_AUTH_ASSERTION</a>).
+		  </td>
+		</tr>
+
+              </tbody>
+	    </table>
+
+	  </section>
+
+	  <section id="status-codes-3">
+            <h5 aria-level="4" role="heading" id="h5_status-codes-3"><span class="secno">6.2.3.3 </span>Status Codes</h5>
+
+            <ul>
+              <li><code>UAF_CMD_STATUS_OK</code></li>
+
+              <li><code>UAF_CMD_STATUS_ACCESS_DENIED</code></li>
+
+              <li><code>UAF_CMD_STATUS_USER_NOT_ENROLLED</code></li>
+
+              <li><code>UAF_CMD_STATUS_USER_CANCELLED</code></li>
+
+              <li><code>UAF_CMD_STATUS_CANNOT_RENDER_TRANSACTION_CONTENT</code></li>
+              <li><code>UAF_CMD_STATUS_ERR_UNKNOWN</code></li>
+            </ul>
+	  </section>
+
+	  <section id="command-description-2">
+            <h5 aria-level="4" role="heading" id="h5_command-description-2"><span class="secno">6.2.3.4 </span>Command Description</h5>
+
+            <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_9"><span>Note</span></div><div class="">
+              <p>First-factor authenticators should implement this command in two
+		stages.</p>
+
+              <ol>
+		<li>The first stage will be executed only if
+		  the authenticator finds out that there are multiple
+		  key handles after filtering with the KHAccessToken. In this
+		  stage, the authenticator must return a list of usernames
+		  along with corresponding key handles</li>
+
+		<li>In the second stage, after the user selects a username,
+		  this command will be called with a single key handle and
+		  will return a UAF assertion based on this
+		  key handle</li>
+              </ol>
+
+              <p> If a second-factor authenticator is presented with
+		more than one valid key handles, it must exercise only
+		the first one and ignore the rest.</p>
+
+              <p>The command is implemented in two stages to ensure
+		that only one assertion can be generated for each command
+		invocation.</p>
+            </div></div>
+
+            <p>Authenticators must take the following steps:</p>
+
+            <ol>
+              <li>If this authenticator has a transaction confirmation
+		display, and is able to display the AppID - make sure
+		Command.TAG_APPID is provided, and show it on the
+		display when verifying the user.
+
+		<ul>
+                  <li>Update Command.KHAccessToken by mixing it with
+                    Command.TAG_APPID. An example of such a mixing
+                    function is a cryptographic hash function.
+                  </li>
+                  <ul>
+                    <li>Command.KHAccessToken=hash(Command.KHAccessToken | Command.TAG_APPID)</li>
+                  </ul>
+		</ul>
+              </li>
+
+              <li>If the user is already enrolled with the authenticator (such
+		as biometric enrollment, PIN setup, etc.) then verify the
+		user. If the verification has already been done in one of the
+		previous commands, make sure that
+		<code>Command.TAG_USERVERIFY_TOKEN</code> is a valid
+		token.
+
+		<ol>
+		  <li>If verification fails - return
+		    <code>UAF_CMD_STATUS_ACCESS_DENIED</code></li>
+
+                  <li>If the user explicitly cancels the operation - return
+                    <code>UAF_CMD_STATUS_USER_CANCELLED</code></li>
+
+		</ol>
+              </li>
+
+              <li>If the user is not enrolled then return
+		<code>UAF_CMD_STATUS_USER_NOT_ENROLLED</code></li>
+
+              <li>Unwrap all provided key handles from
+		Command.TAG_KEYHANDLE values using Wrap.sym
+
+		<ol>
+		  <li>If a first-factor roaming authenticator:
+
+                    <ul>
+                      <li>If Command.TAG_KEYHANDLE are provided, then
+                        the items in this list are KeyIDs. Use these
+                        KeyIDs to locate key handles stored in internal
+                        storage</li>
+
+                      <li>If no Command.TAG_KEYHANDLE are provided -
+			unwrap all key handles stored in internal
+			storage</li>
+                    </ul>
+		  </li>
+		</ol>
+              </li>
+
+              <li>Filter RawKeyHandles with Command.KHAccessToken (RawKeyHandle.KHAccessToken ==
+		Command.KHAccessToken)
+              </li>
+
+              <li>If the number of remaining RawKeyHandles is 0, then fail with
+		<code>UAF_CMD_STATUS_ACCESS_DENIED</code></li>
+
+              <li>If number of remaining RawKeyHandles is &gt; 1
+
+		<ol>
+		  <li>If this is a second-factor authenticator, then choose the first RawKeyHandle only and jump to step #8.
+		  </li>
+		  <li>Copy
+		    {Command.KeyHandle, RawKeyHandle.username} for
+		    all remaining RawKeyHandles into TAG_USERNAME_AND_KEYHANDLE tag. </li>
+                  <ul>
+                    <li>If this is a first-factor roaming authenticator, then the returned TAG_USERNAME_AND_KEYHANDLEs
+                      must be ordered by the key handle registration date (the latest-registered key handle must come the latest).</li>
+                  </ul>
+
+		  <li>Copy TAG_USERNAME_AND_KEYHANDLE into TAG_UAFV1_SIGN_CMD_RESPONSE
+		    and return</li>
+		</ol>
+              </li>
+
+              <li>If number of remaining RawKeyHandles is 1
+
+		<ol>
+		  <li>Create TAG_UAFV1_SIGNED_DATA and set TAG_UAFV1_SIGNED_DATA.AuthenticationMode to 0x01</li>
+
+		  <li>If <code>TransactionContent</code> is not empty
+
+                    <ul>
+                      <li>If this is a silent authenticator, then return
+			<code>UAF_CMD_STATUS_ACCESS_DENIED</code></li>
+
+                      <li>If the authenticator doesn't support transaction confirmation (it has set
+			<code>TransactionConfirmationDisplay</code> to 0 in the response to a <code>GetInfo</code> Command), then return
+			<code>UAF_CMD_STATUS_ACCESS_DENIED</code></li>
+
+                      <li>
+			If the authenticator has a built-in transaction confirmation display, then
+			show <code>Command.TransactionContent</code> and
+			<code>Command.TAG_APPID</code> (optional) on display and wait
+			for the user to confirm it:
+			<ul>
+                          <li>Return <code>UAF_CMD_STATUS_USER_CANCELLED</code> if user
+                            cancels the transaction</li>
+
+                          <li>Return <code>UAF_CMD_STATUS_CANNOT_RENDER_TRANSACTION_CONTENT</code> if provided transaction content
+                            cannot be rendered</li>
+			</ul>
+                      </li>
+
+                      <li>Compute hash of TransactionContent</li>
+
+                      <li style="list-style: none; display: inline">
+			<ul>
+			  <li>TAG_UAFV1_SIGNED_DATA.TAG_TRANSACTION_CONTENT_HASH =
+			    hash(Command.TransactionContent)</li>
+
+			  <li>Set
+			    TAG_UAFV1_SIGNED_DATA.AuthenticationMode to
+			    0x02</li>
+			</ul>
+                      </li>
+                    </ul>
+		  </li>
+
+		  <li>Create TAG_UAFV1_AUTH_ASSERTION
+
+                    <ul>
+                      <li>Fill in the rest of TAG_UAFV1_SIGNED_DATA fields</li>
+
+                      <li style="list-style: none; display: inline">
+			<ul>
+			  <li>Increment SignCounter and put into
+			    TAG_UAFV1_SIGNED_DATA</li>
+
+			  <li>Copy all the mandatory fields (see
+			    section <a href="#tag_uafv1_auth_assertion">TAG_UAFV1_AUTH_ASSERTION</a>)
+			  </li>
+
+			  <li>If TAG_UAFV1_SIGNED_DATA.AuthenticationMode == 0x01 -
+			    set TAG_UAFV1_SIGNED_DATA.TAG_TRANSACTION_CONTENT_HASH.Length to 0</li>
+			</ul>
+                      </li>
+
+                      <li>Sign TAG_UAFV1_SIGNED_DATA with
+			UAuth.priv</li>
+                    </ul>
+		  </li>
+
+		  <li>Put the entire TLV structure for TAG_UAFV1_AUTH_ASSERTION as the value of
+		    TAG_AUTHENTICATOR_ASSERTION</li>
+
+                  <li>Copy TAG_AUTHENTICATOR_ASSERTION into
+                    TAG_UAFV1_SIGN_CMD_RESPONSE and return</li>
+		</ol>
+              </li>
+            </ol>
+
+
+
+            <div class="normative">
+
+              <p>Authenticator <em class="rfc2119" title="MUST NOT">MUST NOT</em> process Sign command without verifying the user first.</p>
+
+              <p>Authenticator <em class="rfc2119" title="MUST NOT">MUST NOT</em> reveal Username without verifying the user first.</p>
+
+              <p>bound authenticators <em class="rfc2119" title="MUST NOT">MUST NOT</em> process Sign command without validating KHAccessToken
+		first.</p>
+
+              <p>UAuth.priv keys <em class="rfc2119" title="MUST">MUST</em> never leave Authenticator's security boundary in plaintext form.
+		UAuth.priv protection boundary is specified in <code>Metadata.keyProtection</code> field in Metadata
+		[<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>]).
+              </p>
+
+              <p>If Authenticator's Metadata indicates that it does support Transaction Confirmation Display -
+                it <em class="rfc2119" title="MUST">MUST</em> display provided transaction content in this display and include the hash of content
+                inside TAG_UAFV1_SIGNED_DATA structure.</p>
+
+              <p>Silent Authenticators <em class="rfc2119" title="MUST NOT">MUST NOT</em> operate in first-factor mode in order to follow the
+		assumptions made in [<cite><a class="bibref" href="#bib-FIDOSecRef">FIDOSecRef</a></cite>].</p>
+	      
+	      <p>If Authenticator doesn't support <code>SignCounter</code>, then it <em class="rfc2119" title="MUST">MUST</em>
+		set it to 0 in TAG_UAFV1_SIGNED_DATA.
+		The <code>SignCounter</code> <em class="rfc2119" title="MUST">MUST</em> be set to 0 when a factory reset
+		for the Authenticator is performed, in order to follow the 
+		assumptions made in [<cite><a class="bibref" href="#bib-FIDOSecRef">FIDOSecRef</a></cite>].</p>
+	      
+              <p>Some Authenticators might support Transaction Confirmation display
+		functionality not inside the Authenticator but within the
+		boundaries of ASM. Typically these are software based
+		Transaction Confirmation displays. When processing the Sign command with a
+		given transaction such Authenticators should assume that
+		they do have a builtin Transaction Confirmation display and should include
+		the hash of transaction content in the final assertion
+		without displaying anything to the user. Also, such
+		Authenticator's Metadata file <em class="rfc2119" title="MUST">MUST</em> clearly indicate the
+		type of Transaction Confirmation display. Typically the flag of Transaction Confirmation
+		display will be TRANSACTION_CONFIRMATION_DISPLAY_ANY or
+		TRANSACTION_CONFIRMATION_DISPLAY_PRIVILEGED_SOFTWARE.
+		See [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>] for flags describing Transaction Confirmation
+		Display type.</p>
+            </div>
+
+	  </section>
+	</section>
+
+	<section id="deregister-command">
+	  <h4 aria-level="3" role="heading" id="h4_deregister-command"><span class="secno">6.2.4 </span>Deregister Command</h4>
+
+	  <p>This command deletes a registered UAF credential from
+            Authenticator. </p>
+
+	  <section id="command-structure-3">
+            <h5 aria-level="4" role="heading" id="h5_command-structure-3"><span class="secno">6.2.4.1 </span>Command Structure</h5>
+
+            <table class="tlv">
+              <thead>
+		<tr>
+                  <th>&nbsp;</th>
+
+                  <th>TLV Structure</th>
+
+                  <th>Description</th>
+		</tr>
+              </thead>
+
+              <tbody>
+		<tr class="subhead">
+                  <td>1</td>
+
+                  <td>UINT16 Tag</td>
+
+                  <td>TAG_UAFV1_DEREGISTER_CMD</td>
+		</tr>
+
+		<tr>
+                  <td>1.1</td>
+
+                  <td>UINT16 Length</td>
+
+                  <td>Entire Command Length</td>
+		</tr>
+
+		<tr class="subhead">
+                  <td>1.2</td>
+
+                  <td>UINT16 Tag</td>
+
+                  <td>
+                    TAG_AUTHENTICATOR_INDEX
+                  </td>
+		</tr>
+
+		<tr>
+                  <td>1.2.1</td>
+
+                  <td>UINT16 Length</td>
+
+                  <td>Length of AuthenticatorIndex (must be 0x0001)</td>
+		</tr>
+
+		<tr>
+                  <td>1.2.2</td>
+
+                  <td>UINT8 AuthenticatorIndex</td>
+
+                  <td>Authenticator Index</td>
+		</tr>
+
+		<tr class="subhead">
+                  <td>1.3</td>
+
+                  <td>UINT16 Tag</td>
+
+                  <td>
+                    TAG_APPID (optional)
+                  </td>
+		</tr>
+
+		<tr>
+                  <td>1.3.1</td>
+
+                  <td>UINT16 Length</td>
+
+                  <td>Length of AppID</td>
+		</tr>
+
+		<tr>
+                  <td>1.3.2</td>
+
+                  <td>UINT8[] AppID</td>
+
+                  <td>AppID (max 512 bytes)</td>
+		</tr>
+
+		<tr class="subhead">
+                  <td>1.4</td>
+
+                  <td>UINT16 Tag</td>
+
+                  <td>TAG_KEYID</td>
+		</tr>
+
+		<tr>
+                  <td>1.4.1</td>
+
+                  <td>UINT16 Length</td>
+
+                  <td>Length of KeyID</td>
+		</tr>
+
+		<tr>
+                  <td>1.4.2</td>
+
+                  <td>UINT8[] KeyID</td>
+
+                  <td>(binary value of) KeyID provided by ASM</td>
+		</tr>
+
+		<tr class="subhead">
+                  <td>1.5</td>
+
+                  <td>UINT16 Tag</td>
+
+                  <td>TAG_KEYHANDLE_ACCESS_TOKEN</td>
+		</tr>
+
+		<tr>
+                  <td>1.5.1</td>
+
+                  <td>UINT16 Length</td>
+
+                  <td>Length of KeyHandle Access Token</td>
+		</tr>
+
+		<tr>
+                  <td>1.5.2</td>
+
+                  <td>UINT8[] KHAccessToken</td>
+
+                  <td>(binary value of) KeyHandle Access Token provided by ASM
+                    (max 32 bytes)</td>
+		</tr>
+
+              </tbody>
+            </table>
+	  </section>
+
+	  <section id="command-response-3">
+            <h5 aria-level="4" role="heading" id="h5_command-response-3"><span class="secno">6.2.4.2 </span>Command Response</h5>
+
+            <table class="tlv">
+              <thead>
+		<tr>
+                  <th>&nbsp;</th>
+
+                  <th>TLV Structure</th>
+
+                  <th>Description</th>
+		</tr>
+              </thead>
+
+              <tbody>
+		<tr class="subhead">
+                  <td>1</td>
+
+                  <td>UINT16 Tag</td>
+
+                  <td>TAG_UAFV1_DEREGISTER_CMD_RESPONSE</td>
+		</tr>
+
+		<tr>
+                  <td>1.1</td>
+
+                  <td>UINT16 Length</td>
+
+                  <td>Entire Length of Command Response</td>
+		</tr>
+
+		<tr class="subhead">
+                  <td>1.2</td>
+
+                  <td>UINT16 Tag</td>
+
+                  <td>TAG_STATUS_CODE</td>
+		</tr>
+
+		<tr>
+                  <td>1.2.1</td>
+
+                  <td>UINT16 Length</td>
+
+                  <td>Status Code Length</td>
+		</tr>
+
+
+		<tr>
+                  <td>1.2.2</td>
+
+                  <td>UINT16 StatusCode</td>
+
+                  <td>StatusCode returned by Authenticator</td>
+		</tr>
+              </tbody>
+            </table>
+
+	  </section>
+
+	  <section id="status-codes-4">
+	    <h5 aria-level="4" role="heading" id="h5_status-codes-4"><span class="secno">6.2.4.3 </span>Status Codes</h5>
+
+	    <ul>
+              <li><code>UAF_CMD_STATUS_OK</code></li>
+              <li><code>UAF_CMD_STATUS_ACCESS_DENIED</code></li>
+              <li><code>UAF_CMD_STATUS_CMD_NOT_SUPPORTED</code></li>
+              <li><code>UAF_CMD_STATUS_ERR_UNKNOWN</code></li>
+	    </ul>
+	  </section>
+
+	  <section id="command-description-3">
+            <h5 aria-level="4" role="heading" id="h5_command-description-3"><span class="secno">6.2.4.4 </span>Command Description</h5>
+
+            <p>Authenticator must take the following steps:</p>
+            <ol>
+              <li>If this authenticator has a Transaction Confirmation display and is able to display AppID, then make
+                sure Command.TAG_APPID is provided
+
+                <ul>
+                  <li>Update Command.KHAccessToken by mixing it with Command.TAG_APPID. An example of such mixing
+                    function is a cryptographic hash function.
+                  </li>
+                  <ul>
+                    <li>Command.KHAccessToken=hash(Command.KHAccessToken | Command.TAG_APPID)</li>
+                  </ul>
+                </ul>
+              </li>
+
+              <li>If this Authenticator doesn't store key handles internally, then 
+		return <code>UAF_CMD_STATUS_CMD_NOT_SUPPORTED</code>
+
+		</li><li>Find KeyHandle that matches Command.KeyID</li>
+
+		<li>Unwrap found key handles using Wrap.sym</li>
+
+		<li>Make sure that RawKeyHandle.KHAccessToken ==
+		  Command.KHAccessToken</li>
+
+		<li style="list-style: none; display: inline">
+		  <ul>
+		    <li>If not, then return <code>UAF_CMD_STATUS_ACCESS_DENIED</code></li>
+		  </ul>
+		</li>
+
+		<li>Delete this KeyHandle from internal storage</li>
+
+		<li>Return <code>UAF_CMD_STATUS_OK</code></li>
+            </ol>
+
+            <div class="normative">
+
+              <p>bound authenticators <em class="rfc2119" title="MUST NOT">MUST NOT</em> process Deregister command without validating KHAccessToken
+                first.</p>
+
+              <p>Deregister command <em class="rfc2119" title="SHOULD">SHOULD</em> not explicitly reveal whether the provided keyID was registered or not.</p>
+            </div>
+
+	  </section>
+
+	</section>
+
+
+
+	<section id="opensettings-command">
+	  <h4 aria-level="3" role="heading" id="h4_opensettings-command"><span class="secno">6.2.5 </span>OpenSettings Command</h4>
+
+	  This command instructs the Authenticator to open its built-in settings UI (e.g. 
+	  change PIN, enroll new fingerprint, etc).
+	  <p>Authenticator must return <code>UAF_CMD_STATUS_CMD_NOT_SUPPORTED</code> if
+	    it doesn't support such functionality.</p>
+
+
+	  <section id="command-structure-4">
+	    <h5 aria-level="4" role="heading" id="h5_command-structure-4"><span class="secno">6.2.5.1 </span>Command Structure</h5>
+
+	    <table class="tlv">
+              <thead>
+		<tr>
+		  <th>&nbsp;</th>
+
+		  <th>TLV Structure</th>
+
+		  <th>Description</th>
+		</tr>
+              </thead>
+
+              <tbody>
+		<tr class="subhead">
+		  <td>1</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_UAFV1_OPEN_SETTINGS_CMD</td>
+		</tr>
+
+		<tr>
+		  <td>1.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Entire Command Length</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.2</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>
+                    TAG_AUTHENTICATOR_INDEX
+		  </td>
+		</tr>
+
+		<tr>
+		  <td>1.2.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Length of AuthenticatorIndex (must be 0x0001)</td>
+		</tr>
+
+		<tr>
+		  <td>1.2.2</td>
+
+		  <td>UINT8 AuthenticatorIndex</td>
+
+		  <td>Authenticator Index</td>
+		</tr>
+
+              </tbody>
+	    </table>
+	  </section>
+
+	  <section id="command-response-4">
+	    <h5 aria-level="4" role="heading" id="h5_command-response-4"><span class="secno">6.2.5.2 </span>Command Response</h5>
+
+	    <table class="tlv">
+              <thead>
+		<tr>
+		  <th>&nbsp;</th>
+
+		  <th>TLV Structure</th>
+
+		  <th>Description</th>
+		</tr>
+              </thead>
+
+              <tbody>
+		<tr class="subhead">
+		  <td>1</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_UAFV1_OPEN_SETTINGS_CMD_RESPONSE</td>
+		</tr>
+
+		<tr>
+		  <td>1.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Entire Length of Command Response</td>
+		</tr>
+
+		<tr class="subhead">
+		  <td>1.2</td>
+
+		  <td>UINT16 Tag</td>
+
+		  <td>TAG_STATUS_CODE</td>
+		</tr>
+
+		<tr>
+		  <td>1.2.1</td>
+
+		  <td>UINT16 Length</td>
+
+		  <td>Status Code Length</td>
+		</tr>
+
+
+		<tr>
+		  <td>1.2.2</td>
+
+		  <td>UINT16 StatusCode</td>
+
+		  <td>StatusCode returned by Authenticator</td>
+		</tr>
+              </tbody>
+	    </table>
+	  </section>
+
+	  <section id="status-codes-5">
+	    <h5 aria-level="4" role="heading" id="h5_status-codes-5"><span class="secno">6.2.5.3 </span>Status Codes</h5>
+	    <ul>
+              <li><code>UAF_CMD_STATUS_OK</code></li>
+              <li><code>UAF_CMD_STATUS_CMD_NOT_SUPPORTED</code></li>
+              <li><code>UAF_CMD_STATUS_ERR_UNKNOWN</code></li>
+	    </ul>
+	  </section>
+	  
+	</section>
+      </section>
+    </section>
+
+    
+
+
+    <section class="informative" id="keyids-and-key-handles">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_keyids-and-key-handles"><span class="secno">7. </span>KeyIDs and key handles</h2><p><em>This section is non-normative.</em></p>
+      
+      <p>There are 4 types of Authenticators defined in this document and due to their specifics they behave
+	differently while processing commands. One of the main differences between them is
+	how they store and process key handles. This section tries to clarify it by describing the behavior of
+	every type of Authenticator during the processing of relevant command.
+      </p>
+
+      <section id="first-factor-bound-authenticator">
+	<h3 aria-level="2" role="heading" id="h3_first-factor-bound-authenticator"><span class="secno">7.1 </span>first-factor Bound Authenticator</h3>
+
+	<p>
+	  </p><table class="tlv" style="border: 0px;">
+            <tbody>
+              <tr>
+		<td class="subhead">Register Command</td>
+
+		<td>
+                  Authenticator doesn't store key handles. Instead KeyHandle is always returned to ASM and stored
+                  in ASM database.
+
+                  <p>KeyID is a randomly generated 32 bytes number (or simply the hash of KeyHandle).</p>
+
+		</td>
+
+              </tr>
+
+              <tr>
+		<td class="subhead">Sign Command</td>
+
+		<td>
+                  <p>When there is no user session (no cookies, a clear machine) Server doesn't provide any KeyID
+                    (since it doesn't know which KeyIDs to provide). In this scenario ASM selects all key handles
+                    and passes to Authenticator.
+
+                    </p><p>During step-up authentication (when there is a user session) Server provides relevant KeyIDs.
+                      ASM selects key handles that correspond to provided KeyIDs and pass to Authenticator.
+		</p></td>
+
+              </tr>
+
+              <tr>
+		<td class="subhead">Deregister Command</td>
+
+		<td>
+                  <p>Since Authenticator doesn't store key handles, then there is nothing to delete inside Authenticator.
+                    </p><p>ASM finds the KeyHandle corresponding to provided KeyID and deletes it.
+		</p></td>
+
+              </tr>
+
+            </tbody>
+	  </table>
+
+      </section>
+
+      <section id="x2ndf-bound-authenticator">
+	<h3 aria-level="2" role="heading" id="h3_x2ndf-bound-authenticator"><span class="secno">7.2 </span>2ndF Bound Authenticator</h3>
+
+	<table class="tlv" style="border: 0px;">
+          <tbody>
+
+            <tr>
+              <td class="subhead">Register Command</td>
+
+              <td>
+                Authenticator doesn't store key handles. Instead KeyHandle is always returned to ASM and stored
+                in ASM database.
+
+                <p>KeyID is a randomly generated 32 bytes number (or simply the hash of KeyHandle).</p>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="subhead">Sign Command</td>
+
+              <td>
+                <p>This Authenticator cannot operate without Server providing KeyIDs. Thus it can't be used
+                  when there is no user session (no cookies, a clear machine).
+
+                  </p><p>During step-up authentication (when there is a user session) Server provides relevant KeyIDs.
+                    ASM selects key handles that correspond to provided KeyIDs and pass to Authenticator.
+              </p></td>
+
+            </tr>
+
+            <tr>
+              <td class="subhead">Deregister Command</td>
+
+              <td>
+                <p>Since Authenticator doesn't store key handles, then there is nothing to delete inside it.
+                  </p><p>ASM finds the KeyHandle corresponding to provided KeyID and deletes it.
+              </p></td>
+
+            </tr>
+
+          </tbody>
+	</table>
+
+
+      </section>
+
+      <section id="first-factor-roaming-authenticator">
+
+	<h3 aria-level="2" role="heading" id="h3_first-factor-roaming-authenticator"><span class="secno">7.3 </span>first-factor Roaming Authenticator</h3>
+
+	<table class="tlv" style="border: 0px;">
+          <tbody>
+
+            <tr>
+              <td class="subhead">Register Command</td>
+
+              <td>
+                Authenticator stores key handles inside its internal storage. KeyHandle is never returned back to ASM.
+
+                <p>KeyID is a randomly generated 32 bytes number (or simply the hash of KeyHandle)</p>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="subhead">Sign Command</td>
+
+              <td>
+                <p>When there is no user session (no cookies, a clear machine) Server doesn't provide any KeyID
+                  (since it doesn't know which KeyIDs to provide). In this scenario Authenticator uses all
+                  key handles that correspond to the provided AppID.
+
+                  </p><p>During step-up authentication (when there is a user session) Server provides relevant KeyIDs.
+                    Authenticator selects key handles that correspond to provided KeyIDs and uses them.
+              </p></td>
+
+            </tr>
+
+            <tr>
+              <td class="subhead">Deregister Command</td>
+
+              <td>
+                <p>Authenticator finds the right KeyHandle and deletes it from its storage.
+              </p></td>
+
+            </tr>
+
+          </tbody>
+	</table>
+
+      </section>
+
+      <section id="x2ndf-roaming-authenticator">
+
+	<h3 aria-level="2" role="heading" id="h3_x2ndf-roaming-authenticator"><span class="secno">7.4 </span>2ndF Roaming Authenticator</h3>
+
+	<table class="tlv" style="border: 0px;">
+          <tbody>
+
+            <tr>
+              <td class="subhead">Register Command</td>
+
+              <td>
+                Neither Authenticator nor ASM store key handles. Instead KeyHandle is sent to the Server (in place of
+                KeyID) and stored in User's record. From Server's perspective it's a KeyID.
+                In fact KeyID is the KeyHandle.
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="subhead">Sign Command</td>
+
+              <td>
+                <p>This Authenticator cannot operate without Server providing KeyIDs. Thus it can't be used
+                  when there is no user session (no cookies, a clear machine).
+
+                  </p><p>During step-up authentication Server provides KeyIDs which are in fact key handles.
+                    Authenticator finds the right KeyHandle and uses it.
+              </p></td>
+
+            </tr>
+
+            <tr>
+              <td class="subhead">Deregister Command</td>
+
+              <td>
+                <p>Since Authenticator and ASM don't store key handles, then there is nothing to delete on client side.
+              </p></td>
+
+            </tr>
+
+          </tbody>
+	</table>
+
+      </section>
+    </section>
+
+
+
+    <section class="normativeDisclaimer" id="access-control-for-commands">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_access-control-for-commands"><span class="secno">8. </span>Access Control for Commands</h2><p><em>This section is normative.</em></p>
+
+      <p>FIDO Authenticators may implement various mechanisms to
+	guard access to privileged commands.</p>
+
+      <p>The following table summarizes the access control
+	requirements for each command.</p>
+
+      <p>All UAF Authenticators <em class="rfc2119" title="MUST">MUST</em> satisfy the access control
+        requirements defined below.</p>
+
+      <p>Authenticator vendors <em class="rfc2119" title="MAY">MAY</em> offer additional security
+        mechanisms.</p>
+
+      <p>Terms used in the table:</p>
+
+      <ul>
+	<li>NoAuth - no access control</li>
+
+	<li>UserVerify - explicit user verification</li>
+
+	<li>KHAccessToken - must be known to the caller</li>
+
+	<li>KeyHandleList - must be known to the caller</li>
+
+	<li>KeyID - must be known to the caller</li>
+      </ul>
+
+      <table class="tlv">
+	<thead>
+          <tr>
+            <th>Command</th>
+
+            <th>First-factor Bound Authenticator</th>
+
+            <th>2ndF Bound Authenticator</th>
+
+            <th>First-factor Roaming Authenticator</th>
+
+            <th>2ndF Roaming Authenticator</th>
+          </tr>
+	</thead>
+
+	<tbody>
+          <tr>
+            <td class="subhead">GetInfo</td>
+
+            <td>NoAuth</td>
+
+            <td>NoAuth</td>
+
+            <td>NoAuth</td>
+
+            <td>NoAuth</td>
+          </tr>
+
+          <tr>
+            <td class="subhead">OpenSettings</td>
+
+            <td>NoAuth</td>
+
+            <td>NoAuth</td>
+
+            <td>NoAuth</td>
+
+            <td>NoAuth</td>
+          </tr>
+
+          <tr>
+            <td class="subhead">Register</td>
+
+            <td>UserVerify</td>
+
+            <td>UserVerify</td>
+
+            <td>UserVerify</td>
+
+            <td>UserVerify</td>
+          </tr>
+
+          <tr>
+            <td class="subhead">Sign</td>
+
+            <td>UserVerify<br>
+              KHAccessToken<br>
+              KeyHandleList<br>
+            </td>
+
+            <td>UserVerify<br>
+              KHAccessToken<br>
+              KeyHandleList<br>
+            </td>
+
+            <td>UserVerify<br>
+              KHAccessToken</td>
+
+            <td>UserVerify<br>
+              KHAccessToken<br>
+              KeyHandleList<br>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="subhead">Deregister</td>
+
+            <td>KHAccessToken<br>
+              KeyID</td>
+
+            <td>KHAccessToken<br>
+              KeyID</td>
+
+            <td>KHAccessToken<br>
+              KeyID</td>
+
+            <td>KHAccessToken<br>
+              KeyID</td>
+          </tr>
+
+	</tbody>
+      </table>
+
+      <p><em>Table 1: Access Control for Commands</em></p>
+
+
+    </section>
+
+    <section class="informative" id="relationship-to-other-standards">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_relationship-to-other-standards"><span class="secno">9. </span>Relationship to other standards</h2><p><em>This section is non-normative.</em></p>
+
+      <p>The existing standard specifications most relevant to UAF
+	authenticator are [<cite><a class="bibref" href="#bib-TPM">TPM</a></cite>], [<cite><a class="bibref" href="#bib-TEE">TEE</a></cite>] and [<cite><a class="bibref" href="#bib-SecureElement">SecureElement</a></cite>].</p>
+
+      <p>Hardware modules implementing these standards may be
+	extended to incorporate UAF functionality through their
+	extensibility mechanisms such as by loading secure applications
+	(trustlets, applets, etc) into them. Modules which do not
+	support such extensibility mechanisms cannot be fully leveraged
+	within UAF framework.</p>
+
+      <section id="tee">
+	<h3 aria-level="2" role="heading" id="h3_tee"><span class="secno">9.1 </span>TEE</h3>
+
+	<p>In order to support UAF inside TEE a special Trustlet
+	  (trusted application running inside TEE) may be designed
+	  which implements UAF Authenticator functionality specified in
+	  this document and also implements some kind of user
+	  verification technology (biometric verification, PIN or
+	  anything else).</p>
+
+	<p>An additional ASM must be created which knows how to work
+	  with the Trustlet.</p>
+      </section>
+
+      <section id="secure-elements">
+	<h3 aria-level="2" role="heading" id="h3_secure-elements"><span class="secno">9.2 </span>Secure Elements</h3>
+
+	<p>In order to support UAF inside Secure Element (SE) a special Applet
+	  (trusted application running inside SE) may be designed which
+	  implements UAF Authenticator functionality specified in this
+	  document and also implements some kind of user verification
+	  technology (biometric verification, PIN or similar
+	  mechanisms).</p>
+
+	<p>An additional ASM must be created which knows how to work
+	  the Applet.</p>
+      </section>
+
+      <section id="tpm">
+	<h3 aria-level="2" role="heading" id="h3_tpm"><span class="secno">9.3 </span>TPM</h3>
+
+	<p>TPMs typically have a built-in attestation capability
+	  however the attestation model supported in TPMs is currently
+	  incompatible with UAF's basic attestation model. The future
+	  enhancements of UAF may include compatible attestation
+	  schemes.</p>
+
+	<p>Typically TPMs also have a built-in PIN verification
+	  functionality which may be leveraged for UAF. In order to
+	  support UAF with an existing TPM module, the vendor should
+	  write an ASM which:</p>
+
+        <ul><li>Translates UAF data to TPM data by
+	  calling TPM APIs</li>
+          <li>Creates assertions using TPMs API</li>
+          <li>Reports itself as a valid UAF authenticator to FIDO UAF Client
+	</li></ul>
+        <p>A special
+	  AssertionScheme, designed for TPMs, must be also created (see
+	  [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>]) and published by <abbr title="FIDO Alliance">FIDO Alliance</abbr>. When
+	  FIDO Server receives an assertion with this AssertionScheme
+	  it will treat the received data as TPM-generated data and
+	  will parse/validate it accordingly.
+
+        </p>
+      </section>
+      <section id="unreliable-transports">
+	<h3 aria-level="2" role="heading" id="h3_unreliable-transports"><span class="secno">9.4 </span>Unreliable Transports</h3>
+	<p>The command structures described in this document assume
+	  a reliable transport and provide no support at the application-layer
+	  to detect or correct for issues such as unreliable ordering, 
+	  duplication, dropping or modification of messages.  If the transport
+	  layer(s) between the ASM and Authenticator are not reliable, the
+	  non-normative private contract between the ASM and Authenticator may need
+	  to provide a means to detect and correct such errors.</p>
+      </section>
+    </section>
+
+    <section class="appendix informative" id="security-guidelines">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_security-guidelines"><span class="secno">A. </span>Security Guidelines</h2><p><em>This section is non-normative.</em></p>
+
+      <table class="tlv">
+	<thead>
+          <tr>
+            <th>Category</th>
+
+            <th>Guidelines</th>
+          </tr>
+	</thead>
+
+	<tbody>
+
+          <tr>
+            <td>AppIDs and KeyIDs</td>
+
+            <td>
+              <p>Registered AppIDs and KeyIDs must not be returned by
+		an authenticator in plaintext, without first performing user verification.</p>
+              <p>If an attacker gets physical access to a roaming
+		authenticator, then it should not be easy to read out
+		AppIDs and KeyIDs.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Attestation Private Key</td>
+
+            <td>
+              <p>Authenticators must protect the attestation private key
+		as a very sensitive asset. The overall security of the
+		authenticator depends on the protection level of this
+		key.</p>
+
+              <p>It is highly recommended to store and operate this
+		key inside a tamper-resistant hardware module, e.g. [<cite><a class="bibref" href="#bib-SecureElement">SecureElement</a></cite>].</p>
+
+	      <p>It is assumed by registration assertion schemes, that the authenticator has 
+		exclusive control over the data being signed with the attestation key.</p>
+              <p>FIDO Authenticators must ensure that the attestation
+		private key:</p>
+              <ol>
+		<li>is only used to attest authentication keys
+		  generated and protected by the authenticator,
+		  using the FIDO-defined data structures,
+		  KeyRegistrationData.</li>
+		
+		<li>is never accessible outside the security boundary of the
+		  authenticator.</li>
+              </ol>
+
+              <p>Attestation must be implemented in a way such that two
+		different relying parties cannot link registrations,
+		authentications or other transactions (see [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]).</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Certifications</td>
+
+            <td>
+              <p>Vendors should strive to pass common security standard
+		certifications with authenticators, such as
+		[<cite><a class="bibref" href="#bib-FIPS140-2">FIPS140-2</a></cite>], [<cite><a class="bibref" href="#bib-CommonCriteria">CommonCriteria</a></cite>] and similar. Passing
+		such certifications will positively impact the UAF
+		implementation of the authenticator.</p>
+            </td>
+          </tr>
+
+
+
+          <tr>
+            <td>Cryptographic (Crypto) Kernel</td>
+
+            <td>
+              <p>The crypto kernel is a module of the authenticator
+		implementing cryptographic functions (key generation, signing,
+		wrapping, etc) necessary for UAF, and having access to
+		UAuth.priv, Attestation Private Key and Wrap.sym.</p>
+
+              <p>For optimal security, this module should reside
+		within the same security boundary as the UAuth.priv,
+		Att.priv and Wrap.sym keys. If it resides within a
+		different security boundary, then the implementation
+		must guarantee the same level of security as if they
+		would reside within the same module.</p>
+
+              <p>It is highly recommended to generate, store and
+		operate this key inside a trusted execution
+		environment [<cite><a class="bibref" href="#bib-TEE">TEE</a></cite>].</p>
+
+              <p>In situations where physical attacks and side
+		channel attacks are considered in the threat model, it
+		is highly recommended to use a tamper-resistant
+		hardware module.</p>
+
+              <p>Software-based authenticators must make sure to use
+		state of the art code protection and obfuscation
+		techniques to protect this module, and whitebox
+		encryption techniques to protect the associated
+		keys.</p>
+
+              <p>Authenticators need good random number generators
+		using a high quality entropy source, for:</p>
+
+              <ol>
+		<li>generating authentication keys</li>
+
+		<li>generating signatures</li>
+
+		<li>computing authenticator-generated challenges</li>
+              </ol>
+
+              <p>The authenticator's random number generator (RNG)
+		should be such that it cannot be disabled or
+		controlled in a way that may cause it to generate
+		predictable outputs.</p>
+
+              <p>If the authenticator doesn't have sufficient entropy
+		for generating strong random numbers, it should fail
+		safely.</p>
+
+	      <p>See the section of this table regarding <a href="#random-numbers">random numbers</a></p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>KeyHandle</td>
+
+            <td>
+              <p>It is highly recommended to use authenticated
+		encryption while wrapping key handles with Wrap.sym.
+		Algorithms such as AES-GCM and AES-CCM are most
+		suitable for this operation.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Liveness Detection</td>
+
+            <td>
+              <p>The user verification method should include liveness detection [<cite><a class="bibref" href="#bib-NSTCBiometrics">NSTCBiometrics</a></cite>],
+		i.e. a technique to ensure that the sample submitted 
+		is actually from a (live) user. </p>
+              <p>In the case of PIN-based matching, this could be implemented using [<cite><a class="bibref" href="#bib-TEESecureDisplay">TEESecureDisplay</a></cite>] in 
+		order to ensure that malware can't emulate PIN entry.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Matcher</td>
+
+            <td>
+	      <p>By definition, the matcher component is part of the
+		authenticator.  This does not impose any restrictions
+		on the authenticator implementation, but implementers
+		need to make sure that there is a proper security
+		boundary binding the matcher and the other parts of
+		the authenticator together.</p>
+	      <p>Tampering with the matcher module may have
+		significant security consequences. It is highly
+		recommended for this module to reside within the
+		integrity boundaries of the authenticator, and be
+		capable of detecting tampering.</p>
+
+	      <p>It is highly recommended to run this module inside a
+		trusted execution environment [<cite><a class="bibref" href="#bib-TEE">TEE</a></cite>] or inside a secure element [<cite><a class="bibref" href="#bib-SecureElement">SecureElement</a></cite>].</p>
+
+	      <p>Authenticators which have separated matcher and
+		CryptoKernel modules should implement mechanisms which
+		would allow the CryptoKernel to securely receive assertions
+		from the matcher module indicating the user's local
+		verification status.</p>
+
+	      <p>Software based Authenticators (if not in trusted
+		execution environment) must make sure to use state of
+		the art code protection and obfuscation techniques to
+		protect this module.</p>
+	      
+	      <p>When an Authenticator receives an invalid
+		UserVerificationToken it should treat this as an attack,
+		and invalidate the cached UserVerificationToken.</p>
+	      
+	      <p>A UserVerificationToken should have a lifetime not
+		exceeding 10 seconds.</p>
+	      
+	      <p>Authenticators must implement anti-hammering protections for
+		their matchers.</p>
+	      
+	      <p>Biometrics based authenticators must protect the
+		captured biometrics data (such as fingerprints) as
+		well as the reference data (templates), and make sure
+		that the biometric data never leaves the security
+		boundaries of authenticators.</p>
+	      
+	      <p>Matchers must only accept verification reference data
+		enrolled by the user, i.e. they must not include any
+		default PINs or default biometric reference data. </p>
+
+            </td>
+          </tr>
+
+          <tr>
+            <td>Private Keys (UAuth.priv and Attestation Private
+              Key)</td>
+
+            <td>
+              <p>This document requires (a) the attestation key to be
+		used for attestation purposes only and (b) the
+		authentication keys to be used for FIDO authentication
+		purposes only. The related to-be-signed objects (i.e.
+		Key Registration Data and SignData) are designed to
+		reduce the likelihood of such attacks:</p>
+
+              <ol>
+		<li>They start with a tag marking them as specific
+		  FIDO objects</li>
+
+		<li>They include an authenticator-generated random
+		  value. As a consequence all to-be-signed objects are
+		  unique with a very high probability.</li>
+
+		<li>They have a structure allowing only very few
+		  fields containing uncontrolled values, i.e. values
+		  which are neither generated nor verified by the
+		  authenticator</li>
+              </ol>
+            </td>
+          </tr>
+
+          <tr>
+            <td id="random-numbers">Random Numbers</td>
+
+            <td>
+              <p>The FIDO Authenticator uses its random number
+		generator to generate authentication key pairs, client
+		side challenges, and potentially for creating ECDSA
+		signatures. Weak random numbers will make FIDO
+		vulnerable to certain attacks. It is important for the
+		FIDO Authenticator to work with good random numbers
+		only.</p>
+	      <p>The (pseudo-)random numbers used by authenticators
+		should successfully pass the randomness test specified
+		in [<cite><a class="bibref" href="#bib-Coron99">Coron99</a></cite>] and they should follow the guidelines
+		given in [<cite><a class="bibref" href="#bib-SP800-90b">SP800-90b</a></cite>].</p>
+	      <p>Additionally, authenticators may choose to
+		incorporate entropy provided by the FIDO Server via
+		the <code>ServerChallenge</code> sent in requests (see
+		[<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]).</p>
+	      <p>When mixing multiple entropy sources, a suitable mixing
+		function should be used, such as those described in
+		[<cite><a class="bibref" href="#bib-RFC4086">RFC4086</a></cite>].</p>
+            </td>
+          </tr>
+
+	  <tr>
+	    <td>
+	      RegCounter
+	    </td>
+	    <td>
+	      <p>The <code>RegCounter</code> provides an anti-fraud signal to the relying parties. Using the <code>RegCounter</code>,
+		the relying party can detect authenticators which have been excessively registered.
+
+		</p><p>If the <code>RegCounter</code> is implemented: ensure that
+		  </p><ol>
+		    <li>it is increased by any registration
+		      operation and</li>
+		    <li>it cannot be manipulated/modified otherwise (e.g. via API calls,
+		      etc.)</li>
+		  </ol>
+		  <p>A registration counter should be implemented as a global counter, i.e. one covering registrations to all AppIDs.
+		    This global counter should be increased by 1 upon any registration operation.
+		  </p>
+		  <p>Note: The RegCounter value should <em>not</em> be decreased by <code>Deregistration</code> operations.
+	    </p></td>
+	  </tr>
+
+          <tr>
+            <td>SignCounter</td>
+
+            <td>
+	      <p>When an attacker is able to extract a Uauth.priv key from a registered authenticator, 
+		this key can be used independently
+		from the original authenticator. This is considered cloning of an authenticator.</p>
+
+              <p>Good protection measures of the Uauth private keys is one method to 
+		prevent cloning authenticators. In
+		some situations the protection measures might not be
+		sufficient.</p>
+
+              <p>If the Authenticator maintains a signature counter
+		<code>SignCounter</code>, then the FIDO Server would have an
+		additional method to detect cloned authenticators.</p>
+
+              <p>If the <code>SignCounter</code> is implemented: ensure that</p>
+
+              <ol>
+		<li>It is increased by any authentication /
+		  transaction confirmation operation and</li>
+
+		<li>it cannot be manipulated/modified otherwise (e.g.
+		  API calls, etc.)</li>
+              </ol>
+
+              <p>Signature counters should be implemented that are dedicated
+		for each private key in order to preserve the user's
+		privacy. 
+		</p><p>A per-key <code>SignCounter</code> should be increased by 1, whenever the
+		  corresponding UAuth.priv key signs an assertion.</p>
+		<p>A per-key <code>SignCounter</code> should be deleted whenever the
+		  corresponding UAuth key is deleted.</p>
+		<p>If the authenticator is not able to handle
+		  many different signature counters, then a global
+		  signature counter covering all private keys should be
+		  implemented. A global <code>SignCounter</code> should be
+		  increased by a random positive integer value whenever 
+		  any of the UAuth.priv keys is used to sign an assertion.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Transaction Confirmation Display</td>
+
+            <td>
+              <p>A transaction confirmation display must ensure that the user is
+		presented with the provided transaction content, e.g.
+		not overlaid by other display elements and clearly
+		recognizable. See [<cite><a class="bibref" href="#bib-CLICKJACKING">CLICKJACKING</a></cite>] for some examples of
+		threats and potential counter-measures</p>
+
+              <p>For more guidelines refer to
+		[<cite><a class="bibref" href="#bib-TEESecureDisplay">TEESecureDisplay</a></cite>].</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>UAuth.priv</td>
+
+            <td>
+              <p>An authenticator must protect all UAuth.priv keys as
+		its <strong>most</strong> sensitive assets. The overall
+		security of the authenticator
+		depends <strong>significantly</strong> on the protection
+		level of these keys.</p>
+
+              <p>It is highly recommended that this key is generated,
+		stored and operated inside a trusted execution
+		environment.</p>
+
+              <p>In situations where physical attacks and side
+		channel attacks are considered within the threat model, it
+		is highly recommended to use a tamper-resistant
+		hardware module.</p>
+
+              <p>FIDO Authenticators must ensure that UAuth.priv
+		keys:</p>
+
+              <ol>
+		<li>are specific to the particular account at one
+		  relying party (relying party is identified by an
+		  AppID)</li>
+
+		<li>are generated based on good random numbers with
+		  sufficient entropy. The challenge provided by the
+		  FIDO Server during registration and authentication
+		  operations should be mixed into the entropy pool in
+		  order to provide additional entropy.</li>
+
+		<li>are never directly revealed, i.e. always remain
+		  in exclusive control of the FIDO Authenticator</li>
+
+		<li>are only being used for the defined
+		  authentication modes, i.e.
+		  
+                  <ol>
+                    <li>authenticating to the application (as
+                      identified by the AppID) they have been
+                      generated for, or</li>
+		    
+                    <li>confirming transactions to the application (as
+                      identified by AppID) they have been generated
+                      for, or</li>
+		    
+                    <li>are only being used to create the FIDO
+                      defined data structures, i.e. KRD, SignData.</li>
+                  </ol>
+		</li>
+              </ol>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Username</td>
+
+            <td>
+              <p>A username must not be returned in plaintext in any
+		condition other than the conditions described for the
+		SIGN command. In all other conditions usernames must
+		be stored within a <code>KeyHandle</code>.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Verification Reference Data</td>
+
+            <td>
+              <p>The verification reference data, such as fingerprint
+		templates or the reference value of a PIN, are by
+		definition part of the authenticator.  This does not
+		impose any particular restrictions on the
+		authenticator implementation, but implementers need to
+		make sure that there is a proper security boundary
+		binding all parts of the authenticator together..</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Wrap.sym</td>
+
+            <td>
+              <p>If the authenticator has a wrapping key (Wrap.sym),
+		then the authenticator must protect this key as its
+		most sensitive asset. The overall security of
+		the authenticator depends on the protection of this
+		key.</p>
+
+              <p>Wrap.sym key strength must be equal or higher than the
+		strength of secrets stored in a RawKeyHandle. Refer to
+		[<cite><a class="bibref" href="#bib-SP800-57">SP800-57</a></cite>] and [<cite><a class="bibref" href="#bib-SP800-38F">SP800-38F</a></cite>] publications for more
+		information about choosing the right wrapping algorithm
+		and implementing it correctly.</p>
+
+              <p>It is highly recommended to generate, store and
+		operate this key inside a trusted execution
+		environment.</p>
+
+              <p>In situations where physical attacks and side
+		channel attacks are considered in the threat model, it
+		is highly recommended to use a tamper-resistant
+		hardware module.</p>
+
+              <p>If the authenticator uses Wrap.sym, it must ensure
+		that unwrapping corrupted KeyHandle and unwrapping data
+		which has invalid contents (e.g. KeyHandle from invalid
+		origin) are indistinguishable to the caller.</p>
+            </td>
+          </tr>
+
+	</tbody>
+      </table>
+    </section>
+    <section id="tof" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_tof"><span class="secno">B. </span>Table of Figures</h2><ul class="tof"><li class="tofline"><a class="tocxref" href="#fig-uaf-authenticator-commands">Fig. <span class="figno">1</span> <span class="fig-title">
+          UAF Authenticator Commands
+	</span></a></li><li class="tofline"><a class="tocxref" href="#fig-fido-authenticator-logical-sub-components">Fig. <span class="figno">2</span> <span class="fig-title">
+          FIDO Authenticator Logical Sub-Components
+	</span></a></li></ul></section>
+  
+
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_references"><span class="secno">C. </span>References</h2><section id="normative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_normative-references"><span class="secno">C.1 </span>Normative references</h3><dl class="bibliography" about=""><dt id="bib-Coron99">[Coron99]</dt><dd rel="dcterms:requires">J. Coron and D. Naccache <a href="http://www.jscoron.fr/publications/universal.pdf"><cite>An accurate evaluation of Maurer's universal test</cite></a>. LNCS 1556, February 1999, URL: <a href="http://www.jscoron.fr/publications/universal.pdf">http://www.jscoron.fr/publications/universal.pdf</a>
+</dd><dt id="bib-FIDOGlossary">[FIDOGlossary]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, B. Hill, J. Hodges, <cite>FIDO Technical Glossary</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.html">fido-glossary-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.pdf">fido-glossary-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-ITU-X690-2008">[ITU-X690-2008]</dt><dd rel="dcterms:requires"><a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en"><cite>X.690: Information technology - ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER), (T-REC-X.690-200811)</cite></a>. International Telecommunications Union, November 2008 URL: <a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en">http://www.itu.int/rec/T-REC-X.690-200811-I/en</a>
+</dd><dt id="bib-SP800-90b">[SP800-90b]</dt><dd rel="dcterms:requires">Elaine Baker and John Kelsey, <a href="http://csrc.nist.gov/publications/drafts/800-90/draft-sp800-90b.pdf"><cite>NIST Special Publication 800-90b: Recommendation for the Entropy Sources Used for Random Bit Generation</cite></a>. National Institute of Standards and Technology, August 2012, URL: <a href="http://csrc.nist.gov/publications/drafts/800-90/draft-sp800-90b.pdf">http://csrc.nist.gov/publications/drafts/800-90/draft-sp800-90b.pdf</a>
+</dd><dt id="bib-UAFAuthnrMetadata">[UAFAuthnrMetadata]</dt><dd rel="dcterms:requires">B. Hill, D. Baghdasaryan, J. Kemp, <cite>FIDO UAF Authenticator Metadata Statements v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML:  <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-metadata-v1.0-ps-20141208.html">fido-uaf-authnr-metadata-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-metadata-v1.0-ps-20141208.pdf">fido-uaf-authnr-metadata-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFProtocol">[UAFProtocol]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, E. Tiffany, D. Balfanz, B. Hill, J. Hodges, <cite>FIDO UAF Protocol Specification v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.html">fido-uaf-protocol-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.pdf">fido-uaf-protocol-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFRegistry">[UAFRegistry]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, B. Hill, <cite>FIDO UAF Registry of Predefined Values</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.html">fido-uaf-reg-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.pdf">fido-uaf-reg-v1.0-ps-20141208.pdf</a>
+</dd></dl></section><section id="informative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_informative-references"><span class="secno">C.2 </span>Informative references</h3><dl class="bibliography" about=""><dt id="bib-CLICKJACKING">[CLICKJACKING]</dt><dd rel="dcterms:references">D. Lin-Shung Huang, C. Jackson, A. Moshchuk, H. Wang, S. Schlechter <a href="https://www.usenix.org/system/files/conference/usenixsecurity12/sec12-final39.pdf"><cite>Clickjacking: Attacks and Defenses</cite></a>. USENIX, July 2012, URL: <a href="https://www.usenix.org/system/files/conference/usenixsecurity12/sec12-final39.pdf">https://www.usenix.org/system/files/conference/usenixsecurity12/sec12-final39.pdf</a>
+</dd><dt id="bib-CommonCriteria">[CommonCriteria]</dt><dd rel="dcterms:references"><a href="http://www.commoncriteriaportal.org/cc/"><cite>CommonCriteria Publications</cite></a>. CCRA Members, Work in progress, accessed March 2014. URL: <a href="http://www.commoncriteriaportal.org/cc/">http://www.commoncriteriaportal.org/cc/</a>
+</dd><dt id="bib-FIDOSecRef">[FIDOSecRef]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, B. Hill, <cite>FIDO Security Reference</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-security-ref-v1.0-ps-20141208.html">fido-security-ref-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-security-ref-v1.0-ps-20141208.pdf">fido-security-ref-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-FIPS140-2">[FIPS140-2]</dt><dd rel="dcterms:references"><a href="http://csrc.nist.gov/publications/fips/fips140-2/fips1402.pdf"><cite>FIPS PUB 140-2: Security Requirements for Cryptographic Modules</cite></a>. National Institute of Standards and Technology, May 2001, URL: <a href="http://csrc.nist.gov/publications/fips/fips140-2/fips1402.pdf">http://csrc.nist.gov/publications/fips/fips140-2/fips1402.pdf</a>
+</dd><dt id="bib-NSTCBiometrics">[NSTCBiometrics]</dt><dd rel="dcterms:references">NSTC Subcommittee on Biometrics, <a href="http://biometrics.gov/Documents/Glossary.pdf"><cite>Biometrics Glossary</cite></a>. National Science and Technology Council. 14 September 2006, URL: <a href="http://biometrics.gov/Documents/Glossary.pdf">http://biometrics.gov/Documents/Glossary.pdf</a>
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd rel="dcterms:references">S. Bradner. <a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+</dd><dt id="bib-RFC4086">[RFC4086]</dt><dd rel="dcterms:references">D. Eastlake 3rd, J. Schiller, S. Crocker <a href="http://www.ietf.org/rfc/rfc4086.txt"><cite>Randomness Requirements for Security (RFC 4086)</cite></a>, IETF, June 2005, URL: <a href="http://www.ietf.org/rfc/rfc4086.txt">http://www.ietf.org/rfc/rfc4086.txt</a>
+</dd><dt id="bib-SP800-38F">[SP800-38F]</dt><dd rel="dcterms:references">M. Dworkin, <a href="http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-38F.pdf"><cite>NIST Special Publication 800-38F: Recommendation for Block Cipher Modes of Operation: Methods for Key Wrapping</cite></a>. National Institute of Standards and Technology, December 2012, URL: <a href="http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-38F.pdf">http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-38F.pdf</a>
+</dd><dt id="bib-SP800-57">[SP800-57]</dt><dd rel="dcterms:references"><a href="http://csrc.nist.gov/publications/nistpubs/800-57/sp800-57_part1_rev3_general.pdf"><cite>Recommendation for Key Management – Part 1: General (Revision 3)</cite></a>. SP800-57. July 2012. U.S. Department of Commerce/National Institute of Standards and Technology. URL: <a href="http://csrc.nist.gov/publications/nistpubs/800-57/sp800-57_part1_rev3_general.pdf">http://csrc.nist.gov/publications/nistpubs/800-57/sp800-57_part1_rev3_general.pdf</a>
+</dd><dt id="bib-SecureElement">[SecureElement]</dt><dd rel="dcterms:references"><a href="https://www.globalplatform.org/specifications.asp"><cite>GlobalPlatform Card Specifications</cite></a> GlobalPlatform. Accessed March 2014. URL: <a href="https://www.globalplatform.org/specifications.asp">https://www.globalplatform.org/specifications.asp</a>
+</dd><dt id="bib-TEE">[TEE]</dt><dd rel="dcterms:references"><a href="https://www.globalplatform.org/specifications.asp"><cite>GlobalPlatform Trusted Execution Environment Specifications</cite></a> GlobalPlatform. Accessed March 2014. URL: <a href="https://www.globalplatform.org/specifications.asp">https://www.globalplatform.org/specifications.asp</a>
+</dd><dt id="bib-TEESecureDisplay">[TEESecureDisplay]</dt><dd rel="dcterms:references"><a href="https://www.globalplatform.org/specifications.asp"><cite>GlobalPlatform Trusted User Interface API Specifications</cite></a> GlobalPlatform. Accessed March 2014. URL: <a href="https://www.globalplatform.org/specifications.asp">https://www.globalplatform.org/specifications.asp</a>
+</dd><dt id="bib-TPM">[TPM]</dt><dd rel="dcterms:references"><a href="http://www.trustedcomputinggroup.org/resources/tpm_main_specification"><cite>TPM Main Specification</cite></a> Trusted Computing Group. Accessed March 2014. URL: <a href="http://www.trustedcomputinggroup.org/resources/tpm_main_specification">http://www.trustedcomputinggroup.org/resources/tpm_main_specification</a>
+</dd></dl></section></section></body></html>

@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document w3p:REC" about="" property="dcterms:language" content="en">
+<head>
+  <title>FIDO UAF Authenticator Metadata Service v1.0</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <!--
+  === NOTA BENE ===
+  For the three scripts below, if your spec resides on dev.w3 you can check them
+  out in the same tree and use relative links so that they'll work offline,
+  -->
+  
+  
+  
+
+<style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #003a7c;
+}
+
+.simple th {
+    background: #003a7c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    //background: #fcfaee;    
+    background: rgba(252,250,238,0.3);    
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><style>/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #364e50;
+    border-bottom: 1px solid #364e50;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #364e50;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID, .idlCallbackID, .idlEnumID {
+    font-weight:    bold;
+    color:  #003a7c;
+}
+a.idlEnumItem {
+    color:  #000;
+    border-bottom:  1px dotted #ccc;
+    text-decoration: none;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #003a7c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #003a7c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType, .idlCallbackType {
+    color:  #003a7c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlCtor*/
+.idlCtorName {
+    color:  #ff4500;
+}
+.idlCtorName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #003a7c;
+}
+.idlParamName, .idlDefaultValue {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlSectionComment*/
+.idlSectionComment {
+    color: gray;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #003a7c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #003a7c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.constructors, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .constructors dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .constructors dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #003a7c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.constructors dt code {
+    background:  #cfc;
+}
+
+.attributes dd, .methods dd, .constants dd, .constructors dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #364e50; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #364e50; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+</style><link rel="stylesheet" href="resources/FIDO-PS.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+<body style="" class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    
+      <a href="https://www.fidoalliance.org/"><img width="250" id="toplogo" src="resources/logo.png" alt="FIDO Alliance"></a>
+    
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">FIDO UAF Authenticator Metadata Service v1.0</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-12-08T08:00:00.000Z" id="fido-alliance-proposed-standard-08-december-2014"><abbr title="FIDO Alliance">FIDO Alliance</abbr> Proposed Standard <time class="dt-published" datetime="2014-12-08">08 December 2014</time></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-metadata-service-v1.0-ps-20141208.html">https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-metadata-service-v1.0-ps-20141208.html</a></dd>
+      <!--<dt>Latest published version:</dt>
+      <dd><a href='https://fidoalliance.org/specs/fido-uaf-authnr-metadata-service/'>https://fidoalliance.org/specs/fido-uaf-authnr-metadata-service/</a></dd>
+    
+    -->
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="https://fidoalliance.org/specs/fido-uaf-metadata-service-v1.0-rd-20141008.pdf">https://fidoalliance.org/specs/fido-uaf-metadata-service-v1.0-rd-20141008.pdf</a></dd>
+    
+    
+    <dt>Editor:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Rolf Lindemann" href="mailto:rolf@noknok.com">Rolf Lindemann</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+
+    
+      <dt>Contributors:</dt>
+      <dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Brad Hill" href="mailto:bhill@paypal.com">Brad Hill</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.paypal.com/">PayPal, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Davit Baghdasaryan</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+
+    
+    
+  </dl>
+  
+  
+  
+    <p>
+      The English version of this specification is the only normative version. Non-normative
+      <a href="https://www.fidoalliance.org/specifications/translation/">translations</a> may also be available.
+    </p>
+  
+  
+    
+      <p class="copyright">
+        Copyright ©
+        2013-2014
+        
+        <a href="https://www.fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a>
+        All Rights Reserved.
+      </p>
+    
+  
+  <hr>
+</div>
+
+<!-- only put content here if you want a custom status of document not
+  the specification-maturity-appropriate boilerplate -->
+
+
+<section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+  <p>The FIDO UAF Authenticator Metadata Specification defines
+    so-called "Authenticator Metadata" statements. The metadata statements contain
+    the "Trust Anchor" required to validate the attestation object, and
+    they also describe several other important characteristics of the
+    authenticator.
+  </p>
+  <p>The metadata service described in this document
+    defines a baseline method for relying parties to access the latest
+    metadata statements.</p>
+</section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="FIDO Alliance">FIDO Alliance</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="https://www.fidoalliance.org/specifications/"><abbr title="FIDO Alliance">FIDO Alliance</abbr> specifications index</a> at
+          https://www.fidoalliance.org/specifications/.</em>
+        </p>
+        
+        <p>
+          This document was published by the <a href="https://fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a> as a Proposed Standard.
+          
+          
+            If you wish to make comments regarding this document, please 
+            <a href="https://fidoalliance.org/contact">Contact Us</a>.
+          
+          
+          
+          
+            All comments are welcome.
+          
+        </p>
+        
+	
+	
+	
+        
+          <p>
+	    Implementation of certain elements of this Specification may require licenses under third party intellectual 
+	    property rights, including without limitation, patent rights. The <abbr title="FIDO Alliance">FIDO Alliance</abbr>, Inc. and its Members
+            and any other contributors to the Specification are not, and shall not be held, responsible in any manner
+            for identifying or failing to identify any or all such third party intellectual property rights.
+	  </p>
+	  <p>
+	    THIS FIDO ALLIANCE SPECIFICATION IS PROVIDED “AS IS” AND WITHOUT ANY 
+            WARRANTY OF ANY KIND, INCLUDING, WITHOUT LIMITATION, ANY EXPRESS OR IMPLIED
+	    WARRANTY OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A
+	    PARTICULAR PURPOSE.
+          </p>
+        
+        
+          <p>
+            This document has been reviewed by FIDO Aliance Members
+            and is endorsed as a Proposed Standard.
+            It is a stable document and may be used as reference material or cited from another
+            document. <abbr title="FIDO Alliance">FIDO Alliance</abbr>'s role in making the Recommendation is to draw attention to the
+            specification and to promote its widespread deployment.
+          </p>
+        
+        
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#notation" class="tocxref"><span class="secno">1. </span>Notation</a><ul class="toc"><li class="tocline"><a href="#key-words" class="tocxref"><span class="secno">1.1 </span>Key Words</a></li></ul></li><li class="tocline"><a href="#overview" class="tocxref"><span class="secno">2. </span>Overview</a><ul class="toc"><li class="tocline"><a href="#scope" class="tocxref"><span class="secno">2.1 </span>Scope</a></li><li class="tocline"><a href="#detailed-architecture" class="tocxref"><span class="secno">2.2 </span>Detailed Architecture</a></li></ul></li><li class="tocline"><a href="#metadata-service-details" class="tocxref"><span class="secno">3. </span>Metadata Service Details</a><ul class="toc"><li class="tocline"><a href="#metadata-toc-format" class="tocxref"><span class="secno">3.1 </span>Metadata TOC Format</a><ul class="toc"><li class="tocline"><a href="#metadata-toc-payload-entry-dictionary" class="tocxref"><span class="secno">3.1.1 </span>Metadata TOC Payload Entry Dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-metadatatocpayloadentry-members" class="tocxref"><span class="secno">3.1.1.1 </span>Dictionary <span class="formerLink"><code>MetadataTOCPayloadEntry</code></span> Members</a></li></ul></li><li class="tocline"><a href="#statusreport-dictionary" class="tocxref"><span class="secno">3.1.2 </span>StatusReport dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-statusreport-members" class="tocxref"><span class="secno">3.1.2.1 </span>Dictionary <span class="formerLink"><code>StatusReport</code></span> Members</a></li></ul></li><li class="tocline"><a href="#authenticatorstatus-enum" class="tocxref"><span class="secno">3.1.3 </span>AuthenticatorStatus enum</a></li><li class="tocline"><a href="#metadata-toc-payload-dictionary" class="tocxref"><span class="secno">3.1.4 </span>Metadata TOC Payload Dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-metadatatocpayload-members" class="tocxref"><span class="secno">3.1.4.1 </span>Dictionary <span class="formerLink"><code>MetadataTOCPayload</code></span> Members</a></li></ul></li><li class="tocline"><a href="#metadata-toc" class="tocxref"><span class="secno">3.1.5 </span>Metadata TOC</a><ul class="toc"><li class="tocline"><a href="#examples" class="tocxref"><span class="secno">3.1.5.1 </span>Examples</a></li></ul></li><li class="tocline"><a href="#metadata-toc-object-processing-rules" class="tocxref"><span class="secno">3.1.6 </span>Metadata TOC object Processing Rules</a></li></ul></li></ul></li><li class="tocline"><a href="#considerations" class="tocxref"><span class="secno">4. </span>Considerations</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></section>
+
+<section id="notation">
+  <!--OddPage--><h2 aria-level="1" role="heading" id="h2_notation"><span class="secno">1. </span>Notation</h2>
+  
+  <p>Type names, attribute names and element names are written as <code>code</code>.
+    
+  </p><p>String literals are enclosed in “”, e.g. “UAF-TLV”.
+    
+  </p><p>In formulas we use “|” to denote byte wise concatenation
+    operations.
+    
+  </p><p>
+    The notation <code>base64url(byte[8..64])</code>  reads as 8-64 bytes of data
+    encoded in base64url, "Base 64 Encoding with URL and Filename
+    Safe Alphabet" [<cite><a class="bibref" href="#bib-RFC4648">RFC4648</a></cite>] <i>without padding</i>.  </p>
+  
+  <p>Following [<cite><a class="bibref" href="#bib-WebIDL-ED">WebIDL-ED</a></cite>], dictionary members are optional unless they are 
+    explicitly marked as <code>required</code>.</p>
+  
+  <p>WebIDL dictionary members <em class="rfc2119" title="MUST NOT">MUST NOT</em> have a value of null.</p>
+  
+  <p>Unless otherwise specified, if a WebIDL dictionary member is DOMString, 
+    it <em class="rfc2119" title="MUST NOT">MUST NOT</em> be empty.</p>
+  
+  <p>Unless otherwise specified, if a WebIDL dictionary member is a List, 
+    it MST NOT be an empty list.</p>
+  
+  <p>UAF specific terminology used in this document is defined in
+    [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>].</p>
+
+  <p>All diagrams, examples, notes in this specification are non-normative.</p>
+
+  <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_1"><span>Note</span></div><p class="">
+    Note: Certain dictionary members need to be present in order to
+    comply with FIDO requirements. Such members are marked in the
+    WebIDL definitions found in this document, as
+    <code>required</code>. The keyword <code>required</code> has been
+    introduced by [<cite><a class="bibref" href="#bib-WebIDL-ED">WebIDL-ED</a></cite>], which is a work-in-progress. If you
+    are using a WebIDL parser which implements [<cite><a class="bibref" href="#bib-WebIDL">WebIDL</a></cite>], then you
+    may remove the keyword <code>required</code> from your WebIDL and
+    use other means to ensure those fields are present.  
+  </p></div>
+
+  <section id="key-words">
+    <h3 aria-level="2" role="heading" id="h3_key-words"><span class="secno">1.1 </span>Key Words</h3> 
+    
+    <p>The key words “<em class="rfc2119" title="MUST">MUST</em>”, “<em class="rfc2119" title="MUST NOT">MUST NOT</em>”, “<em class="rfc2119" title="REQUIRED">REQUIRED</em>”, “<em class="rfc2119" title="SHALL">SHALL</em>”, “<em class="rfc2119" title="SHALL
+      NOT">SHALL
+      NOT</em>”, “<em class="rfc2119" title="SHOULD">SHOULD</em>”, “<em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em>”, “<em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em>”, “<em class="rfc2119" title="MAY">MAY</em>”, and
+      “<em class="rfc2119" title="OPTIONAL">OPTIONAL</em>” in this document are to be interpreted as
+      described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].</p>
+  </section>
+</section>
+
+<section class="informative" id="overview">
+  <!--OddPage--><h2 aria-level="1" role="heading" id="h2_overview"><span class="secno">2. </span>Overview</h2><p><em>This section is non-normative.</em></p>
+
+  <p>
+    The FIDO UAF specification defines Authenticator Metadata
+    statements [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>].
+  </p>
+  <p>These metadata statements
+    contain the "Trust Anchor" required to verify the attestation object
+    (more specifically the <code>KeyRegistrationData</code> object), and they also
+    describe several other important characteristics of the
+    authenticator, including its AAID, supported authentication and registration
+    assertion schemes, and key protection flags.
+  </p>
+  <p>These characteristics can be used when defining policies [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]
+    about which authenticators are acceptable for registration or
+    authentication.
+  </p>
+  <p>The metadata service described in this document
+    defines a baseline method for relying parties to access the latest
+    metadata statements.
+  </p>
+
+  <figure id="fig-uaf-metadata-service-architecture-overview">	  
+   <img width="800" src="./img/fido-uaf-metadata-service-arch.png" onerror="./img/fido-uaf-metadata-service-arch.png" alt="UAF Metadata Service Architecture Overview">
+   <figcaption>Fig. <span class="figno">1</span> <span class="fig-title">UAF Metadata Service Architecture Overview</span></figcaption>
+  </figure>
+
+  <section id="scope">
+    <h3 aria-level="2" role="heading" id="h3_scope"><span class="secno">2.1 </span>Scope</h3>
+    <p>
+      This document describes the FIDO Metadata Service architecture in
+      detail and it defines the structure and interface to access this
+      service. It also defines the flow of the metadata related messages
+      and presents the rationale behind the design choices. 
+    </p>
+  </section>
+
+  <section id="detailed-architecture">
+    <h3 aria-level="2" role="heading" id="h3_detailed-architecture"><span class="secno">2.2 </span>Detailed Architecture</h3>
+    
+    <p>
+      The metadata "table-of-contents" (TOC) file contains a list of metadata statements 
+      related to the authenticators known to the <abbr title="FIDO Alliance">FIDO Alliance</abbr> (FIDO Authenticators).
+    </p>
+    
+    <p>
+      The FIDO Server downloads the metadata TOC (file) from a well-known FIDO URL and caches it locally. 
+    </p>
+    
+    <p>
+      The FIDO Server verifies the integrity and authenticity of this
+      metadata TOC file using the digital signature. It then iterates
+      through the individual entries and loads the metadata statements
+      related to authenticator AAIDs relevant to the relying party.
+    </p>
+    
+    <p>
+      Individual metadata statements will be downloaded from the URL
+      specified in the entry of the TOC file, and may be
+      cached by the FIDO Server as required. 
+    </p>
+    
+    <p>The integrity of the metadata statements will be verified by the
+      FIDO Server using the hash value included in the related entry of the
+      metadata TOC file.
+    </p>
+    
+    <figure id="fig-uaf-metadata-service-architecture">	  
+      <img width="800" src="./img/fido-uaf-metadata-service-arch-detail.png" alt="UAF Metadata Service Architecture">
+      <figcaption>Fig. <span class="figno">2</span> <span class="fig-title">UAF Metadata Service Architecture</span></figcaption>
+    </figure>
+    
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_2"><span>Note</span></div><p class="">The single arrow indicates the direction of the network connection, 
+      the double arrow indicates the direction of the data flow.</p></div>
+    
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_3"><span>Note</span></div><p class="">
+      The Metadata TOC (file) is freely accessible at a well-known URL published by the <abbr title="FIDO Alliance">FIDO Alliance</abbr>.
+    </p></div>
+    
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_4"><span>Note</span></div><p class="">
+      The relying party decides how frequently the metadata rervice is accessed to check for metadata TOC updates.
+    </p></div>
+    
+  </section>
+</section>
+
+<section class="normativeDisclaimer" id="metadata-service-details">
+  <!--OddPage--><h2 aria-level="1" role="heading" id="h2_metadata-service-details"><span class="secno">3. </span>Metadata Service Details</h2><p><em>This section is normative.</em></p>
+
+  <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_5"><span>Note</span></div><p class="">
+    The relying party can decide whether it wants to use the metadata
+    service and whether or not it wants to accept certain
+    authenticators for registration or authentication.
+  </p></div>
+
+  <p>
+    The relying party could also obtain metadata directly from authenticator
+    vendors or other trusted sources.</p>
+  <p></p>
+
+  <section id="metadata-toc-format">
+    <h3 aria-level="2" role="heading" id="h3_metadata-toc-format"><span class="secno">3.1 </span>Metadata TOC Format</h3>
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_6"><span>Note</span></div><div class="">
+      <p>The metadata service makes the metadata TOC object 
+	(see <a href="#metadata-toc">Metadata TOC</a>) accessible to FIDO Servers. 
+      </p>
+      <p>This object is a "table-of-contents" for metadata, as it
+	includes the AAID, the download URL and the hash value of
+	the individual metadata Statements.  The TOC object
+	contains one signature.  
+      </p>
+    </div></div>
+
+    <section id="metadata-toc-payload-entry-dictionary"> 
+      <h4 aria-level="3" role="heading" id="h4_metadata-toc-payload-entry-dictionary"><span class="secno">3.1.1 </span>Metadata TOC Payload Entry Dictionary</h4>
+      
+      <p>Represents the MetadataTOCPayloadEntry</p>
+      
+      <pre class="idl"><span class="idlDictionary" id="idl-def-MetadataTOCPayloadEntry">dictionary <span class="idlDictionaryID">MetadataTOCPayloadEntry</span> {
+<span class="idlMember">    <span class="idlMemberType">required AAID</span>           <span class="idlMemberName"><a href="#widl-MetadataTOCPayloadEntry-aaid">aaid</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>      <span class="idlMemberName"><a href="#widl-MetadataTOCPayloadEntry-hash">hash</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>      <span class="idlMemberName"><a href="#widl-MetadataTOCPayloadEntry-url">url</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required StatusReport[]</span> <span class="idlMemberName"><a href="#widl-MetadataTOCPayloadEntry-statusReports">statusReports</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>      <span class="idlMemberName"><a href="#widl-MetadataTOCPayloadEntry-timeOfLastStatusChange">timeOfLastStatusChange</a></span>;</span>
+};</span></pre><section id="dictionary-metadatatocpayloadentry-members"><h5 aria-level="4" role="heading" id="h5_dictionary-metadatatocpayloadentry-members"><span class="secno">3.1.1.1 </span>Dictionary <a class="idlType" href="#idl-def-MetadataTOCPayloadEntry"><code>MetadataTOCPayloadEntry</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-MetadataTOCPayloadEntry-aaid"><code>aaid</code> of type <span class="idlMemberType">required AAID</span></dt><dd>The AAID of the authenticator this metadata TOC payload entry relates to.
+	See [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>] for the definition of the AAID structure.</dd><dt id="widl-MetadataTOCPayloadEntry-hash"><code>hash</code> of type <span class="idlMemberType">required DOMString</span></dt><dd><code>base64url(string[1..512])</code>
+	  <p>The hash value computed over the Base64url encoding of the UTF-8 
+	    representation of the JSON encoded metadata statement 
+	    available at <code>url</code> and as defined in [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>]. 
+	    The hash algorithm related to the signature 
+	    algorithm specified in the JWTHeader (see <a href="#metadata-toc">Metadata TOC</a>) 
+	    <em class="rfc2119" title="MUST">MUST</em> be used. 
+	  </p>
+	  <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_7"><span>Note</span></div><p class="">This method of base64url-encoding the UTF-8 representation is also used 
+	    by JWT [<cite><a class="bibref" href="#bib-JWT">JWT</a></cite>] to avoid encoding ambiguities.  
+	  </p></div>
+	</dd><dt id="widl-MetadataTOCPayloadEntry-url"><code>url</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>Uniform resource locator (URL) of the encoded metadata
+	  statement for this authenticator model (identified by its
+	  AAID).  This URL <em class="rfc2119" title="MUST">MUST</em> point to the base64url encoding of the
+	  UTF-8 representation of the JSON encoded Metadata Statement
+	  as defined in [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>].<p><code>encodedMetadataStatement = Base64url(utf8(JSONMetadataStatement))</code></p>
+	  <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_8"><span>Note</span></div><p class="">This method of the base64url encoding 
+	  the UTF-8 representation is also used by JWT [<cite><a class="bibref" href="#bib-JWT">JWT</a></cite>] to avoid encoding ambiguities.</p></div>
+	</dd><dt id="widl-MetadataTOCPayloadEntry-statusReports"><code>statusReports</code> of type array of <span class="idlMemberType">required StatusReport</span></dt><dd>An array of status reports applicable to this authenticator.</dd><dt id="widl-MetadataTOCPayloadEntry-timeOfLastStatusChange"><code>timeOfLastStatusChange</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>ISO-8601 formatted date since when the status report array was set to the current value.</dd></dl></section>
+
+      <div class="example"><div class="example-title"><span>Example 1</span>: UAF Metadata TOC Payload</div><pre class="example">{ "no": 1234, "next-update": "2014-03-31",
+  "entries": [
+   { "aaid": "1234#5678", 
+     "hash": "90da8da6de23248abb34da0d4861f4b30a793e198a8d5baa7f98f260db71acd4", 
+     "url": "https://fidoalliance.org/metadata/1234%x23abcd", 
+     "statusReports": [
+                        { status: "FIDO_CERTIFIED", effectiveDate: "2014-01-04"}
+                    ],
+     "timeOfLastStatusChange": "2014-01-04"
+     },
+   { "aaid": "9876#4321", 
+     "hash": "785d16df640fd7b50ed174cb5645cc0f1e72b7f19cf22959052dd20b9541c64d",
+     "url": "https://authnr-vendor-a.com/metadata/9876%x234321",
+     "statusReports": [ 
+                        { status: "FIDO_CERTIFIED", effectiveDate: "2014-01-07"},
+                        { status: "UPDATE_AVAILABLE", effectiveDate: "2014-03-08", 
+                          url: "https://example.com/update1234" }
+                    ],
+     "timeOfLastStatusChange": "2014-02-19"
+     }
+  ]
+}</pre></div>
+
+      <div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_9"><span>Note</span></div><div class="">
+	<p>The character <code>#</code> is a reserved character and not allowed in URLs [<cite><a class="bibref" href="#bib-RFC3986">RFC3986</a></cite>].  
+	  As a consequence it has been replaced by its hex value <code>%x23</code>.</p>
+	
+	<p>
+	  The authenticator vendors can decide to let the metadata service publish its 
+	  metadata statements or to publish metadata statements themselves. 
+	  Authenticator vendors can restrict access to the metadata statements they publish themselves.  
+	</p>
+      </div></div>
+
+     </section>
+     
+     <section id="statusreport-dictionary">
+       <h4 aria-level="3" role="heading" id="h4_statusreport-dictionary"><span class="secno">3.1.2 </span>StatusReport dictionary</h4>
+       <div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_10"><span>Note</span></div><div class="">
+	 <p>Contains an <code>AuthenticatorStatus</code> and additional data associated with it, if any.</p>
+	 <p>New <code>StatusReport</code> entries will be added to report known issues present in firmware updates.</p>
+       </div></div>
+       <p>The latest <code>StatusReport</code> entry <em class="rfc2119" title="MUST">MUST</em> reflect the "current" status. For example, if the latest entry has status
+	 <code>USER_VERIFICATION_BYPASS</code>, then it is recommended assuming an increased risk associated with 
+	 all authenticators of this AAID; if the latest entry has status <code>UPDATE_AVAILABLE</code>, then 
+	 the update is intended to address at least all previous 
+	 issues <i>reported</i> in this StatusReport dictionary.      
+       </p>
+       
+       <pre class="idl"><span class="idlDictionary" id="idl-def-StatusReport">dictionary <span class="idlDictionaryID">StatusReport</span> {
+<span class="idlMember">    <span class="idlMemberType">required AuthenticatorStatus</span> <span class="idlMemberName"><a href="#widl-StatusReport-status">status</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DOMString</span>                    <span class="idlMemberName"><a href="#widl-StatusReport-effectiveDate">effectiveDate</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DOMString</span>                    <span class="idlMemberName"><a href="#widl-StatusReport-certificate">certificate</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DOMString</span>                    <span class="idlMemberName"><a href="#widl-StatusReport-url">url</a></span>;</span>
+};</span></pre><section id="dictionary-statusreport-members"><h5 aria-level="4" role="heading" id="h5_dictionary-statusreport-members"><span class="secno">3.1.2.1 </span>Dictionary <a class="idlType" href="#idl-def-StatusReport"><code>StatusReport</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-StatusReport-status"><code>status</code> of type <span class="idlMemberType">required AuthenticatorStatus</span></dt><dd>Status of the authenticator.  Additional fields <em class="rfc2119" title="MAY">MAY</em> be set depending on this value.</dd><dt id="widl-StatusReport-effectiveDate"><code>effectiveDate</code> of type <span class="idlMemberType">DOMString</span></dt><dd>ISO-8601 formatted date since when the status code was set,
+	   if applicable.  If no date is given, the status is assumed to be effective while present.
+	 </dd><dt id="widl-StatusReport-certificate"><code>certificate</code> of type <span class="idlMemberType">DOMString</span></dt><dd>Base64-encoded [<cite><a class="bibref" href="#bib-RFC4648">RFC4648</a></cite>] (not base64url!) DER [<cite><a class="bibref" href="#bib-ITU-X690-2008">ITU-X690-2008</a></cite>] PKIX certificate value
+	   related to the current status, if applicable.  
+	   <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_11"><span>Note</span></div><p class="">As an example, this could be an Attestation Root Certificate (see [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>]) related to a 
+	     set of compromised authenticators (ATTESTATION_KEY_COMPROMISE).</p></div>
+	 </dd><dt id="widl-StatusReport-url"><code>url</code> of type <span class="idlMemberType">DOMString</span></dt><dd>HTTPS URL where additional information may be found related
+	   to the current status, if applicable.
+	   <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_12"><span>Note</span></div><p class="">For example a link to a web page describing an available firmware update in the case of status 
+	     <code>UPDATE_AVAILABLE</code>, or a link to a description of an identified issue in the case of 
+	     status <code>USER_VERIFICATION_BYPASS</code>.
+	   </p></div>
+	 </dd></dl></section>  
+     </section>
+ 
+     <section id="authenticatorstatus-enum">
+       <h4 aria-level="3" role="heading" id="h4_authenticatorstatus-enum"><span class="secno">3.1.3 </span>AuthenticatorStatus enum</h4>
+       <p>This enumeration describes the status of an authenticator model as identified by its
+	 AAID and potentially some additional information (such as a specific attestation key).
+	 
+	 </p><pre class="idl"><span class="idlEnum" id="idl-def-AuthenticatorStatus">enum <span class="idlEnumID">AuthenticatorStatus</span> {
+    "<a href="#idl-def-AuthenticatorStatus.xFIDO_CERTIFIED" class="idlEnumItem">FIDO_CERTIFIED</a>",
+    "<a href="#idl-def-AuthenticatorStatus.xNOT_FIDO_CERTIFIED" class="idlEnumItem">NOT_FIDO_CERTIFIED</a>",
+    "<a href="#idl-def-AuthenticatorStatus.xUSER_VERIFICATION_BYPASS" class="idlEnumItem">USER_VERIFICATION_BYPASS</a>",
+    "<a href="#idl-def-AuthenticatorStatus.xATTESTATION_KEY_COMPROMISE" class="idlEnumItem">ATTESTATION_KEY_COMPROMISE</a>",
+    "<a href="#idl-def-AuthenticatorStatus.xUSER_KEY_REMOTE_COMPROMISE" class="idlEnumItem">USER_KEY_REMOTE_COMPROMISE</a>",
+    "<a href="#idl-def-AuthenticatorStatus.xUSER_KEY_PHYSICAL_COMPROMISE" class="idlEnumItem">USER_KEY_PHYSICAL_COMPROMISE</a>",
+    "<a href="#idl-def-AuthenticatorStatus.xUPDATE_AVAILABLE" class="idlEnumItem">UPDATE_AVAILABLE</a>",
+    "<a href="#idl-def-AuthenticatorStatus.xREVOKED" class="idlEnumItem">REVOKED</a>"
+};</span></pre><table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr><tr><td><code id="idl-def-AuthenticatorStatus.xFIDO_CERTIFIED">FIDO_CERTIFIED</code></td><td>This authenticator is FIDO certified.</td></tr><tr><td><code id="idl-def-AuthenticatorStatus.xNOT_FIDO_CERTIFIED">NOT_FIDO_CERTIFIED</code></td><td>This authenticator is not FIDO certified.</td></tr><tr><td><code id="idl-def-AuthenticatorStatus.xUSER_VERIFICATION_BYPASS">USER_VERIFICATION_BYPASS</code></td><td>Indicates that malware is able to bypass the user verification.  
+	     This means that the authenticator could be
+	     used without user's consent and potentially even without user's knowledge.</td></tr><tr><td><code id="idl-def-AuthenticatorStatus.xATTESTATION_KEY_COMPROMISE">ATTESTATION_KEY_COMPROMISE</code></td><td>Indicates that an attestation key for this authenticator is
+             known to be compromised.  Additional data should be
+             supplied, including the key identifier and the date of
+             compromise, if known.</td></tr><tr><td><code id="idl-def-AuthenticatorStatus.xUSER_KEY_REMOTE_COMPROMISE">USER_KEY_REMOTE_COMPROMISE</code></td><td>This authenticator has identified weaknesses that allow
+             registered keys to be compromised and should not be trusted.
+             This would include both, e.g. weak entropy that causes
+             predictable keys to be generated or side channels that allow
+             keys or signatures to be forged, guessed or extracted.
+           </td></tr><tr><td><code id="idl-def-AuthenticatorStatus.xUSER_KEY_PHYSICAL_COMPROMISE">USER_KEY_PHYSICAL_COMPROMISE</code></td><td>This authenticator has known weaknesses in its key protection
+             mechanism(s) that allow user keys to be extracted by an
+             adversary in physical possession of the device.
+           </td></tr><tr><td><code id="idl-def-AuthenticatorStatus.xUPDATE_AVAILABLE">UPDATE_AVAILABLE</code></td><td>A software or firmware update is available for the device.
+             Additional data should be supplied including a URL where
+             users can obtain an update and
+             the date the update was published.
+	     <p>When this code is used, then the field 
+	       <code>authenticatorVersion</code> in the metadata Statement [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>] <em class="rfc2119" title="MUST">MUST</em> be updated, 
+	       if the update fixes severe security issues, e.g. the ones
+	       reported by preceding StatusReport entries with status code <code>USER_VERIFICATION_BYPASS</code>,
+	       <code>ATTESTATION_KEY_COMPROMISE</code>, <code>USER_KEY_REMOTE_COMPROMISE</code>,
+	       <code>USER_KEY_PHYSICAL_COMPROMISE</code>, <code>REVOKED</code>.</p>
+	     <div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_13"><span>Note</span></div><p class="">Relying parties might want to inform users about available firmware updates.</p></div>
+	   </td></tr><tr><td><code id="idl-def-AuthenticatorStatus.xREVOKED">REVOKED</code></td><td>The <abbr title="FIDO Alliance">FIDO Alliance</abbr> has determined that this authenticator
+             should not be trusted for any reason, for example
+             if it is known to be a fraudulent product or contain
+             a deliberate backdoor.</td></tr></tbody></table>
+     </section>
+     
+     <section id="metadata-toc-payload-dictionary"> 
+       <h4 aria-level="3" role="heading" id="h4_metadata-toc-payload-dictionary"><span class="secno">3.1.4 </span>Metadata TOC Payload Dictionary</h4>
+       
+       <p>Represents the MetadataTOCPayload</p>
+       
+       <pre class="idl"><span class="idlDictionary" id="idl-def-MetadataTOCPayload">dictionary <span class="idlDictionaryID">MetadataTOCPayload</span> {
+<span class="idlMember">    <span class="idlMemberType">required Number</span>                    <span class="idlMemberName"><a href="#widl-MetadataTOCPayload-no">no</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>                 <span class="idlMemberName"><a href="#widl-MetadataTOCPayload-nextUpdate">nextUpdate</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required MetadataTOCPayloadEntry[]</span> <span class="idlMemberName"><a href="#widl-MetadataTOCPayload-entries">entries</a></span>;</span>
+};</span></pre><section id="dictionary-metadatatocpayload-members"><h5 aria-level="4" role="heading" id="h5_dictionary-metadatatocpayload-members"><span class="secno">3.1.4.1 </span>Dictionary <a class="idlType" href="#idl-def-MetadataTOCPayload"><code>MetadataTOCPayload</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-MetadataTOCPayload-no"><code>no</code> of type <span class="idlMemberType">required Number</span></dt><dd>The serial number of this UAF Metadata TOC Payload.  Serial numbers <em class="rfc2119" title="MUST">MUST</em> be consecutive 
+	   and stricly monotonical, i.e. the successor TOC will have a <code>no</code> value
+	   exactly incremented by one.</dd><dt id="widl-MetadataTOCPayload-nextUpdate"><code>nextUpdate</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>ISO-8601 formatted date when the next update will be provided at latest.</dd><dt id="widl-MetadataTOCPayload-entries"><code>entries</code> of type array of <span class="idlMemberType">required MetadataTOCPayloadEntry</span></dt><dd>List of zero or more MetadataTOCPayloadEntry objects.
+	 </dd></dl></section>
+       
+     </section>
+
+     <section id="metadata-toc"> 
+       <h4 aria-level="3" role="heading" id="h4_metadata-toc"><span class="secno">3.1.5 </span>Metadata TOC</h4>
+       
+       <p>The metadata table of contents (TOC) is a JSON Web Token (see [<cite><a class="bibref" href="#bib-JWT">JWT</a></cite>] and [<cite><a class="bibref" href="#bib-JWS">JWS</a></cite>]).</p>
+       <p>It consists of three elements:</p>
+       <ul>
+	 <li>The base64url encoding, without padding, of the UTF-8 encoded JWT Header (see example below),</li>
+	 <li>the base64url encoding, without padding, of the UTF-8 encoded UAF Metadata TOC Payload (
+	   see example at the beginning of section <a href="#metadata-toc-format">Metadata TOC Format</a>), </li>
+	 <li>and the base64url-encoded, also without padding, JWS
+	   Signature [<cite><a class="bibref" href="#bib-JWS">JWS</a></cite>] computed over the to-be-signed payload,
+	   i.e.<p><code>tbsPayload = EncodedJWTHeader | "." | EncodedMetadataTOCPayload</code>
+	 </p></li>
+       </ul>
+       
+       <p>All three elements of the TOC are concatenated by a period ("."):</p>
+       <p><code>MetadataTOC = EncodedJWTHeader | "." | EncodedMetadataTOCPayload | "." | EncodedJWSSignature</code></p>
+       
+       <p>The hash algorithm related to the signing algorithm specified in the JWT Header (e.g. SHA256 in the 
+	 case of "ES256") <em class="rfc2119" title="MUST">MUST</em> also be used to compute the hash of the metadata statements 
+	 (see section <a href="#metadata-toc-payload-entry-dictionary">Metadata TOC Payload Entry Dictionary</a>).
+       </p>
+       
+       <section class="informative" id="examples">
+	 <h5 aria-level="4" role="heading" id="h5_examples"><span class="secno">3.1.5.1 </span>Examples</h5><p><em>This section is non-normative.</em></p>
+	 <div class="example"><div class="example-title"><span>Example 2</span>: Encoded Metadata Statement</div><pre class="example">eyAiQUFJRCI6ICIxMjM0IzU2NzgiLA0KICAiQXR0ZXN0YXRpb25Sb290Q2VydGlmaWNhdGUiOiAi
+TUlJQ1BUQ0NBZU9nQXdJQkFnSUpBT3VleHZVM095MndNQW9HQ0NxR1NNNDlCQU1DTUhzeElEQWVC
+Z05WQkFNTQ0KRjFOaGJYQnNaU0JCZEhSbGMzUmhkR2x2YmlCU2IyOTBNUll3RkFZRFZRUUtEQTFH
+U1VSUElFRnNiR2xoYm1ObA0KTVJFd0R3WURWUVFMREFoVlFVWWdWRmRITERFU01CQUdBMVVFQnd3
+SlVHRnNieUJCYkhSdk1Rc3dDUVlEVlFRSQ0KREFKRFFURUxNQWtHQTFVRUJoTUNWVk13SGhjTk1U
+UXdOakU0TVRNek16TXlXaGNOTkRFeE1UQXpNVE16TXpNeQ0KV2pCN01TQXdIZ1lEVlFRRERCZFRZ
+VzF3YkdVZ1FYUjBaWE4wWVhScGIyNGdVbTl2ZERFV01CUUdBMVVFQ2d3Tg0KUmtsRVR5QkJiR3hw
+WVc1alpURVJNQThHQTFVRUN3d0lWVUZHSUZSWFJ5d3hFakFRQmdOVkJBY01DVkJoYkc4Zw0KUVd4
+MGJ6RUxNQWtHQTFVRUNBd0NRMEV4Q3pBSkJnTlZCQVlUQWxWVE1Ga3dFd1lIS29aSXpqMENBUVlJ
+S29aSQ0KemowREFRY0RRZ0FFSDhodjJEMEhYYTU5L0JtcFE3UlplaEwvRk1HekZkMVFCZzl2QVVw
+T1ozYWpudVE5NFBSNw0KYU16SDMzblVTQnI4ZkhZRHJxT0JiNThweEdxSEpSeVgvNk5RTUU0d0hR
+WURWUjBPQkJZRUZQb0hBM0NMaHhGYg0KQzBJdDd6RTR3OGhrNUVKL01COEdBMVVkSXdRWU1CYUFG
+UG9IQTNDTGh4RmJDMEl0N3pFNHc4aGs1RUovTUF3Rw0KQTFVZEV3UUZNQU1CQWY4d0NnWUlLb1pJ
+emowRUF3SURTQUF3UlFJaEFKMDZRU1h0OWloSWJFS1lLSWpzUGtyaQ0KVmRMSWd0ZnNiRFN1N0Vy
+SmZ6cjRBaUJxb1lDWmYwK3pJNTVhUWVBSGpJekE5WG02M3JydUF4Qlo5cHM5ejJYTg0KbFE9PSIs
+DQogICJEZXNjcmlwdGlvbiI6ICJGSURPIEFsbGlhbmNlIFNhbXBsZSBVQUYgQXV0aGVudGljYXRv
+ciIsDQogICJVc2VyVmVyaWZpY2F0aW9uTWV0aG9kcyI6IDIsDQogICJWYWxpZEF0dGFjaG1lbnRU
+eXBlcyI6IDEsDQogICJLZXlQcm90ZWN0aW9uIjogNiwNCiAgIk1hdGNoZXJQcm90ZWN0aW9uIjog
+MiwNCiAgIlNlY3VyZURpc3BsYXkiOiA0LA0KICAiU2VjdXJlRGlzcGxheUNvbnRlbnRUeXBlcyI6
+IFsiaW1hZ2UvcG5nIl0sDQogICJTZWN1cmVEaXNwbGF5UE5HQ2hhcmFjdGVyaXN0aWNzIjogW1sw
+LDAsMSw2NCwwLDAsMSwyMjQsMTYsMiwwLDAsMF1dLA0KICAiaXNTZWNvbmRGYWN0b3JPbmx5Ijog
+ImZhbHNlIiwNCiAgIkljb24iOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFB
+QU5TVWhFVWdBQUFFOEFBQUF2Q0FZQUFBQ2l3SmZjQUFBQUFYTlNSMElBcnM0YzZRQUFBQVJuUVUx
+QkFBQ3gNCmp3djhZUVVBQUFBSmNFaFpjd0FBRHNNQUFBN0RBY2R2cUdRQUFBYWhTVVJCVkdoRDda
+cjVieFJsR01mOUt6VEI4QU0vWUVoRTJXN3ANClFaY1dLS0JjbFNwSEFUbEVMQVJFN2tORUNDQTNG
+a1dLMENLS1NDRklzS0JjZ1ZDRFdHTkVTZEFZaWR3Z2dnSkJpUmlNaEZjLzR3eTgNCjg4NHp1OU5k
+bG5HVGZaSlAybjNuTysrODg5MzNmdmVCQngrUHFDekprVFV2QmJMbXBVRFd2QlRJbXBjQ1NadlhM
+Q2RYOVIwNVNrMTkNCmJiNWF0ZjU5OWZHKy9lckE1NDFxNDdhUDFMTFZhOVNJeVZOVWk4SWk4ZDVr
+R1RzaTMwTkZ2N2FpOW43UVpQTXdiZHlzMmVyVTJYTXENClVkeTgrWmNhTm1HaW1FOHlYTjNSVWQz
+YTE4bkYwZlVsb3ZaKzBDVHpXcGQyVmorZU9tMWJFeXk2RHg0aTVwVU1HV3ZlbzUwNnEyMjcNCmR0
+dVdCSXVmZnI2b1dwVjBGUE5MaG93MTc1MU5tMjFMdlBIM3JWdFdqZno2NkxmcWw4dFg3RlJsOVlG
+U1hzbVNzZWI5Y2VPR2JZazcNCk1OVWNHUGc4WnNiTWU5cmZRVWFhVi9KTVg5c3FkekRDU3ZwMGta
+SG1UWmc5eDdiTEhjTW5UaGIxNmVKK21WZlFxOHlhVVpRTkc2NGkNClhaKzAva3E2dU9aRk8wUXRh
+dGRXS2ZYblJROTlCajkxUjVPSUZuazU0ak4wbWtVaXFsTzNYRFcrTWwrOThtS0I2dFc3cldwWmNQ
+YysNCjB6ZzR0THJZbFVjODZFNmVHRGpJTXViVnBjdXNlYXJmZ0lZR1JrNmJyaFpWci9KY0h6b29M
+NzU1MGplZExFeG9wV2NBcGkyWlVxaHUNCjdKTHZyVnNRVTgxemt6T1BlZW1NUll2VnVRc1g3UGJp
+RFFZNUp2Wm9uZnRLKzFWWThIOXV0eDUzMGgwb2Iram1SWXFqNm91YVl2RWUNCm5XL1dsWWpwOGN3
+Yk1tNjgydFB3cVcxUjR0ai8yU0gxM0lSSllsNG1vWnZYcGlTcURyN2RYdFFIeGEvUEszLytCV3NL
+MWRUZ0h1NlYNCjh0UUozYndGa3dwRnJVT1E1MHMxcjNsZXZtOHpaY3ExNytCQmF3N0s4bEVLNXF6
+a1llYXJrOUE4cDdQM0d6REsrbmQzRFFvdys2VUMNCjhTVk44Mml1djM4aW03TnRhWHRWMUNWcTZS
+Z3c0cGtzbWJkaTNidTJEZTdZZmFCQnhjcWZ2cVByVWpGUU5UUTIybGZkVVZWVDY4clQNCkpLRjVE
+blNtVWpnZHFnNG1TUzlwbXNmREpSM0c2VG9IMGlXOWFWN0xXTEhZWEtsbFREdDBMVEF0a1lJYWFt
+cDFRalZ2Kyt1eUdVeFYNCmRKMEROVlhTbStiMXFSeHBsODRkZGZYMUxwMU8vZDY5dHNvZDB2czVo
+R3JlOXh1OG8rZnBMUjFjR2hOVEQ2WjU3QzlLTVdYZWZKZE8NClo5NGJiOW9xZDFST25TN3FJVFR6
+SGltTXFpdmJPM2cwRGRWeWszV1FCaEJ6dEszNVlLTmRPbmM4TzNhY1M2ZkRaRmdLYVhMc0VKcDUN
+CnJkcmxpQnFwODljSmNzL203VHZzMHJrakdmTjRiMGtQb1puM1VKdUlPcm5aMjJ5UDFmbXZVeCtP
+NWdTcWViVjFtK3pTdVlOVmhxN1QNCldiRGlMVnZsanBsTGxvcDZDTFhQKzJxdHZHTElMLzF2aW1J
+U2RNQmd6U29GWnl1NlRxZCtqenhnc1BhVjlCQ3FlZS9OallrNnY2bEsNCjljd2lVYy9TVHRmMUhE
+cE0zYjU5Mnk3aDNUaHg1b3pLNjlITHBZV3VBd2FxUzVjdjI2cTdjZWI4ZWZWWWFSZVAzaUZVOHpq
+MWtuU3cNClpYSE1tbkNqWTBPZ2FsbzdVUWZTQ00zcVFRcjJIL1hGUDdzc1h4NDVZbDkxQnllQ2Vw
+NG1vWm9IKzFmRzN4RDR0VDd4OGt3eWo4bncNCmI5ZXYyNlYwQjZkKzdINHpLdnVkQUg1MzdGanF5
+ek9IZEpuSEV1em1YcS9XanhPYnZOTWJ2N25oeXdzWDJhVnNXdEM4KzQ4YUxlYXANCkU3cDV3S1pp
+MEEyQVFSVjVudlI0RSt1SmMrYjYxa0FwcUlueEJnbWQvNFY1UVAvbXQxOEhEQzdzUkhmdG1ldTVs
+bWhWMHJuL0FMWDINCjMyYnFkNEJGbkR4N1ZpMWNXUzJ1ZmYwSWJCNDdxZXh4bVVqOVF1dFlqdXBk
+M3RZRDZhYldCQk1yaCthcE5iT0tyTkYxK3VnQ2E0cmkNClhHZndNUFB0VmlhdmhVM1lNT0FBbnVV
+Yi9SMDdMMHlPU2VPYWRFODhBcHNYRkdmZjMweW5obEpnTTUxQ1U2dk45RXpnbnB2SEJGVXkNCmlW
+cmFlUGl3SjUzREY1WlRabm9tRU5nODVrTlVkMm9KaTJXcHI0T21ta2ZONHg0ekhmaVZGYzhEdjhO
+enVoTnFPaWRpbEd2QTZER3UNCmVad083OEFBUW42Y2lFazYrcnc1VmN2anZxTkRZUE9vSVV3YUtT
+aHJ4QXVYTGxrSDRhWXVHZk1ZRGMxMFdGNVRhMzFoUEpPZmNVaHINClUvSmxJTmk2YzZlbFJZZEJw
+bzYrK1lmang2MWxHTmZSbTRNRDVySjFqM0ZvR0huakRTQk5hcllVZ01MeU1zektwYjd0WHBvSGZQ
+czgNCmgzV3AxTHpOZk5rNTRYeEMxd0RHVW1ZelhZZWZoNnovY0t0Vm00RUJ4YTlWUUdEellyM0xy
+VU1SakhFS2trN3phRktZUUEyaEdRVTENCnorODVORldwWERya3ozdngxMEdxeFE2QnplTmJvQms1
+bjhrNG5lYlJoK2sxaFdmeFRGMEQxRXlXVXM1bnYrZGdRcUtheHp1Q2RFMGkNCnNIbDAyTlE4YWgw
+bVhyMTJMYTNtMGY5d2lrOSt3TE5UTVkvODZNUG84eWkzMU9meG1UNlBXb3FHOStEWnVrWW5hNTZt
+U1p0NVdXU3kNCjVxVkExcndVeUpxWEFsbnpraWFpL2dIU0Q3UmtUeWlob2dBQUFBQkpSVTVFcmtK
+Z2dnPT0iLA0KICAiQXNzZXJ0aW9uU2NoZW1lIjogIlVBRlYxVExWIiwNCiAgIkF1dGhlbnRpY2F0
+aW9uQWxnb3JpdGhtIjogMSwNCiAgIkF0dGVzdGF0aW9uVHlwZXMiOiBbMTYzOTFdLA0KICAiVVBW
+IjogW1sxLDBdXQ0KfQ0K</pre></div>
+
+	 <div class="example"><div class="example-title"><span>Example 3</span>: JWT Header</div><pre class="example">{"typ":"JWT",
+ "alg":"ES256"
+ "x5t#S256":"7231962210d2933ec993a77b4a7203898ab74cdf974ff02d2de3f1ec7cb9de68"}</pre></div>
+
+	 <p>In order to produce the tbsPayload, we first need the base64url-encoded (without padding) JWT Header:</p>
+	 
+	 <div class="example"><div class="example-title"><span>Example 4</span>: Encoded JWT Header</div><pre class="example">eyJ0eXAiOiJKV1QiLAogImFsZyI6IkVTMjU2IiwKICJ4NXQjUzI1NiI6IjcyMzE5NjIyMTBkMjkz
+M2VjOTkzYTc3YjRhNzIwMzg5OGFiNzRjZGY5NzRmZjAyZDJkZTNmMWVjN2NiOWRlNjgifQ</pre></div>
+
+	 <p>then we have to append a period (".") and the base64url encoding of the <code>EncodedMetadataTOCPayload</code> 
+	   (taken from the example in section <a href="#metadata-toc-format">Metadata TOC Format</a>):</p>
+
+	 <div class="example"><div class="example-title"><span>Example 5</span>: tbsPayload</div><pre class="example">eyJ0eXAiOiJKV1QiLAogImFsZyI6IkVTMjU2IiwKICJ4NXQjUzI1NiI6IjcyMzE5NjIyMTBkMjkz
+M2VjOTkzYTc3YjRhNzIwMzg5OGFiNzRjZGY5NzRmZjAyZDJkZTNmMWVjN2NiOWRlNjgifQ.
+eyAibm8iOiAxMjM0LCAibmV4dC11cGRhdGUiOiAiMzEtMDMtMjAxNCIsDQogICJlbnRyaWVzIjog
+Ww0KICAgeyAiYWFpZCI6ICIxMjM0IzU2NzgiLCANCiAgICAgImhhc2giOiAiOTBkYThkYTZkZTIz
+MjQ4YWJiMzRkYTBkNDg2MWY0YjMwYTc5M2UxOThhOGQ1YmFhN2Y5OGYyNjBkYjcxYWNkNCIsIA0K
+ICAgICAidXJsIjogImh0dHBzOi8vZmlkb2FsbGlhbmNlLm9yZy9tZXRhZGF0YS8xMjM0JXgyM2Fi
+Y2QiLCANCiAgICAgInN0YXR1cyI6ICJmaWRvQ2VydGlmaWVkIg0KICAgICAidGltZU9mTGFzdFN0
+YXR1c0NoYW5nZSI6ICIiLA0KICAgICAiY2VydGlmaWNhdGlvbkRhdGUiOiAiMjAxNC0wMS0wNCIg
+fSwNCiAgIHsgImFhaWQiOiAiOTg3NiM0MzIxIiwgDQogICAgICJoYXNoIjogIjc4NWQxNmRmNjQw
+ZmQ3YjUwZWQxNzRjYjU2NDVjYzBmMWU3MmI3ZjE5Y2YyMjk1OTA1MmRkMjBiOTU0MWM2NGQiLA0K
+ICAgICAidXJsIjogImh0dHBzOi8vYXV0aG5yLXZlbmRvci1hLmNvbS9tZXRhZGF0YS85ODc2JXgy
+MzQzMjEiLA0KICAgICAic3RhdHVzIjogImZpZG9DZXJ0aWZpZWQiDQogICAgICJ0aW1lT2ZMYXN0
+U3RhdHVzQ2hhbmdlIjogIjIwMTQtMDItMTkiLA0KICAgICAiY2VydGlmaWNhdGlvbkRhdGUiOiAi
+MjAxNC0wMS0wNyIgfQ0KICBdDQp9DQo</pre></div>
+	 
+	 <p>and finally we have to append another period (".") followed by the base64url-encoded signature.</p>
+     
+	 <div class="example"><div class="example-title"><span>Example 6</span>: JWT</div><pre class="example">eyJ0eXAiOiJKV1QiLAogImFsZyI6IkVTMjU2IiwKICJ4NXQjUzI1NiI6IjcyMzE5NjIyMTBkMjkz
+M2VjOTkzYTc3YjRhNzIwMzg5OGFiNzRjZGY5NzRmZjAyZDJkZTNmMWVjN2NiOWRlNjgifQ.
+eyAibm8iOiAxMjM0LCAibmV4dC11cGRhdGUiOiAiMzEtMDMtMjAxNCIsDQogICJlbnRyaWVzIjog
+Ww0KICAgeyAiYWFpZCI6ICIxMjM0IzU2NzgiLCANCiAgICAgImhhc2giOiAiOTBkYThkYTZkZTIz
+MjQ4YWJiMzRkYTBkNDg2MWY0YjMwYTc5M2UxOThhOGQ1YmFhN2Y5OGYyNjBkYjcxYWNkNCIsIA0K
+ICAgICAidXJsIjogImh0dHBzOi8vZmlkb2FsbGlhbmNlLm9yZy9tZXRhZGF0YS8xMjM0JXgyM2Fi
+Y2QiLCANCiAgICAgInN0YXR1cyI6ICJmaWRvQ2VydGlmaWVkIg0KICAgICAidGltZU9mTGFzdFN0
+YXR1c0NoYW5nZSI6ICIiLA0KICAgICAiY2VydGlmaWNhdGlvbkRhdGUiOiAiMjAxNC0wMS0wNCIg
+fSwNCiAgIHsgImFhaWQiOiAiOTg3NiM0MzIxIiwgDQogICAgICJoYXNoIjogIjc4NWQxNmRmNjQw
+ZmQ3YjUwZWQxNzRjYjU2NDVjYzBmMWU3MmI3ZjE5Y2YyMjk1OTA1MmRkMjBiOTU0MWM2NGQiLA0K
+ICAgICAidXJsIjogImh0dHBzOi8vYXV0aG5yLXZlbmRvci1hLmNvbS9tZXRhZGF0YS85ODc2JXgy
+MzQzMjEiLA0KICAgICAic3RhdHVzIjogImZpZG9DZXJ0aWZpZWQiDQogICAgICJ0aW1lT2ZMYXN0
+U3RhdHVzQ2hhbmdlIjogIjIwMTQtMDItMTkiLA0KICAgICAiY2VydGlmaWNhdGlvbkRhdGUiOiAi
+MjAxNC0wMS0wNyIgfQ0KICBdDQp9DQo.
+AP-qoJ3VPzj7L6lCE1UzHzJYQnszFQ8d2hJz51sPASgyABK5VXOFnAHzBTQRRkgwGqULy6PtTyUV
+zKxM0HrvoyZq</pre></div>
+
+	 <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_14"><span>Note</span></div><p class="">The line breaks are for display purposes only.</p></div>
+	 <p>The signature in the example above was computed with the following ECDSA key</p>
+
+	 <div class="example"><div class="example-title"><span>Example 7</span>: ECDSA Key used for signature computation</div><pre class="example">x: d4166ba8843d1731813f46f1af32174b5c2f6013831fb16f12c9c0b18af3a9b4
+y: 861bc2f803a2241f4939bd0d8ecd34e468e42f7fdccd424edb1c3ce7c4dd04e
+d: 3744c426764f331f153e182d24f133190b6393cea480a8eec1c722fce161fe2d</pre></div>
+
+       </section>
+     </section>
+
+     <section id="metadata-toc-object-processing-rules">
+       <h4 aria-level="3" role="heading" id="h4_metadata-toc-object-processing-rules"><span class="secno">3.1.6 </span>Metadata TOC object Processing Rules</h4>
+       <div>
+	 The FIDO Server <em class="rfc2119" title="MUST">MUST</em> follow these processing rules:
+	 <ol>
+	   <li>The FIDO Server <em class="rfc2119" title="MUST">MUST</em> be able to download the latest metadata TOC object from the well-known 
+	     URL, when appropriate.  The <code>nextUpdate</code> field
+	     of the <a href="#metadata-toc-dictionary">Metadata TOC</a> specifies a date when the 
+	     download <em class="rfc2119" title="SHOULD">SHOULD</em> occur at latest.</li>
+	   <li>If the <code>x5u</code> attribute is present in the JWT Header, then:</li>
+	   <ol>
+	     <li>The FIDO Server <em class="rfc2119" title="MUST">MUST</em> verify that the URL specified by the <code>x5u</code> attribute has 
+	       the same web-origin as the URL used to download the metadata TOC from.  
+	       The FIDO Server <em class="rfc2119" title="SHOULD">SHOULD</em> ignore the file if the web-origin differs (in order to 
+	       prevent loading objects from arbitrary sites).</li>
+	     <li>The FIDO Server <em class="rfc2119" title="MUST">MUST</em> download the certificate (chain) from the URL specified 
+	       by the <code>x5u</code> attribute [<cite><a class="bibref" href="#bib-JWS">JWS</a></cite>].  The certificate chain <em class="rfc2119" title="MUST">MUST</em> be 
+	       verified to properly chain to the metadata TOC signing trust anchor according 
+	       to [<cite><a class="bibref" href="#bib-RFC5280">RFC5280</a></cite>].  All certificates in the chain <em class="rfc2119" title="MUST">MUST</em> be checked for revocation according 
+	       to [<cite><a class="bibref" href="#bib-RFC5280">RFC5280</a></cite>].</li>  
+	     <li>The FIDO Server <em class="rfc2119" title="SHOULD">SHOULD</em> ignore the file if the chain cannot be verified or if one 
+	       of the chain certificates is revoked.</li>
+	   </ol>
+	   <li>If the <code>x5u</code> attribute is missing, the Metadata TOC signing trust anchor 
+	     is considered the TOC signing certificate chain.</li>
+	   <li>Verify the signature of the Metadata TOC object using the TOC signing certificate 
+	     chain (as determined by the steps above).  
+	     The FIDO Server <em class="rfc2119" title="SHOULD">SHOULD</em> ignore the file if the signature is invalid.  It <em class="rfc2119" title="SHOULD">SHOULD</em> also 
+	     ignore the file if its number (<code>no</code>) is less or equal to the number of 
+	     the last Metadata TOC object cached locally.</li>
+	   <li>Write the verified object to a local cache as required.</li>
+	   <li>Iterate through the individual entries (of type <code>MetadataTOCPayloadEntry</code>). 
+	     For each entry:</li> 
+	   <ol>
+ 	     <li>Ignore the entry if the AAID is not relevant to the relying party (e.g. 
+	       not acceptable by any policy)</li> 
+ 	     <li>Download the metadata statement from the URL specified by the 
+	       field <code>url</code>.  Some authenticator vendors
+	       might require authentication in order to provide access
+	       to the data.  Conforming FIDO Servers <em class="rfc2119" title="SHOULD">SHOULD</em> support
+	       the HTTP Basic, and HTTP Digest authentication schemes,
+	       as defined in [<cite><a class="bibref" href="#bib-RFC2617">RFC2617</a></cite>].</li> 
+	     <li>Check whether the status report of the authenticator model identified by the 
+	       AAID has changed compared to 
+	       the cached entry by looking 
+	       at the fields <code>timeOfLastStatusChange</code> and <code>statusReport</code>.  
+	       Update the status of the cached entry.  It is up to the relying party
+	       to specify behavior for authenticators with status reports that indicate a 
+	       lack of certification, or known security issues.  
+	       However, the status <code>REVOKED</code> indicates significant security issues 
+	       related to such authenticators.
+	       <div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_15"><span>Note</span></div><p class="">Authenticators with an unacceptable status should be marked accordingly.  
+		 This information is required for
+		 building registration and authentication policies included in the registration 
+		 request and the authentication request [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].</p></div>
+	     </li>
+ 	     <li>Compute the hash value of the (Base64url encoding without padding of the UTF-8 encoded) metadata statement 
+	       downloaded from the URL and verify the hash value to the hash specified
+	       in the field <code>hash</code> of the metadata TOC object.  Ignore the 
+	       downloaded metadata statement if the hash value doesn't match.</li> 
+ 	     <li>Update the cached metadata statement according to the dowloaded one.</li> 
+	   </ol>
+	 </ol>
+	 
+       </div>
+     </section>
+  </section>
+</section>
+
+<section class="informative" id="considerations">
+  <!--OddPage--><h2 aria-level="1" role="heading" id="h2_considerations"><span class="secno">4. </span>Considerations</h2><p><em>This section is non-normative.</em></p>
+  <p>This section describes the key considerations for designing this metadata service.
+  </p><p><b>Need for Authenticator Metadata</b> When defining policies for
+    acceptable authenticators, it is often better to describe the
+    required authenticator characteristics in a generic way than to
+    list individual authenticator AAIDs.  The metadata statements
+    provide such information.  Authenticator Metadata also provides
+    the trust anchor required to verify attestation objects.  </p>
+  <p>The metadata service provides a standardized method to access such metadata statements.</p>
+  <p><b>Integrity and Authenticity</b> Metadata statements include
+    information relevant for the security.  Some business verticals might even
+    have the need to document authenticator policies and trust anchors
+    used for verifying attestation objects for auditing purposes.</p>
+  <p>It is important to have a strong method to verify and proof
+    integrity and authenticity and the freshness of metadata
+    statements.  We are using a single digital signature to protect
+    the integrity and authenticity of the Metadata TOC object and we
+    protect the integrity and authenticity of the individual metadata
+    statements by including cryptographic their hash values into the
+    Metadata TOC object.  This allows for flexible distribution of the
+    metadata statements and the Metadata TOC object using standard
+    content distribution networks.</p>
+  <p><b>Organizational Impact</b> Authenticator vendors can delegate
+    the publication of metadata statements to the metadata service in
+    its entirety.  Even if authenticator vendors choose to publish
+    metadata statements themselves, the effort is very limited as the
+    metadata statement can be published like a normal document on a
+    website.  The <abbr title="FIDO Alliance">FIDO Alliance</abbr> has control over the FIDO
+    certification process and receives the Metadata as part of that
+    process anymway.  With this metadata service, the list of known
+    Authenticators needs to be updated, signed and published
+    regularly.  A single signature needs to be generated in order to
+    protect the integrity and authenticity of the metadata TOC object.</p>
+  <p><b>Performance Impact</b> Metadata TOC objects and metadata statements can be cached by the 
+    FIDO Server.</p>
+  <p> The update policy can be specified by the 
+    relying party. </p>
+  <p>The metadata TOC object includes a date for the next scheduled update.  
+    As a result there is <i>no additional impact</i> to the FIDO Server
+    during FIDO Authentication or FIDO Registration operations.</p>
+  <p>Updating the Metadata TOC object 
+    and metadata statements can be performed asynchronously.  
+    This reduces the availability requirements for the metadata service and the load for the FIDO Server.</p>
+  <p>The metadata TOC object itself is relatively small as it does not contain the individual metadata statements.  
+    So downloading the metadata TOC object does
+    not generate excessive data traffic.</p>
+  <p>Individual metadata statements are expected to change 
+    less frequently than the metadata TOC object.  Only the
+    modified metadata statements need be downloaded by the FIDO Server.</p>
+  <p><b>Non-public Metadata Statements</b> Some authenticator vendors might want to provide access to 
+    metadata statements only to their subscribed customers.</p>
+  <p>
+    They can publish the metadata statements on access protected URLs.  The access URL and 
+    the cryptographic hash of the metadata statement is included
+    in the metadata TOC object.  </p>
+  <p><b>High Security Environments</b> Some high security environments might only trust 
+    internal policy authorities.  FIDO Servers in such environments
+    could be restricted to use metadata TOC objects from a proprietary trusted source only.  
+    The metadata service is the baseline for most relying parties.</p>
+  <p><b>Extended Authenticator Information</b> Some relying parties might want additional information 
+    about authenticators before accepting them.  The 
+    policy configuration is under control of the relying party, so it is possible to 
+    only accept authenticators for which additional data is available
+    and meets the requirements.</p>
+</section>
+
+
+
+
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_references"><span class="secno">A. </span>References</h2><section id="normative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_normative-references"><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography" about=""><dt id="bib-JWS">[JWS]</dt><dd rel="dcterms:requires">M. Jones <a href="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature"><cite>JSON Web Signature (JWS)</cite></a>. Internet-Draft (Work in progress.) URL: <a href="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature">http://tools.ietf.org/html/draft-ietf-jose-json-web-signature</a>
+</dd><dt id="bib-JWT">[JWT]</dt><dd rel="dcterms:requires">M. Jones; J. Bradley; N. Sakimura. <a href="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-01"><cite>JSON Web Token (JWT)</cite></a>. 6 July 2012. Internet Draft. URL: <a href="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-01">http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-01</a>
+</dd><dt id="bib-RFC4648">[RFC4648]</dt><dd rel="dcterms:requires">S. Josefsson, <a href="http://www.ietf.org/rfc/rfc4648.txt"><cite>The Base16, Base32, and Base64 Data Encodings (RFC 4648)</cite></a>, IETF, October 2006, URL: <a href="http://www.ietf.org/rfc/rfc4648.txt">http://www.ietf.org/rfc/rfc4648.txt</a>
+</dd><dt id="bib-RFC5280">[RFC5280]</dt><dd rel="dcterms:requires">D. Cooper, S. Santesson, s. Farrell, S.Boeyen, R. Housley, W. Polk; <a href="http://www.ietf.org/rfc/rfc5280.txt"><cite>Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</cite></a>, IETF, May 2008, URL: <a href="http://www.ietf.org/rfc/rfc5280.txt">http://www.ietf.org/rfc/rfc5280.txt</a>
+</dd><dt id="bib-UAFAuthnrMetadata">[UAFAuthnrMetadata]</dt><dd rel="dcterms:requires">B. Hill, D. Baghdasaryan, J. Kemp, <cite>FIDO UAF Authenticator Metadata Statements v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML:  <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-metadata-v1.0-ps-20141208.html">fido-uaf-authnr-metadata-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-metadata-v1.0-ps-20141208.pdf">fido-uaf-authnr-metadata-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-WebIDL-ED">[WebIDL-ED]</dt><dd rel="dcterms:requires">Cameron McCormack, <a href="http://heycam.github.io/webidl/"><cite>Web IDL</cite></a>, W3C.  Editor's Draft 13 November 2014.  URL: <a href="http://heycam.github.io/webidl/">http://heycam.github.io/webidl/</a>
+</dd></dl></section><section id="informative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_informative-references"><span class="secno">A.2 </span>Informative references</h3><dl class="bibliography" about=""><dt id="bib-FIDOGlossary">[FIDOGlossary]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, B. Hill, J. Hodges, <cite>FIDO Technical Glossary</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.html">fido-glossary-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.pdf">fido-glossary-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-ITU-X690-2008">[ITU-X690-2008]</dt><dd rel="dcterms:references"><a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en"><cite>X.690: Information technology - ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER), (T-REC-X.690-200811)</cite></a>. International Telecommunications Union, November 2008 URL: <a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en">http://www.itu.int/rec/T-REC-X.690-200811-I/en</a>
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd rel="dcterms:references">S. Bradner. <a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+</dd><dt id="bib-RFC2617">[RFC2617]</dt><dd rel="dcterms:references">J. Franks; P. Hallam-Baker; J. Hostetler; S. Lawrence; P. Leach; A. Luotonen; L. Stewart. <a href="https://tools.ietf.org/html/rfc2617"><cite>HTTP Authentication: Basic and Digest Access Authentication</cite></a>. June 1999. Draft Standard. URL: <a href="https://tools.ietf.org/html/rfc2617">https://tools.ietf.org/html/rfc2617</a>
+</dd><dt id="bib-RFC3986">[RFC3986]</dt><dd rel="dcterms:references">T. Berners-Lee; R. Fielding; L. Masinter. <a href="https://tools.ietf.org/html/rfc3986"><cite>Uniform Resource Identifier (URI): Generic Syntax</cite></a>. January 2005. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc3986">https://tools.ietf.org/html/rfc3986</a>
+</dd><dt id="bib-UAFProtocol">[UAFProtocol]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, E. Tiffany, D. Balfanz, B. Hill, J. Hodges, <cite>FIDO UAF Protocol Specification v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.html">fido-uaf-protocol-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.pdf">fido-uaf-protocol-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-WebIDL">[WebIDL]</dt><dd rel="dcterms:references">Cameron McCormack. <a href="http://www.w3.org/TR/WebIDL/"><cite>Web IDL</cite></a>. 19 April 2012. W3C Candidate Recommendation. URL: <a href="http://www.w3.org/TR/WebIDL/">http://www.w3.org/TR/WebIDL/</a>
+</dd></dl></section></section></body></html>

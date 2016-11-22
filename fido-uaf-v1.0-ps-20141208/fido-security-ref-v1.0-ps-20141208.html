@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document w3p:REC" about="" property="dcterms:language" content="en">
+<head>
+  <!--link href="http://www.w3.org/StyleSheets/TR/W3C-ED" rel="stylesheet" type="text/css" charset="utf-8"-->
+  <title>FIDO Security Reference</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <!--
+  === NOTA BENE ===
+  For the three scripts below, if your spec resides on dev.w3 you can check them
+  out in the same tree and use relative links so that they'll work offline,
+  -->
+  
+  
+  
+
+<style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #003a7c;
+}
+
+.simple th {
+    background: #003a7c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><link rel="stylesheet" href="resources/FIDO-PS.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+<body style="" class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    
+      <a href="https://www.fidoalliance.org/"><img width="250" id="toplogo" src="resources/logo.png" alt="FIDO Alliance"></a>
+    
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">FIDO Security Reference</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-12-08T08:00:00.000Z" id="fido-alliance-proposed-standard-08-december-2014"><abbr title="FIDO Alliance">FIDO Alliance</abbr> Proposed Standard <time class="dt-published" datetime="2014-12-08">08 December 2014</time></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-security-ref-v1.0-ps-20141208.html">https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-security-ref-v1.0-ps-20141208.html</a></dd>
+      <!--<dt>Latest published version:</dt>
+      <dd><a href='https://fidoalliance.org/specs/fido-security-ref/'>https://fidoalliance.org/specs/fido-security-ref/</a></dd>
+    
+    -->
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="https://fidoalliance.org/specs/fido-security-ref-v1.0-rd-20141008.pdf">https://fidoalliance.org/specs/fido-security-ref-v1.0-rd-20141008.pdf</a></dd>
+    
+    
+    <dt>Editors:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Rolf Lindemann" href="mailto:rolf@noknok.com">Rolf Lindemann</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Davit Baghdasaryan" href="mailto:davit@noknok.com">Davit Baghdasaryan</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Brad Hill" href="mailto:bhill@paypal.com">Brad Hill</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.paypal.com/">PayPal, Inc.</a></span>
+</dd>
+
+    
+    
+  </dl>
+  
+  
+  
+    <p>
+      The English version of this specification is the only normative version. Non-normative
+      <a href="https://www.fidoalliance.org/specifications/translation/">translations</a> may also be available.
+    </p>
+  
+  
+    
+      <p class="copyright">
+        Copyright ©
+        2013-2014
+        
+        <a href="https://www.fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a>
+        All Rights Reserved.
+      </p>
+    
+  
+  <hr>
+</div>
+
+<!-- only put content here if you want a custom status of document not
+  the specification-maturity-appropriate boilerplate -->
+
+
+<section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2><p>
+This document analyzes the FIDO security. The analysis is performed on the basis of the FIDO
+Universal Authentication Framework (UAF) specification and FIDO Universal 2nd Factor (U2F)
+specifications as of the date of this publication.
+</p></section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="FIDO Alliance">FIDO Alliance</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="https://www.fidoalliance.org/specifications/"><abbr title="FIDO Alliance">FIDO Alliance</abbr> specifications index</a> at
+          https://www.fidoalliance.org/specifications/.</em>
+        </p>
+        
+        <p>
+          This document was published by the <a href="https:/fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a> as a Proposed Standard.
+          
+          
+            If you wish to make comments regarding this document, please 
+            <a href="https://fidoalliance.org/contact">Contact Us</a>.
+          
+          
+          
+          
+            All comments are welcome.
+          
+        </p>
+        
+	
+	
+	
+        
+          <p>
+	    Implementation of certain elements of this Specification may require licenses under third party intellectual 
+	    property rights, including without limitation, patent rights. The <abbr title="FIDO Alliance">FIDO Alliance</abbr>, Inc. and its Members
+            and any other contributors to the Specification are not, and shall not be held, responsible in any manner
+            for identifying or failing to identify any or all such third party intellectual property rights.
+	  </p>
+	  <p>
+	    THIS FIDO ALLIANCE SPECIFICATION IS PROVIDED “AS IS” AND WITHOUT ANY 
+            WARRANTY OF ANY KIND, INCLUDING, WITHOUT LIMITATION, ANY EXPRESS OR IMPLIED
+	    WARRANTY OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A
+	    PARTICULAR PURPOSE.
+          </p>
+        
+        
+          <p>
+            This document has been reviewed by FIDO Aliance Members
+            and is endorsed as a Proposed Standard.
+            It is a stable document and may be used as reference material or cited from another
+            document. <abbr title="FIDO Alliance">FIDO Alliance</abbr>'s role in making the Recommendation is to draw attention to the
+            specification and to promote its widespread deployment.
+          </p>
+        
+        
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#notation" class="tocxref"><span class="secno">1. </span>Notation</a><ul class="toc"><li class="tocline"><a href="#key-words" class="tocxref"><span class="secno">1.1 </span>Key Words</a></li></ul></li><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">2. </span>Introduction</a><ul class="toc"><li class="tocline"><a href="#intended-audience" class="tocxref"><span class="secno">2.1 </span>Intended Audience</a></li></ul></li><li class="tocline"><a href="#attack-classification" class="tocxref"><span class="secno">3. </span>Attack Classification</a></li><li class="tocline"><a href="#uaf-security-goals" class="tocxref"><span class="secno">4. </span>UAF Security Goals</a><ul class="toc"><li class="tocline"><a href="#assets-to-be-protected" class="tocxref"><span class="secno">4.1 </span>Assets to be Protected</a></li></ul></li><li class="tocline"><a href="#fido-security-measures" class="tocxref"><span class="secno">5. </span>FIDO Security Measures</a><ul class="toc"><li class="tocline"><a href="#relation-between-measures-and-goals" class="tocxref"><span class="secno">5.1 </span>Relation between Measures and Goals</a></li></ul></li><li class="tocline"><a href="#uaf-security-assumptions" class="tocxref"><span class="secno">6. </span>UAF Security Assumptions</a><ul class="toc"><li class="tocline"><a href="#discussion" class="tocxref"><span class="secno">6.1 </span>Discussion</a></li></ul></li><li class="tocline"><a href="#threat-analysis" class="tocxref"><span class="secno">7. </span>Threat Analysis</a><ul class="toc"><li class="tocline"><a href="#threats-to-client-side" class="tocxref"><span class="secno">7.1 </span>Threats to Client Side</a><ul class="toc"><li class="tocline"><a href="#exploiting-user-s-pattern-matching-weaknesses" class="tocxref"><span class="secno">7.1.1 </span>Exploiting User’s pattern matching weaknesses</a></li><li class="tocline"><a href="#threats-to-the-user-device-fido-client-and-relying-party-client-applications" class="tocxref"><span class="secno">7.1.2 </span>Threats to the User Device, FIDO Client and Relying Party Client Applications</a></li><li class="tocline"><a href="#creating-a-fake-client" class="tocxref"><span class="secno">7.1.3 </span>Creating a Fake Client</a></li><li class="tocline"><a href="#threats-to-fido-authenticator" class="tocxref"><span class="secno">7.1.4 </span>Threats to FIDO Authenticator</a></li></ul></li><li class="tocline"><a href="#threats-to-relying-party" class="tocxref"><span class="secno">7.2 </span>Threats to Relying Party</a><ul class="toc"><li class="tocline"><a href="#threats-to-fido-server-data" class="tocxref"><span class="secno">7.2.1 </span>Threats to FIDO Server Data</a></li></ul></li><li class="tocline"><a href="#threats-to-the-secure-channel-between-client-and-relying-party" class="tocxref"><span class="secno">7.3 </span>Threats to the Secure Channel between Client and Relying Party</a><ul class="toc"><li class="tocline"><a href="#exploiting-weaknesses-in-the-secure-transport-of-fido-messages" class="tocxref"><span class="secno">7.3.1 </span>Exploiting Weaknesses in the Secure Transport of FIDO Messages</a></li></ul></li><li class="tocline"><a href="#threats-to-the-infrastructure" class="tocxref"><span class="secno">7.4 </span>Threats to the Infrastructure</a><ul class="toc"><li class="tocline"><a href="#threats-to-fido-authenticator-manufacturers" class="tocxref"><span class="secno">7.4.1 </span>Threats to FIDO Authenticator Manufacturers</a></li><li class="tocline"><a href="#threats-to-fido-server-vendors" class="tocxref"><span class="secno">7.4.2 </span>Threats to FIDO Server Vendors</a></li><li class="tocline"><a href="#threats-to-fido-metadata-service-operators" class="tocxref"><span class="secno">7.4.3 </span>Threats to FIDO Metadata Service Operators</a></li></ul></li><li class="tocline"><a href="#threats-specific-to-uaf-with-a-second-factor-u2f" class="tocxref"><span class="secno">7.5 </span>Threats Specific to UAF with a second factor / U2F</a></li></ul></li><li class="tocline"><a href="#acknowledgements" class="tocxref"><span class="secno">8. </span>Acknowledgements</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.1 </span>Informative references</a></li></ul></li></ul></section>
+
+<section id="notation">
+<!--OddPage--><h2 aria-level="1" role="heading" id="h2_notation"><span class="secno">1. </span>Notation</h2>
+
+<p>Type names, attribute names and element names are written as <code>code</code>.
+
+</p><p>String literals are enclosed in “”, e.g. “UAF-TLV”.
+
+</p><p>In formulas we use “|” to denote byte wise concatenation
+operations.
+
+</p><p>UAF specific terminology used in this document is defined in
+[<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>].
+
+ </p><section id="key-words">
+  <h3 aria-level="2" role="heading" id="h3_key-words"><span class="secno">1.1 </span>Key Words</h3> 
+
+  <p>The key words “<em class="rfc2119" title="MUST">MUST</em>”, “<em class="rfc2119" title="MUST NOT">MUST NOT</em>”, “<em class="rfc2119" title="REQUIRED">REQUIRED</em>”, “<em class="rfc2119" title="SHALL">SHALL</em>”, “<em class="rfc2119" title="SHALL
+  NOT">SHALL
+  NOT</em>”, “<em class="rfc2119" title="SHOULD">SHOULD</em>”, “<em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em>”, “<em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em>”, “<em class="rfc2119" title="MAY">MAY</em>”, and
+  “<em class="rfc2119" title="OPTIONAL">OPTIONAL</em>” in this document are to be interpreted as
+  described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].
+ </p></section>
+</section>
+
+<section id="introduction">
+ <!--OddPage--><h2 aria-level="1" role="heading" id="h2_introduction"><span class="secno">2. </span>Introduction</h2>
+ This document analyzes the security properties of the FIDO UAF and U2F families of
+ protocols. Although a brief architectural summary is provided below, readers should familiarize
+ themselves with the the FIDO Glossary of Terms [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>] for definitions
+ of terms used throughout. For technical details of various aspects of the architecture,
+ readers should refer to the <abbr title="FIDO Alliance">FIDO Alliance</abbr> specifications in the Bibliography.
+
+ <figure id="FIDOReferenceArchitecture">	  
+   <img src="./img/fido-security-ref-architecture.png" onerror="./img/fido-security-ref-architecture.png" alt="FIDO Reference Architecture">
+   <figcaption>Fig. <span class="figno">1</span> <span class="fig-title">FIDO Reference Architecture</span></figcaption>
+ </figure>
+      
+
+
+ Conceptually, FIDO involves a conversation between a computing environment controlled
+ by a Relying Party and one controlled by the user to be authenticated.
+ The Relying Party's environment consists conceptually of at least a web server and the
+ server-side portions of a web application, plus a FIDO Server.
+ The FIDO Server has a trust store, containing the (public) trust anchors for the attestation
+ of FIDO Authenticators.
+ The user's environment, referred to as the FIDO user device, consists of one or more
+ FIDO Authenticators, a piece of software called the FIDO Client that is the endpoint for
+ UAF and U2F conversations, and User Agent software. The User Agent software may
+ be a browser hosting a web application delivered by the Relying Party, or it may be a
+ standalone application delivered by the Relying Party. In either case, the FIDO Client,
+ while a conceptually distinct entity, may actually be implemented in whole or part within
+ the boundaries of the User Agent. 
+
+ <section id="intended-audience">
+  <h3 aria-level="2" role="heading" id="h3_intended-audience"><span class="secno">2.1 </span>Intended Audience</h3>
+  This document assumes a technical audience that is proficient with security analysis of
+  computing systems and network protocols as well as the specifics of the FIDO architecture
+  and protocol families. It discusses the security goals, security measures, security
+  assumptions and a series of threats to FIDO systems, including the user's computing
+  environment, the Relying Party's computing environment, and the supply chain, including
+  the vendors of FIDO components.
+ </section>
+</section>
+<section id="attack-classification">
+
+ <!--OddPage--><h2 aria-level="1" role="heading" id="h2_attack-classification"><span class="secno">3. </span>Attack Classification</h2>
+ We want to distinguish the following threat classes (all leading to the impersonation of the user):
+ <ol>
+   <li>Automated attacks focused on relying parties, which affect the user but cannot be prevented by the user</li>
+   <li>Automated attacks which are performed once and lead to the ability to impersonate the user on an on-going basis without involving him or his device directly.</li>
+   <li>Automated attacks which involve the user or his device for each successful impersonation.</li>
+   <li>Automated attacks to sessions authenticated by the user.</li>
+   <li>Not automatable attacks to the user or his device which are performed once and lead to the ability to impersonate the user on an on-going basis without involving him or his device directly.</li>
+   <li>Not automatable attacks to the user or his device which involve the user or his device for each successful impersonation.</li>
+ </ol>
+
+ 
+ <figure id="AttackClasses">	  
+   <img src="./img/fido-security-ref-attack-classes.png" onerror="./img/fido-security-ref-attack-classes.png" alt="Attack Classes">
+   <figcaption>Fig. <span class="figno">2</span> <span class="fig-title">Attack Classes</span></figcaption>
+ </figure>
+
+ The first four attack classes are considered scalable as they are automated (or at least can be automated).
+ The attack classes 5 and 6 are not automatable; they involve some kind of manual/physical interaction of the attacker with the user or his device.
+ We will attribute the threats analyzed in this document with the related attack class (AC1 – AC6).
+   <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_1"><span>Note</span></div><ol class="">
+     <li>FIDO UAF uses asymmetric cryptography to protect against this class of attacks.  This gives control back to the user, i.e. when using good random numbers, the user’s authenticator can make breaking the key as hard as the underlying factoring (in the case of RSA) or discrete logarithm (in the case of DSA or ECDSA) problem.</li>
+     <li>Once counter-measures for this kind of attack are commonly in place, attackers will likely focus on another attack class.</li>
+     <li>The numbers at the attack classes do not imply a feasibility ranking of the related attacks, e.g. it is not necessarily more difficult to perform (4) than it is to perform (3).</li>
+     <li>Feasibility of attack class (1) cannot be influenced by the user at all.  This makes this attack class really bad.</li>
+     <li>The concept of physical security (i.e. “protect your Authenticator from being stolen”), related to attack classes (5) and (6) is much better internalized by users than the concept of logical security, related to attack classes (2), (3) and (4).</li>
+     <li>In order to protect against misuse of authenticated sessions (e.g. MITB attacks), the FIDO Authenticator must support the concept of transaction confirmation and the relying party must use it.</li>
+     <li>For an attacker to succeed, any attack class is sufficient.</li>
+</ol></div>
+
+</section>
+
+<section id="uaf-security-goals">
+ <!--OddPage--><h2 aria-level="1" role="heading" id="h2_uaf-security-goals"><span class="secno">4. </span>UAF Security Goals</h2>
+ In this section the specific security goals of UAF are described.
+ The FIDO UAF protocol [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>] supports a variety of different FIDO Authenticators. Even though the
+ security of those authenticators varies, the UAF protocol and the FIDO Server should
+ provide a very high level of security - at least on a conceptual level. In reality it might require
+ a FIDO Authenticator with a high security level in order to fully leverage the UAF
+ security strength.
+<div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_2"><span>Note</span></div><p class="">In certain environments the overall security of the 
+  explicit authentication (as provided by FIDO) is less important, as it
+  might be supplemented with a high degree of implicit authentication or 
+  the application doesn’t even require a high
+  level of authentication strength.</p></div>
+
+ The FIDO U2F protocol [<cite><a class="bibref" href="#bib-U2FOverview">U2FOverview</a></cite>] supports a more constrained set of Authenticator capabilities. It
+ shares the same security goals as UAF, with the exception of [SG-14] Transaction Non-
+ Repudiation.
+ The UAF protocol has the following security goals:
+ <dl> 
+   <dt>[SG-1]</dt>
+   <dd> Strong User Authentication: Authenticate (i.e. recognize) a user and/or a device
+     to a relying party with high (cryptographic) strength.</dd>
+   <dt>[SG-2]</dt>
+   <dd>   Credential Guessing Resilience: Provide robust protection against eavesdroppers,
+     e.g. <i>be resilient to physical observation, resilient to targeted impersonation, resilient
+     to throttled and unthrottled guessing.</i>
+   </dd>
+   <dt>[SG-3]</dt>
+   <dd>Credential Disclosure Resilience: Be <i>resilient to phishing attacks</i> and real-time
+     phishing attack, including resilience to online attacks by adversaries able to actively manipulate
+     network traffic.
+   </dd>
+   <dt>[SG-4]</dt>
+   <dd>Unlinkablity: Protect the protocol conversation such that any two relying parties
+     cannot link the conversation to one user (i.e. be <i>unlinkable</i>).
+   </dd>
+   <dt>[SG-5]</dt>
+   <dd> Verifier Leak Resilience: Be <i>resilient to leaks from other relying parties</i>. I.e.,
+     nothing that a verifier could possibly leak can help an attacker impersonate the user to
+     another relying party.
+   </dd>
+   <dt>[SG-6]</dt>
+   <dd>Authenticator Leak Resilience: Be resilient to leaks from other FIDO Authenticators.
+     I.e., nothing that a particular FIDO Authenticator could possibly leak can help an
+     attacker to impersonate any other user to any relying party.
+   </dd>
+   <dt>[SG-7]</dt>
+   <dd>User Consent: Notify the user before a relationship to a new relying party is being
+     established (<i>requiring explicit consent</i>).
+   </dd>
+   <dt>[SG-8]</dt>
+   <dd>Limited PII: Limit the amount of personal identifiable information (PII) exposed
+     to the relying party to the absolute minimum.
+   </dd>
+   <dt>[SG-9]</dt>
+   <dd>Attestable Properties: Relying Party must be able to verify FIDO Authenticator
+     model/type (in order to calculate the associated risk).
+   </dd>
+   <dt>[SG-10]</dt>
+   <dd>DoS Resistance: Be resilient to <i>Denial of Service Attacks</i>. I.e. prevent attackers
+     from inserting invalid registration information for a legitimate user for the next login
+     phase. Afterward, the legitimate user will not be able to login successfully anymore.
+   </dd>
+   <dt>[SG-11]</dt>
+   <dd>Forgery Resistance: Be resilient to <i>Forgery Attacks (Impersonation Attacks)</i>.
+     I.e. prevent attackers from attempting to modify intercepted communications in order to
+     masquerade as the legitimate user and login to the system.
+   </dd>
+   <dt>[SG-12]</dt>
+   <dd>Parallel Session Resistance: Be resilient to <i>Parallel Session Attacks</i>. Without
+     knowing a user’s authentication credential, an attacker can masquerade as the legitimate
+     user by creating a valid authentication message out of some eavesdropped communication
+     between the user and the server.
+   </dd>
+   <dt>[SG-13]</dt>
+   <dd>Forwarding Resistance: Be resilient to <i>Forwarding and Replay Attacks</i>. Having
+     intercepted previous communications, an attacker can impersonate the legal user to
+     authenticate to the system. The attacker can replay or forward the intercepted messages.
+   </dd>
+   <dt>[SG-14]</dt>
+   <dd>Transaction Non-Repudiation: Provide strong cryptographic non-repudiation
+     for secure transactions.
+   </dd>
+   <dt>[SG-15]</dt>
+   <dd>Respect for Operating Environment Security Boundaries: Ensure that registrations
+     and key material as a shared system resource is appropriately protected according
+     to the operating environment privilege boundaries in place on the FIDO user device.
+   </dd>
+ </dl>
+
+<div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_3"><span>Note</span></div><p class="">For a definition of the phrases printed in <i>italics</i>, 
+  refer to [<cite><a class="bibref" href="#bib-QuestToReplacePasswords">QuestToReplacePasswords</a></cite>] and to [<cite><a class="bibref" href="#bib-PasswordAuthSchemesKeyIssues">PasswordAuthSchemesKeyIssues</a></cite>]</p></div>
+ 
+ <section id="assets-to-be-protected">
+  <h3 aria-level="2" role="heading" id="h3_assets-to-be-protected"><span class="secno">4.1 </span>Assets to be Protected</h3>
+  Independent of any particular implementation, the UAF protocol assumes some assets
+  to be present and to be protected.
+  <ol>
+    <li>Cryptographic Authentication Key. Typically keys in FIDO are unique for each tuple
+      of (relying party, user account, authenticator).</li>
+    <li>Cryptographic Authentication Key Reference. This is the cryptographic material
+      stored at the relying party and used to uniquely verify the Cryptographic Authentication
+      Key, typically the public portion of an asymmetric key pair.</li>
+    <li>Authenticator Attestation Key(as stored in each authenticator). This should only
+      be usable to attest a Cryptographic Authentication Key and the type and manufacturing
+      batch of an Authenticator. Attestation keys and certificates are shared
+      by a large number of authenticators in a device class from a given vendor in order
+      to prevent their becoming a linkable identifier across relying parties. Authenticator 
+      attestation certificates may be self-signed, or signed by an authority key
+      controlled by the vendor.</li>
+    <li>Authenticator Attestation Authority Key. An authenticator vendor may elect to
+      sign authenticator attestation certificates with a per-vendor certificate authority
+      key.</li>
+    <li>Authenticator Attestation Authority Certificate. Contained in the initial/default trust
+      store as part of the FIDO Server and contained in the active trust store maintained
+      by each relying party.</li>
+    <li>Active Trust Store. Contains all trusted attestation master certificates for a given
+      FIDO server.</li>
+    <li>All data items suitable for uniquely identifying the authenticator across relying
+      parties. An attack on those would break the non-linkability security goal.</li>
+    <li>Private key of Relying Party TLS server certificate.</li>
+    <li>TLS root certificate trust store for the user's browser/app.</li>
+  </ol>
+ </section>
+
+</section>
+
+<section id="fido-security-measures">
+ <!--OddPage--><h2 aria-level="1" role="heading" id="h2_fido-security-measures"><span class="secno">5. </span>FIDO Security Measures</h2>
+ <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_4"><span>Note</span></div><p class="">Particular implementations of FIDO Clients, Authenticators, Servers and participating
+   applications may not implement all of these security measures (e.g. Secure Display,
+   [SM-10] Transaction Confirmation) and they also might (and should) implement
+   add itional security measures.</p></div>
+ <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_5"><span>Note</span></div><p class="">The U2F protocol lacks support for [SM-5] Secure Display, [SM-10] Transaction Confirmation,
+   has only server-supplied [SM-8] Protocol Nonces, and [SM-3] Authenticator
+   Class Attestation is implicit as there is only a single class of device.</p></div>
+ <dl>
+   <dt>[SM-1] (U2F + UAF)</dt>
+   <dd> Key Protection: Authentication key is protected against misuse. User unlocks
+     cryptographic authentication key stored in FIDO Authenticator (Except silent authenticators).
+   </dd>
+   <dt>[SM-2] (U2F + UAF)</dt>
+   <dd> Unique Authentication Keys: Cryptographic authentication key is specific and
+     unique to the tuple of (FIDO Authenticator, User, Relying Party).
+   </dd>
+   <dt>[SM-3] (U2F + UAF)</dt>
+   <dd> Authenticator Class Attestation: Hardware-based FIDO Authenticators support
+     authenticator attestation using a shared attestation certificate. Each relying party
+     receives regular updates of the trust store (through attestation service).
+   </dd>
+   <dt>[SM-4] (UAF)</dt>
+   <dd> Authenticator Status Checking: Relying Parties will be notified of compromised
+     authenticators or authenticator attestation keys. The FIDO Server must take this
+     information into account. Authenticator manufacturers have to inform FIDO alliance
+     about compromised authenticators.
+   </dd>
+   <dt>[SM-5] (UAF)</dt>
+   <dd> User Consent: FIDO Client implements a user interface for getting user’s consent
+     on any actions (except authentication with silent authenticator) and displaying RP
+     name (derived from server URL).
+   </dd>
+   <dt>[SM-6] (U2F + UAF)</dt>
+   <dd> Cryptographically Secure Verifier Database: The relying party stores only the
+     public portion of an asymmetric key pair, or an encrypted key handle, as a cryptographic
+     authentication key reference.
+   </dd>
+   <dt>[SM-7] (U2F + UAF)</dt>
+   <dd> Secure Channel with Server Authentication: The TLS protocol with server authentication
+     or a transport with equivalent properties is used as transport protocol for
+     UAF. The use of https is enforced by a browser or Relying Party application.
+   </dd>
+   <dt>[SM-8] (UAF)</dt>
+   <dd> Protocol Nonces: Both server and client supplied nonces are used for UAF registration
+     and authentication. U2F requires server supplied nonces.
+   </dd>
+   <dt>[SM-9] (U2F + UAF)</dt>
+   <dd> Authenticator Certification: Only Authenticators meeting certification requirements
+     defined by the <abbr title="FIDO Alliance">FIDO Alliance</abbr> and accurately describing their relevant characteristics
+     will have have their related attestation keys included in the default Trust Store.
+   </dd>
+   <dt>[SM-10] (UAF)</dt>
+   <dd> Transaction Confirmation (WYSIWYS): Secure Display (WYSIWYS) (optionally)
+     implemented by the FIDO Authenticators is used by FIDO Client for displaying relying
+     party name and transaction data to be confirmed by the user.
+   </dd>
+   <dt>[SM-11] (U2F + UAF)</dt>
+   <dd> Round Trip Integrity: FIDO server verifies that the transaction data related to
+     the server challenge received in the UAF message from the FIDO client is identical to
+     the transaction data and server challenge delivered as part of the UAF request message.
+   </dd>
+   <dt>[SM-12] (U2F + UAF)</dt>
+   <dd> Channel Binding: Relying Party servers may verify the continuity of a secure
+     channel with a client application.
+   </dd>
+   <dt>[SM-13] (UAF)</dt>
+   <dd> Key Handle Access Token: Authenticators not intended to roam between untrusted
+     systems are able to constrain the use of registration keys within the privilege
+     boundaries defined by the operating environment of the user device. (per-user, or perapplication,
+     or per-user + per-application as appropriate)
+   </dd>
+   <dt>[SM-14] (U2F + UAF)</dt>
+   <dd> Trusted Facet List: A Relying Party can declare the application identities allowed
+     to access its registered keys, for operating environments on user devices that
+     support this concept.
+   </dd>
+   <dt>[SM-15] (U2F + UAF)</dt>
+   <dd> Signature Counter: Authenticators send a monotonically increasing signature counter
+     that a Relying Party can check to possibly detect cloned authenticators.
+   </dd>
+ </dl>
+ <section id="relation-between-measures-and-goals">
+  <h3 aria-level="2" role="heading" id="h3_relation-between-measures-and-goals"><span class="secno">5.1 </span>Relation between Measures and Goals</h3>
+
+    <table class="threats">
+      <thead>
+	<tr><th>Security Goal</th><th>Supporting Security Measures</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>[SG-1] Strong User Authentication</td>
+	  <td><p>[SM-1] Key Protection
+	      </p><p>[SM-12] Channel Binding
+	      </p><p>[SM-14] Trusted Facet List
+	      </p><p>[SM-15] Signature Counter
+	  </p></td>
+	</tr><tr>
+	  <td>[SG-2] Credential Guessing Resilience</td>
+	  <td><p>[SM-1] Key Protection
+	      </p><p>[SM-6] Cryptographically Secure Verifier Database
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-3] Credential Disclosure Resilience</td>
+	  <td><p>[SM-1] Key Protection
+	      </p><p>[SM-9] Authenticator Certification
+	      </p><p>[SM-15] Signature Counter
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-4] Unlinkability</td>
+	  <td><p>[SM-2] Unique Authentication Keys
+	      </p><p>[SM-3] Authenticator Class Attestation
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-5] Verifier Leak Resilience</td>
+	  <td><p>[SM-2] Unique Authentication Keys
+  	      </p><p>[SM-6] Cryptographically Secure Verifier Database
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-6] Authenticator Leak Resilience</td>
+	  <td><p>[SM-9] Authenticator Certification
+	      </p><p>[SM-15] Signature Counter
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-7] User Consent</td>
+	  <td><p>[SM-1] Key Protection
+	      </p><p>[SM-5] User Consent
+	      </p><p>[SM-7] Secure Channel with Server Authentication
+	      </p><p>[SM-10] Transaction Confirmation (WYSIWYS)
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-8] Limited PII</td>
+	  <td><p>[SM-2] Unique Authentication Keys
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-9] Attestable Properties</td>
+	  <td><p>[SM-3] Authenticator Class Attestation
+ 	      </p><p>[SM-4] Authenticator Status Checking
+	      </p><p>[SM-9] Authenticator Certification
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-10] DoS Resistance</td>
+	  <td><p>[SM-8] Protocol Nonces
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-11] Forgery Resistance</td>
+	  <td><p>[SM-7] Secure Channel with Server Authentication
+	      </p><p>[SM-8] Protocol Nonces
+	      </p><p>[SM-11] Round Trip Integrity
+	      </p><p>[SM-12] Channel Binding
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-12] Parallel Session Resistance</td>
+	  <td><p>[SM-7] Secure Channel with Server Authentication
+	      </p><p>[SM-8] Protocol Nonces
+	      </p><p>[SM-11] Round Trip Integrity
+	      </p><p>[SM-12] Channel Binding
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-13] Forwarding Resistance</td>
+	  <td><p>[SM-7] Secure Channel with Server Authentication
+	      </p><p>[SM-8] Protocol Nonces
+	      </p><p>[SM-11] Round Trip Integrity
+	      </p><p>[SM-12] Channel Binding
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-14] Transaction Non-Repudiation</td>
+	  <td><p>[SM-1] Key Protection
+  	      </p><p>[SM-2] Unique Authentication Keys
+	      </p><p>[SM-8] Protocol Nonces
+	      </p><p>[SM-9] Authenticator Certification
+	      </p><p>[SM-10] Transaction Confirmation (WYSIWYS)
+	      </p><p>[SM-11] Round Trip Integrity
+	      </p><p>[SM-12] Channel Binding
+	  </p></td>
+	</tr>
+	<tr>
+	  <td>[SG-15] Respect for Operating Environment Security Boundaries</td>
+	  <td><p>[SM-13] Key Handle Access Token
+	      </p><p>[SM-14] Trusted Facet List
+	  </p></td>
+	</tr>
+      </tbody>
+    </table>
+
+
+ </section>
+
+</section>
+
+<section id="uaf-security-assumptions">
+ <!--OddPage--><h2 aria-level="1" role="heading" id="h2_uaf-security-assumptions"><span class="secno">6. </span>UAF Security Assumptions</h2>
+ Today’s computer systems and cryptographic algorithms are not provably secure. In this
+ section we list the security assumptions, i.e. assumptions on security provided by other
+ components. A violation of any of these assumptions will prevent reliable achievement
+ of the Security Goals.
+
+ <dl>
+   <dt>[SA-1]</dt>
+   <dd>The cryptographic algorithms and parameters (key size, mode, output length,
+     etc.) in use are not subject to unknown weaknesses that make them unfit for their purpose
+     in encrypting, digitally signing, and authenticating messages.
+   </dd>
+   <dt>[SA-2]</dt>
+   <dd>Operating system privilege separation mechanisms relied up on by the software
+     modules involved in a FIDO operation on the user device perform as advertised. E.g.
+     boundaries between user and kernel mode, between user accounts, and between applications
+     (where applicable) are securely enforced and security principals can be mutually,
+     securely identifiable.
+   </dd>
+   <dt>[SA-3]</dt>
+   <dd>Applications on the user device are able to establish secure channels that provide
+     trustworthy server authentication, and confidentiality and integrity for messages
+     (e.g., through TLS).
+   </dd>
+   <dt>[SA-4]</dt>
+   <dd> The secure display implementation is protected against spoofing and tampering.
+   </dd>
+   <dt>[SA-5]</dt>
+   <dd> The computing environment on the FIDO user device and the and applications
+     involved in a FIDO operation act as trustworthy agents of the user.
+   </dd>
+   <dt>[SA-6]</dt>
+   <dd> The inherent value of a cryptographic key resides in the confidence it imparts,
+     and this commodity decays with the passage of time, irrespective of any compromise
+     event. As a result the effective assurance level of authenticators will be reduced over
+     time.
+   </dd>
+   <dt>[SA-7]</dt>
+   <dd>The computing resources at the Relying Party involved in processing a FIDO operation
+     act as trustworthy agents of the Relying Party.
+   </dd>
+ </dl>
+
+ <section id="discussion">
+  <h3 aria-level="2" role="heading" id="h3_discussion"><span class="secno">6.1 </span>Discussion</h3>
+  With regard to [SA-5] and malicious computation on the FIDO user's device, only very
+  limited guarantees can be made within the scope of these assumptions. Malicious code
+  privileged at the level of the trusted computing base can always violate [SA-2] and [SA-
+  3]. Malicious code privileged at the level of the user's account in traditional multi-user
+  environments will also likely be able to violate [SA-3].
+
+  <p>FIDO can also provide only limited protections when a user chooses to deliberately violate
+  [SA-5], e.g. by roaming a USB authenticator to an untrusted system like a kiosk, or
+  by granting permissions to access all authentication keys to a malicious app in a mobile
+  environment.  Transaction Confirmation can be used as a method to protect against compromised 
+  FIDO user devices.
+
+  </p><p>In to components such as the FIDO Client, Server, Authenticators and the mix of software
+  and hardware modules they are comprised of, the end-to-end security goals also
+  depend on correct implementation and adherence to FIDO security guidance by other
+  participating components, including web browsers and relying party applications. Some
+  configurations and uses may not be able to meet all security goals. For example, authenticators
+  may lack a secure display, they may be composed only of unattestable software
+  components, they may be deliberately designed to roam between untrusted operating
+  environments, and some operating environments may not provide all necessary
+  security primitives (e.g., secure IPC, application isolation, modern TLS implementations,
+  etc.)
+ </p></section>
+
+</section>
+
+<section id="threat-analysis">
+ <!--OddPage--><h2 aria-level="1" role="heading" id="h2_threat-analysis"><span class="secno">7. </span>Threat Analysis</h2>
+
+ <section id="threats-to-client-side">
+  <h3 aria-level="2" role="heading" id="h3_threats-to-client-side"><span class="secno">7.1 </span>Threats to Client Side</h3>
+
+  <section id="exploiting-user-s-pattern-matching-weaknesses">
+   <h4 aria-level="3" role="heading" id="h4_exploiting-user-s-pattern-matching-weaknesses"><span class="secno">7.1.1 </span>Exploiting User’s pattern matching weaknesses</h4>
+    <table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.1.1</th><th>Homograph Mis-Registration</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3</td>
+	  <td>The user registers a FIDO authentication key with a fraudulent
+	    web site instead of the genuine Relying Party.
+	    <p><b>Consequences:</b>
+	    The fraudulent site may convince the user to disclose a set of non-FIDO credentials
+	    sufficient to allow the attacker to register a FIDO Authenticator under its own
+	    control, at the genuine Relying Party, on the user's behalf, violating [SG-1]
+	    Strong User Authentication.
+	    </p><p><b>Mitigations:</b>
+	    Disclosure of non-FIDO credentials is outside of the scope of the FIDO security
+	    measures, but Relying Parties should be aware that the initial strength of an authentication
+	    key is no better than the identity-proofing applied as part of the registration
+	    process.</p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="threats-to-the-user-device-fido-client-and-relying-party-client-applications">
+   <h4 aria-level="3" role="heading" id="h4_threats-to-the-user-device-fido-client-and-relying-party-client-applications"><span class="secno">7.1.2 </span>Threats to the User Device, FIDO Client and Relying Party Client Applications</h4>
+    <table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.2.1</th><th>FIDO Client Corrpution</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3</td>
+	  <td>Attacker gains ability to execute code in the security context of the FIDO Client.
+	    <p><b>Consequences:</b> Violation of [SA-5].
+	    </p><p><b>Mitigations:</b> When the operating environment on the FIDO user device allows, the FIDO
+	      Client should operate in a privileged and isolated context under [SA-2] to protect
+	      itself from malicious modification by anything outside of the Trusted Computing
+	      Base.
+          </p></td>
+	  <td>SA-5</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.2.2</th><th>Logical/Physical User Device Attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3 / AC5</td>
+	  <td>Attacker gains physical access to the FIDO user device but not the FIDO Authenticator.
+
+	    <p><b>Consequences:</b> Possible violation of [SA-5] by installing malicious 
+	      software or otherwise tampering with the FIDO user device.
+	    </p><p><b>Mitigations:</b> [SM-1] Key Protection prevents the disclosure of authentication keys or other
+	      assets during a transient compromise of the FIDO user device.
+	      </p><p>A persistent compromise of the FIDO user device can lead to a violation of [SA-5]
+		unless additional protection measures outside the scope of FIDO are applied to
+		the FIDO user device. (e,g. whole disk encryption and boot-chain integrity)
+          </p></td>
+	  <td>SA-5</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.2.3</th><th>User Device Account Access</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3 / AC4</td>
+	  <td>Attacker gains access to a user's login credentials on the FIDO user device.
+	    <p><b>Consequences:</b> Authenticators might be remotely abused, or weakly-verifying 
+	      authenticators might be locally abused, violating [SG-1] Strong User Authentication and
+	      [SG-13] Transaction Non-Repudiation.
+	      </p><p>Possible violation of [SA-5] by the installation of malicious software.
+	    </p><p><b>Mitigations:</b> Relying Parties can use [SM-9] Authenticator Certification 
+	      and [SM-3] Authenticator Class Attestation to determine the nature 
+	      of authenticators and not rely on weak, or weakly-verifying authenticators 
+	      for high value operations.
+          </p></td>
+	  <td>SG-1, SG-13; SA-5</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.2.4</th><th>App Server Verification Error</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3</td>
+	  <td>A client application fails to properly validate the remote sever identity, accepts
+	    forged or stolen credentials for a remote server, or allows weak or missing cryptographic
+	    protections for the secure channel.
+	    <p><b>Consequences:</b> An active network adversary can modify the Relying Party's authenticator policy
+	      and downgrade the client's choice of authenticator to make it easier to attack.
+	    </p><p>An active network adversary can intercept or view FIDO messages intended for
+	      the Relying Party. It may be able to use this ability to violate [SG-12] Parallel
+	      Session Resistance, [SG-11] Forgery Resistance or [SG-13] Forwarding Resistance,
+	    </p><p><b>Mitigations:</b> The server can verify [SM-8] Protocol Nonces to detect replayed messages and
+	      protect from an adversary that can read but not modify traffic in a secure channel.
+	      </p><p>The server can mandate a channel with strong cryptographic protections to prevent
+		message forgery and can verify a [SM-12] Channel Binding to detect forwarded
+		messages.
+          </p></td>
+	  <td>SG-11, SG-12, SG-13</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.2.5</th><th>RP Web App Corruption</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>An attacker is able to obtain malicious execution in the security context of the Relying
+	    Party application (e.g. via Cross-Site Scripting) or abuse the secure channel
+	    or session identifier after the user has successfully authenticated.
+	    <p><b>Consequences:</b> The attacker is able to control the user's session, 
+	      violating [SG-14] Transaction Non-Repudiation.
+	    </p><p><b>Mitigations:</b> The server can employ [SM-10] Transaction Confirmation to gain 
+	      additional assurance for high value operations.
+          </p></td>
+	  <td>SG-14</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.2.6</th><th>Fingerprinting Authenticators</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>A remote adversary is able to uniquely identify a FIDO user device using the fingerprint
+	    of discoverable configuration of its FIDO Authenticators.
+	    <p><b>Consequences:</b> The exposed information violates [SG-8] Limited PII, 
+	      allowing an adversary to violate [SG-7] User Consent by strongly authenticating 
+	      the user without their knowledge and [SG-4] Unlinkablity by 
+	      sharing that fingerprint.
+	    </p><p><b>Mitigations:</b> [SM-3] Authenticator Class Attestation ensures that 
+	      the fingerprint of an Authenticator will not be unique.
+	      </p><p>For web browsing situations where this threat is most prominent, user agents
+		may provide additional user controls around the discoverability of FIDO Authenticators.
+          </p></td>
+	  <td>SG-4, SG7, SG-8</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>1.2.7</th><th>App to FIDO Client full MITM attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3</td>
+	  <td>Malicious software on the FIDO user device is able to read, tamper with, or spoof
+	    the endpoint of inter-process communication channels between the FIDO Client
+	    and browser or Relying Party application.
+	    <p><b>Consequences:</b> Adversary is able to subvert [SA-2].
+	    </p><p><b>Mitigations:</b> On platforms where [SA-2] is not strong the security 
+	      of the system may depend on preventing malicious
+	      applications from arriving on the FIDO user device. Such protections, e.g.
+	      app store policing, are outside the scope of FIDO.
+	      </p><p>When using [SM-10] Transaction Confirmation, the user would see the
+		relevant AppID and transaction text and decide whether or not to accept an action.
+          </p></td>
+	  <td>SA-2</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.2.8</th><th>Authenticator to App Read-Only MITM attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3</td>
+	  <td>An adversary is able to obtain an authenticator's signed protocol response message.
+	    <p><b>Consequences:</b> The attacker attempts to replay the message to authenticate 
+	      as the user, violating [SG-1] Strong User Authentication, [SG-13] Forwarding Resistance and
+	      [SG-12] Parallel Session Resistance.
+	    </p><p><b>Mitigations:</b> The server can use [SM-8] Protocol Nonces to detect replay of messages and
+	      verify [SM-11] Round Trip Integrity to detect modified messages.
+          </p></td>
+	  <td>SG-1, SG-12, SG-13</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.2.9</th><th>Malicious App</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3</td>
+	  <td>A user installs an application that represents itself as being associated with to
+	    one Relying Party application but actually initiates a protocol conversation with a
+	    different Relying Party and attempts to abuse previously registered authentication
+	    keys at that Relying Party.
+	    <p><b>Consequences:</b> Adversary is able to violate [SG-7] User Consent by misrepresenting the target
+	      of authentication.
+	      </p><p>Other consequences equivalent to [T-1.2.5]
+	    </p><p><b>Mitigations:</b> If a [SM-5] Transaction Confirmation Display is present, the user 
+	      may be able to verify the true target of an operation.
+	    </p><p>If the malicious application attempts to communicate directly with an Authenticator
+	      that uses [SM-13] KeyHandleAccessToken, it should not be able to access keys registered
+	      by other FIDO Clients.
+	    </p><p>If the operating environment on the FIDO user device supports it, the FIDO client
+	      may be able to determine the application's identity and verify if it is authorized to
+	      target that Relying Party using a [SM-14] Trusted Facet List.	      
+          </p></td>
+	  <td>SG-7</td>
+	</tr>
+      </tbody>
+    </table>
+
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.2.10</th><th>Phishing Attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>A Phisher convinces the user to enter his PIN used for user verification into an application / 
+	    web site disclosing the PIN to the Phisher.  In the traditional username/password world
+	    this enables the attacker to successfully impersonate the user (to the relying party).
+	    <p><b>Consequences:</b> None as the phisher additionally would need access to the Authenticator
+	      in order to pass user verification [SM-1].  In FIDO, the user verification PIN (if user 
+	      verification is done via PIN) is not known to the 
+	      relying party and hence isn't sufficient for user impersonation.
+	      If user verification is done using an alternative user verification method, this applies
+	      accordingly.
+	    </p><p><b>Mitigations:</b> In FIDO, the Uauth.priv key is used to sign a relying party supplied challenge.
+	      without (use) access to that key, no impersonation is possible.
+          </p></td>
+	  <td></td>
+	</tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <section id="creating-a-fake-client">
+   <h4 aria-level="3" role="heading" id="h4_creating-a-fake-client"><span class="secno">7.1.3 </span>Creating a Fake Client</h4>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.3.1</th><th>Malicious FIDO Client</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3</td>
+	  <td>Attacker convinces users to install and use a malicious FIDO Client.
+	    <p><b>Consequences:</b> Violation of [SA-5]
+	    </p><p><b>Mitigations:</b> Mitigating malicious software installation is outside the scope of FIDO.
+	      </p><p>If an authenticator implements [SM-1] Key Protection, the user may be able to
+		recover full control of their registered authentication keys by removing the malicious
+		software from their user device.
+	      </p><p>When using [SM-10] Transaction Confirmation, the user sees the real AppIDs 
+		and transaction text and can decide to accept or reject the action.
+          </p></td>
+	  <td>SA-5</td>
+	</tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="threats-to-fido-authenticator">
+   <h4 aria-level="3" role="heading" id="h4_threats-to-fido-authenticator"><span class="secno">7.1.4 </span>Threats to FIDO Authenticator</h4>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.1</th><th>Malicious Authenticator</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC2</td>
+	  <td>Attacker convinces users to use a maliciously implemented authenticator.
+	    <p><b>Consequences:</b> The fake authenticator does not implement any appropriate security measures
+and is able to violate all security goals of FIDO.
+	    </p><p><b>Mitigations:</b> A user may be unable to distinguish a malicious authenticator, 
+	      but a Relying Party can use [SM-3] Authenticator Class Attestation to identify and only allow
+	      registration of reliable authenticators that have passed [SM-9] Authenticator
+	      Certification
+	      </p><p>A Relying Party can additionally rely on [SM-4] Authenticator Status Checking
+		to check if an attestation presented by a malicious authenticator has been
+		marked as compromised.
+          </p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.2</th><th>Uauth.priv Key Compromise</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC2</td>
+	  <td>Attacker succeeds in extracting a user's cryptographic authentication key for use in a
+	    different context.
+	    <p><b>Consequences:</b> The attacker could impersonate the user with a cloned authenticator that does
+	      not do trustworthy user verification, violating [SG-1].
+	    </p><p><b>Mitigations:</b> [SM-1] Key Protection measures are intended to prevent this.
+	      </p><p>Relying Parties can check [SM-9] Authenticator Certification attributes to determine
+		the type of key protection in use by a given authenticator class.
+		</p><p>Relying Parties can additionally verify the [SM-15] Signature Counter and detect that
+		  an authenticator has been cloned if it ever fails to advance relative to the prior
+		  operation.
+          </p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.3</th><th>User Verification By-Pass</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3</td>
+	  <td>Attacker could use the cryptographic authentication key (inside the authenticator)
+	    either with or without being noticed by the legitimate user.
+	    <p><b>Consequences:</b> Attacker could impersonate user, violating [SG-1].
+	    </p><p><b>Mitigations:</b> A user can only register and a Relying Party only 
+	      allow authenticators that perform [SM-1] Key Protection with an appropriately 
+	      secure user verification process. 
+	      </p><p>Does not apply to Silent Authenticators.
+          </p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.4</th><th>Physical Authenticator Attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC5 / AC6</td>
+	  <td>Attacker could get physical access to FIDO Authenticator (e.g. by stealing it).
+	    <p><b>Consequences:</b> Attacker could launch offline attack in order to use 
+	      the authentication key. If this offline attack succeeds, the attacker could 
+	      successfully impersonate the user, violating [SG-1] Strong User Authentication.
+	    </p><p>Attacker can introduce a low entropy situation to recover an ECDSA signature
+	      key (or optherwise extract the Uauth.priv key), violating [SG-9] Attestable Properties 
+	      if the attestation key is targeted or
+	      [SG-1] Strong User Authentication if a user key is targeted.
+	    </p><p><b>Mitigations:</b> [SM-1] Key Protection includes requirements to implement strong protections
+	      for key material, including resistance to offline attacks and low entropy situations.
+	      </p><p>Relying Parties should use [SM-3] Authenticator Class Attestation to only 
+		accept Authenticators implementing a sufficiently strong user verification method.
+          </p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.6</th><th>Fake Authenticator</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Attacker is able to extract the authenticator attestation key from an authenticator,
+	    e.g. by neutralizing physical countermeasures in a laboratory setting.
+	    <p><b>Consequences:</b> Attacker can violate [SG-9] Attestable Properties by 
+	      creating a malicious hardware or software device that represents 
+	      itself as a legitimate one.
+	    </p><p><b>Mitigations:</b> Relying Parties can use [SM-4] Authenticator Status Checking to identify
+	      known-compromised keys. Identification of such compromise is outside the strict
+	      scope of the FIDO protocols.
+          </p></td>
+	  <td>SG-9</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.7</th><th>Transaction Confirmation Display Overlay Attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Attacker is able to subvert [SM-5] Secure Display functionality (WYSIWYS), perhaps
+	    by overlaying the display with false information.
+	    <p><b>Consequences:</b> Violation of [SG-14] Transaction Non-Repudiation.
+	    </p><p><b>Mitigations:</b> Implementations must take care to protect [SA-4] in 
+	      their implementation of a secure display, e.g. by implementing a 
+	      distinct hardware display or employing appropriate
+	      privileges in the operating environment of the user device to protect
+	      against spoofing and tampering.
+	    </p><p>[SM-9] Authenticator Certification will provide Relying Parties with metadata
+	      about the nature of a transaction confirmation display information that can be used to assess
+	      whether it matches the assurance level and risk tolerance of the Relying Party for
+	      that particular transaction.
+          </p></td>
+	  <td>SG-14</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.8</th><th>Signature Algorithm Attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC2</td>
+	  <td>A cryptographic attack is discovered against the public key cryptography system
+	    used to sign data by the FIDO authenticator.
+	    <p><b>Consequences:</b> Attacker is able to use messages generated by the 
+	      client to violate [SG-2] Credential Guessing Resistance
+	    </p><p><b>Mitigations:</b> [SM-8] Protocol Nonces, including client-generated entropy, limit the amount of
+	      control any adversary has over the internal structure of an authenticator.
+	    </p><p>[SM-1] Key Protection for non-silent authenticators requires user interaction to
+	      authorize any operation performed with the authentication key, severely limiting
+	      the rate at which an adversary can perform adaptive cryptographic attacks.	      
+          </p></td>
+	  <td>SG-2</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.9</th><th>Abuse Functionality</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>It might be possible for an attacker to abuse the Authenticator functionality by sending 
+	    commands with invalid parameters or invalid commands to the Authenticator.
+	    <p><b>Consequences:</b> This might lead to e.g. user verification by-pass or potential key extraction, v 
+	    </p><p><b>Mitigations:</b> Proper robustness (e.g. due to testing) of the Authenticator firmware.
+          </p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.10</th><th>Random Number prediction</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>It might be possible for an attacker to get access to information allowing the prediction of RNG data.
+	    <p><b>Consequences:</b> This might lead to key compromise situation (T-1.4.2) when 
+	      using ECDSA (if the k value is used multiple times or if it is predictable).
+	    </p><p><b>Mitigations:</b> Proper robustness of the Authenticator's RNG and verification of the relevant 
+	      operating environment parameters (e.g. temperature, ...).
+          </p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.11</th><th>Firmware Rollback</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Attacker might be able to install a previous and potentially buggy version of the firmware.
+	    <p><b>Consequences:</b> This might lead to successful attacks, e.g. T-1.4.9.
+	    </p><p><b>Mitigations:</b> Proper robustness firmware verification method.
+          </p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.12</th><th>User Verification Data Injection</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3, AC6</td>
+	  <td>Attacker might be able to inject pre-captured user verification data into the 
+	    Authenticator. For example, if a password is used as user verification method, the attacker 
+	    could capture the password entered by the user and then send the correct password 
+	    to the Authenticator (by-passing the expected keyboard/PIN pad).  Passwords could 
+	    be captured ahead of the attack e.g. by convincing the user to enter the password into 
+	    a malicious app (“phishing”) or by spying directly or indirectly the password data.
+	    <p> In another example, some malware could play an audio stream which would be recorded 
+	      by the microphone and used by a Speaker-Recognition based Authenticator.
+	    </p><p><b>Consequences:</b> This might lead to successful user impersonation (if the attacker has 
+	      access to valid user verification data).
+	    </p><p><b>Mitigations:</b> Use a physically secured user verification input method, 
+	      e.g. Fingerprint Sensor or Trusted-User-Interface for PIN entry which cannot be 
+	      by-passed by malware.
+          </p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-1.4.13</th><th>Verification Reference Data Modification</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>AC3, AC6</td>
+	  <td>The Attacker gained physical access to the Authenticator and modifies 
+	    Verification Reference Data (e.g. hashed PIN value) stored in the Authenticator and 
+	    adds reference data known or reproducible by the attacker.  
+	    <p><b>Consequences:</b> The attacker would be recognized as the legitimate User 
+	      and could impersonate the user.
+	    </p><p><b>Mitigations:</b> Proper protection of the the verification reference data 
+	      in the Authenticator.
+          </p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+
+  </section>
+
+ </section>
+
+ <section id="threats-to-relying-party">
+  <h3 aria-level="2" role="heading" id="h3_threats-to-relying-party"><span class="secno">7.2 </span>Threats to Relying Party</h3>
+
+  <section id="threats-to-fido-server-data">
+   <h4 aria-level="3" role="heading" id="h4_threats-to-fido-server-data"><span class="secno">7.2.1 </span>Threats to FIDO Server Data</h4>
+
+    <table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-2.1.1</th><th>FIDO Server DB Read Attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Attacker could obtains read-access to FIDO Server registration database.
+	    <p><b>Consequences:</b>Attacker can access all cryptographic key handles 
+	      and authenticator characteristics
+	      associated with a username. If an authenticator or combination of authenticators
+	      is unique, they might use this to try to violate [SG-2] Unlinkability
+	    </p><p>Attacker attempts to perform factorization of public keys by virtue of having access
+	      to a large corpus of data, violating [SG-5] Verifier Leak Resiliance and
+	      [SG-2] Credential Guessing Resilience
+	    </p><p><b>Mitigations:</b> [SM-2] Unique Authentication Keys help prevent disclosed key material from
+	      being useful against any other Relying Party, even if successfully attacked.
+	      </p><p>The use of an [SM-6] Cryptographically Secure Verifier Database helps assure
+		that it is infeasible to attack any leaked verifier keys.
+	      </p><p>[SM-9] Authenticator Certification should help prevent authenticators with poor
+		entropy from entering the market, reducing the likelihood that even a large corpus
+		of key material will be useful in mounting attacks.		
+          </p></td>
+	  <td>SG-2, SG-5</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-2.1.2</th><th>FIDO Server DB Modification Attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Attacker gains write-access to the FIDO Server registration database.
+	    <p><b>Consequences:</b> Violation of [SA-7]
+	    </p><p>The attacker may inject a key registration under its control, violating [SG-1]
+	      Strong User Authentication
+	    </p><p><b>Mitigations:</b> Mitigating such attacks is outside the scope of the FIDO specifications. 
+	      The Relying Party must maintain the integrity of any information it relies 
+	      up on to identify a user as part of [SA-7].
+          </p></td>
+	  <td>SA-7</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-2.2.1</th><th>WebApp Malware</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Attacker gains ability to execute code in the security context of the Relying Party
+	    web application or FIDO Server.
+	    <p><b>Consequences:</b> Attacker is able to violate [SG-1], [SG-10], [SG-9] 
+	      and any other Relying Party controls.
+	    </p><p><b>Mitigations:</b> The consequences of such an incident are limited to the relationship 
+	      between the user and that particular Relying Party by [SM-1], [SM-2], and [SM-5].
+	    </p><p>Even within the Relying Party to user relationship, a user can be protected by
+	      [SM-10] Transaction Confirmation if the compromise does not include to the
+	      user's computing environment
+          </p></td>
+	  <td>SG-1, SG-9, SG-10</td>
+	</tr>
+      </tbody>
+    </table>
+  </section>
+
+ </section>
+
+ <section id="threats-to-the-secure-channel-between-client-and-relying-party">
+  <h3 aria-level="2" role="heading" id="h3_threats-to-the-secure-channel-between-client-and-relying-party"><span class="secno">7.3 </span>Threats to the Secure Channel between Client and Relying Party</h3>
+
+  <section id="exploiting-weaknesses-in-the-secure-transport-of-fido-messages">
+   <h4 aria-level="3" role="heading" id="h4_exploiting-weaknesses-in-the-secure-transport-of-fido-messages"><span class="secno">7.3.1 </span>Exploiting Weaknesses in the Secure Transport of FIDO Messages</h4>
+   FIDO takes as a base assumption that [SA-3] applications on the user device are able
+   to establish secure channels that provide trustworthy server authentication, and confidentiality
+   and integrity for messages. e.g. through TLS. [T-1.2.4] Discusses some consequences
+   of violations of this assumption due to implementation errors in a browser or
+   client application, but other threats exist in different layers.
+
+    <table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-3.1.1</th><th>TLS Proxy</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>The FIDO user device is administratively configured to connect through a proxy that terminates
+	    TLS connections. The client trusts this device, but the connection between
+	    the user and FIDO server is no longer end-to-end secure.
+	    <p><b>Consequences:</b> Any such proxies introduce a new party into the protocol. 
+	      If this party is untrustworthy, consequences may be as for [T-1.2.4]
+	    </p><p><b>Mitigations:</b> Mitigations for [T-1.2.4] apply, except that the proxy 
+	      is considered trusted by the client, so certain methods of [SM-12] Channel Binding 
+	      may indicate a compromised channel even in the absence of an attack. Servers should use multiple
+	      methods and adjust their risk scoring appropriately. A trustworthy client that reports
+	      a server certificate that is unknown to the server and does not chain to a
+	      public root may indicate a client behind such a proxy. A client reporting a server
+	      certificate that is unknown to the server but validates for the server's identity according
+	      to commonly used public trust roots is more likely to indicate [T-3.1.2]
+          </p></td>
+	  <td>SG-11, SG-12, SG-13</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-3.1.2</th><th>Fraudulent TLS Server Certificate</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>An attacker is able to obtain control of a certificate credential for a Relying Party,
+	    perhaps from a compromised Certification Authority or poor protection practices
+	    by the Relying Party.
+	    <p><b>Consequences:</b>As for [T-1.2.4].
+	    </p><p><b>Mitigations:</b>As for [T-1.2.4].
+          </p></td>
+	  <td>     </td>
+	</tr>
+      </tbody>
+    </table>
+
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-3.1.3</th><th>Protocol level real-time MITM attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>An adversary can intercept and manipulate network packages sent from the relying party to the client.
+	    The adversary uses this capability to (a) terminate the underlying TLS session from the client at 
+	    the adversary and to (b) simultaneously use another TLS session from the adversary to the relying party.
+	    In the traditional username/password world, this allows the adversary to intercept the username 
+	    and the password and then successfully impersonate the user at the relying party.
+	    <p><b>Consequences:</b>   None if FIDO channelBinding [SM-12] or transaction confirmation [SM-10] 
+	      are used. 
+	    </p><p><b>Mitigations:</b> 
+	      In the case of channelBinding [SM-12], the FIDO server will detect the MITM in the 
+	      TLS channel by comparing the channel binding information provided by the client 
+	      and the channel binding information retrieved locally by the server.
+	      </p><p>In the case of transaction confirmation [SM-10], the user verifies and approves 
+		a particular transaction. The adversary could modify the transaction before approval.  
+		This would lead to rejection by the user.  
+		Alternatively, the adversary could modify the transaction after approval.  
+		This will break the signature in the transaction confirmation response.  The FIDO Server
+		will not accept it as a consequence. </p>
+          </td>
+	  <td></td>
+	</tr>
+      </tbody>
+    </table>
+
+
+  </section>
+ </section>
+
+ <section id="threats-to-the-infrastructure">
+  <h3 aria-level="2" role="heading" id="h3_threats-to-the-infrastructure"><span class="secno">7.4 </span>Threats to the Infrastructure</h3>
+
+  <section id="threats-to-fido-authenticator-manufacturers">
+   <h4 aria-level="3" role="heading" id="h4_threats-to-fido-authenticator-manufacturers"><span class="secno">7.4.1 </span>Threats to FIDO Authenticator Manufacturers</h4>
+
+    <table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-4.1.1</th><th>Manufacturer Level Attestation Key Compromise</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Attacker obtains control of an attestation key or attestation key issuing key.
+	    <p><b>Consequences:</b> Same as [T-1.4.6]:
+Attacker can violate [SG-9] Attestable Properties by creating a malicious hardware or software device that represents itself as a legitimate one.
+	    </p><p><b>Mitigations:</b> Same as [T-1.4.6]: Relying Parties can use [SM-4] Authenticator Status Checking to identify known-compromised keys. Identification of such compromise is outside the strict scope of the FIDO protocols.
+          </p></td>
+	  <td>SG-9</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-4.1.2</th><th>Malicious Authenticator HW</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>FIDO Authenticator manufacturer relies on hardware or software components
+	    that generate weak cryptographic authentication key material or contain backdoors.
+	    <p><b>Consequences:</b> Effective violation of [SA-1] in the context of such an Authenticator.
+	    </p><p><b>Mitigations:</b> The process of [SM-9] Authenticator Certification may reveal a subset of such
+	      threats, but it is not possible that all such can be revealed with black box testing
+	      and white box examination may be is economically infeasible. Users and Relying
+	      Parties with special concerns about this class of threat must exercise their own
+	      necessary caution about the trustworthiness and verifiability of their vendors and
+	      supply chain.
+          </p></td>
+	  <td>SA-1</td>
+	</tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="threats-to-fido-server-vendors">
+   <h4 aria-level="3" role="heading" id="h4_threats-to-fido-server-vendors"><span class="secno">7.4.2 </span>Threats to FIDO Server Vendors</h4>
+
+    <table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-4.2.1</th><th>Vendor Level Trust Anchor Injection Attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Attacker adds malicious trust anchors to the trust list shipped by a FIDO Server
+	    vendor.
+	    <p><b>Consequences:</b> Attacker can deploy fake Authenticators which Relying Parties cannot detect as
+	      such, which do not implement any appropriate security measures, and is able to
+	      violate all security goals of FIDO.
+	    </p><p><b>Mitigations:</b> This type of supply chain threat is outside the strict scope 
+	      of the FIDO protocols and violates [SA-7]. Relying Parties can their trust list against definitive
+	      data published by the <abbr title="FIDO Alliance">FIDO Alliance</abbr>.
+          </p></td>
+	  <td>SA-7</td>
+	</tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="threats-to-fido-metadata-service-operators">
+   <h4 aria-level="3" role="heading" id="h4_threats-to-fido-metadata-service-operators"><span class="secno">7.4.3 </span>Threats to FIDO Metadata Service Operators</h4>
+
+    <table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-4.3.1</th><th>Metadata Service Signing Key Compromise</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>The attacker gets access to the private Metadata signing key.
+	    <p><b>Consequences:</b> The attacker could sign invalid Metadata.  The attacker could 
+	      </p><ul>
+		<li>make trustworthy authenticators look less trustworthy (e.g. by increasing FAR).</li>
+		<li>make weak authenticators look strong (e.g. by changing the key protection method to a more secure one)</li>
+		<li>inject malicious attestation trust anchors, e.g. root certificates which cross-signed the original attestation trust anchor and the cross signed original attestation root certificate.  This malicious
+		  trust anchors could be used to sign attestation certificates for fraudulent authenticators, e.g. authenticators using the AAID of trustworthy authenticators but not protecting their keys as stated in the metadata.
+	      </li></ul>
+	    <p><b>Mitigations:</b> The Metadata Service operator should protect the Metadata signing key appropriately, e.g. using a hardware protected key storage.
+	      </p><p>Relying parties could use out-of-band methods to cross-check Metadata Statements with the respective vendors and cross-check the revocation state of the 
+	      Metadata signing key with the provider of the Metadata Service.</p>
+          </td>
+	  <td>SG-9</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-4.3.2</th><th>Metadata Service Data Injection</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>The attacker injects malicious Authenticator data into the Metadata source.
+	    <p><b>Consequences:</b> The attacker could make the Metadata Service operator sign invalid Metadata.  The attacker could 
+	      </p><ul>
+		<li>make trustworthy authenticators look less trustworthy (e.g. by increasing FAR).</li>
+		<li>make weak authenticators look strong (e.g. by changing the key protection method to a more secure one)</li>
+		<li>inject malicious attestation trust anchors, e.g. root certificates which cross-signed the original attestation trust anchor and the cross signed original attestation root certificate.  This malicious
+		  trust anchors could be used to sign attestation certificates for fraudulent authenticators, e.g. authenticators using the AAID of trustworthy authenticators but not protecting their keys as stated in the metadata.
+	      </li></ul>
+	    <p><b>Mitigations:</b> The Metadata Service operator could carefully review the delta between the old and the new Metadata.  Authenticator vendors could verify the published Metadata related to their Authenticators.
+          </p></td>
+	  <td>SG-9</td>
+	</tr>
+      </tbody>
+    </table>
+  </section>
+
+
+ </section>
+
+ <section id="threats-specific-to-uaf-with-a-second-factor-u2f">
+  <h3 aria-level="2" role="heading" id="h3_threats-specific-to-uaf-with-a-second-factor-u2f"><span class="secno">7.5 </span>Threats Specific to UAF with a second factor / U2F</h3>
+    <table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-5.1.1</th><th>Error Status Side Channel</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Relying parties issues an authentication challenge to an authenticator and can infer
+	    from error status if it is already enrolled.
+	    <p><b>Consequences:</b> U2F authenticators not requiring user interaction may be used to track users
+	      without their consent by issuing a pre-authentication challenge to a U2F token,
+	      revealing the identity of an otherwise anonymous user. Users would be identifiable
+	      by relying parties without their knowledge, violating [SG-7]
+	    </p><p><b>Mitigations:</b> The U2F specification recommends that browsers prompt users whether to allow
+	      this operation using mechanisms similar to those defined for other privacy sensitive
+	      operations like Geolocation.
+          </p></td>
+	  <td>SG-7</td>
+	</tr>
+      </tbody>
+    </table>
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-5.1.2</th><th>Malicious RP</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Malicious relying party mounts a cryptographic attack on a key handle it is storing.
+	    <p><b>Consequences:</b> U2F does not have a protocol-level 
+	      notion of [SG-14] Transaction Non-Repudiation
+	      but If the Relying Party is able to recover the contents of the key handle it
+	      might forge logs of protocol exchanges to associate the user with actions he or
+	      she did not perform.
+	    </p><p>If the Relying Party is able to recover the key used to wrap a key handle, that key
+	      is likely shared, and might be used to decrypt key handles stored with other Relying
+	      Parties and violate [SG-1] Strong User Authentication.
+	    </p><p><b>Mitigations:</b> None. U2F depends on [SA-1] to hold for key wrapping operations.
+          </p></td>
+	  <td>     </td>
+	</tr>
+      </tbody>
+    </table>
+
+<p>
+    </p><table class="threats"><colgroup width="100%"><col width="5em"><col><col width="5em"></colgroup>
+      <thead>
+	<tr><th>T-5.1.3</th><th>Physical U2F Authenticator Attack</th><th>Violates</th></tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td></td>
+	  <td>Attacker gains physical access to U2F Authenticator (e.g., by stealing it).
+	    <p><b>Consequences:</b> Same as for T-1.4.4
+	      </p><p>A U2F authenticator has weak local user verification. If the attacker can guess
+		the username and password/PIN, they can impersonate the user, violating [SG-1]
+		Strong User Authentication
+	    </p><p><b>Mitigations:</b> Relying Parties can use strong additional factors.
+	      </p><p>Relying Parties should provide users a means to revoke keys associated with a
+		lost device.
+          </p></td>
+	  <td>SG-1</td>
+	</tr>
+      </tbody>
+    </table>
+ </section>
+
+</section>
+
+<section id="acknowledgements">
+ <!--OddPage--><h2 aria-level="1" role="heading" id="h2_acknowledgements"><span class="secno">8. </span>Acknowledgements</h2>
+We thank <a href="https://www.isecpartners.com">iSECpartners</a> for their 
+ review of, and contributions to, this document.
+</section>
+
+
+
+
+
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_references"><span class="secno">A. </span>References</h2><section id="informative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_informative-references"><span class="secno">A.1 </span>Informative references</h3><dl class="bibliography" about=""><dt id="bib-FIDOGlossary">[FIDOGlossary]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, B. Hill, J. Hodges, <cite>FIDO Technical Glossary</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.html">fido-glossary-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.pdf">fido-glossary-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-PasswordAuthSchemesKeyIssues">[PasswordAuthSchemesKeyIssues]</dt><dd rel="dcterms:references">Chwei-Shyong Tsai, Cheng-Chi Lee, and Min-Shiang Hwang, <a href="http://ijns.femto.com.tw/contents/ijns-v3-n2/ijns-2006-v3-n2-p101-115.pdf"><cite>Password Authentication Schemes: Current Status and Key Issues</cite></a>, International Journal of Network Security, Vol.3, No.2, PP.101–115, Sept. 2006, URL: <a href="http://ijns.femto.com.tw/contents/ijns-v3-n2/ijns-2006-v3-n2-p101-115.pdf">http://ijns.femto.com.tw/contents/ijns-v3-n2/ijns-2006-v3-n2-p101-115.pdf</a>
+</dd><dt id="bib-QuestToReplacePasswords">[QuestToReplacePasswords]</dt><dd rel="dcterms:references">Joseph Bonneau, Cormac Herley, Paul C. van Oorschot and Frank Stajano, <a href="http://research.microsoft.com/pubs/161585/QuestToReplacePasswords.pdf">The Quest to Replace Passwords: A Framework for Comparative Evaluation of Web Authentication Schemes</a>, Microsoft Research, Carleton University and University of Cambridge, March 2012, URL: <a href="http://research.microsoft.com/pubs/161585/QuestToReplacePasswords.pdf">http://research.microsoft.com/pubs/161585/QuestToReplacePasswords.pdf</a>
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd rel="dcterms:references">S. Bradner. <a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+</dd><dt id="bib-U2FOverview">[U2FOverview]</dt><dd rel="dcterms:references">S. Srinivas, D. Balfanz, E. Tiffany, <a href="http://fidoalliance.org/specs/fido-u2f-overview-v1.0-rd-20140209.pdf"><cite>FIDO U2F Overview v1.0</cite></a>. FIDO Alliance Review Draft (Work in progress.) URL:  <a href="http://fidoalliance.org/specs/fido-u2f-overview-v1.0-rd-20140209.pdf">http://fidoalliance.org/specs/fido-u2f-overview-v1.0-rd-20140209.pdf</a>
+</dd><dt id="bib-UAFProtocol">[UAFProtocol]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, E. Tiffany, D. Balfanz, B. Hill, J. Hodges, <cite>FIDO UAF Protocol Specification v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.html">fido-uaf-protocol-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.pdf">fido-uaf-protocol-v1.0-ps-20141208.pdf</a>
+</dd></dl></section></section></body></html>

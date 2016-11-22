@@ -1,0 +1,1981 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html lang="en" dir="ltr" typeof="bibo:Document w3p:REC" about="" property="dcterms:language" content="en">
+<head>
+    <title>FIDO UAF Authenticator-Specific Module API</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    
+    
+
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #003a7c;
+}
+
+.simple th {
+    background: #003a7c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    //background: #fcfaee;    
+    background: rgba(252,250,238,0.3);    
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><style>/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #364e50;
+    border-bottom: 1px solid #364e50;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #364e50;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID, .idlCallbackID, .idlEnumID {
+    font-weight:    bold;
+    color:  #003a7c;
+}
+a.idlEnumItem {
+    color:  #000;
+    border-bottom:  1px dotted #ccc;
+    text-decoration: none;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #003a7c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #003a7c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType, .idlCallbackType {
+    color:  #003a7c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlCtor*/
+.idlCtorName {
+    color:  #ff4500;
+}
+.idlCtorName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #003a7c;
+}
+.idlParamName, .idlDefaultValue {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlSectionComment*/
+.idlSectionComment {
+    color: gray;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #003a7c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #003a7c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.constructors, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .constructors dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .constructors dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #003a7c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.constructors dt code {
+    background:  #cfc;
+}
+
+.attributes dd, .methods dd, .constants dd, .constructors dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #364e50; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #364e50; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+</style><link rel="stylesheet" href="resources/FIDO-PS.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+  <body style="" class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    
+      <a href="https://www.fidoalliance.org/"><img width="250" id="toplogo" src="resources/logo.png" alt="FIDO Alliance"></a>
+    
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">FIDO UAF Authenticator-Specific Module API</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-12-08T08:00:00.000Z" id="fido-alliance-proposed-standard-08-december-2014"><abbr title="FIDO Alliance">FIDO Alliance</abbr> Proposed Standard <time class="dt-published" datetime="2014-12-08">08 December 2014</time></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-asm-api-v1.0-ps-20141208.html">https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-asm-api-v1.0-ps-20141208.html</a></dd>
+      <!--<dt>Latest published version:</dt>
+      <dd><a href='https://fidoalliance.org/specs/fido-uaf-asm-api/'>https://fidoalliance.org/specs/fido-uaf-asm-api/</a></dd>
+    
+    -->
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="https://fidoalliance.org/specs/fido-uaf-asm-api-v1.0-rd-20141008.pdf">https://fidoalliance.org/specs/fido-uaf-asm-api-v1.0-rd-20141008.pdf</a></dd>
+    
+    
+    <dt>Editors:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Davit Baghdasaryan" href="davit@noknok.com">Davit Baghdasaryan</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="John Kemp" href="mailto:john@jkemp.net">John Kemp</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a></span>
+</dd>
+
+    
+      <dt>Contributors:</dt>
+      <dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Dr. Rolf Lindemann" href="rolf@noknok.com">Dr. Rolf Lindemann</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Brad Hill" href="bhill@paypal.com">Brad Hill</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.paypal.com/">PayPal, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Roni Sasson" href="Roni.Sasson@discretix.com">Roni Sasson</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.discretix.com/">Discretix, Inc.</a></span>
+</dd>
+
+    
+    
+  </dl>
+  
+  
+  
+    <p>
+      The English version of this specification is the only normative version. Non-normative
+      <a href="https://www.fidoalliance.org/specifications/translation/">translations</a> may also be available.
+    </p>
+  
+  
+    
+      <p class="copyright">
+        Copyright ©
+        2013-2014
+        
+        <a href="https://www.fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a>
+        All Rights Reserved.
+      </p>
+    
+  
+  <hr>
+</div>
+    
+
+    <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+      <p>
+	UAF authenticators may be connected to a user device
+	via various physical interfaces (SPI, USB, Bluetooth, etc). The UAF Authenticator-Specific
+	Module (ASM) is a software interface on top of UAF
+	authenticators which gives a standardized way for FIDO UAF
+	Clients to detect and access the functionality of UAF
+	authenticators and hides internal communication complexity from FIDO UAF Client.
+      </p>
+
+      <p class="fido-normal">This document describes the internal functionality of ASMs,
+	defines the UAF ASM API and explains how FIDO UAF Clients should use the API.
+      </p>
+
+      <p class="fido-normal">This document's intended audience is FIDO authenticator and FIDO
+	FIDO UAF Client vendors.
+      </p>
+    </section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="FIDO Alliance">FIDO Alliance</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="https://www.fidoalliance.org/specifications/"><abbr title="FIDO Alliance">FIDO Alliance</abbr> specifications index</a> at
+          https://www.fidoalliance.org/specifications/.</em>
+        </p>
+        
+        <p>
+          This document was published by the <a href="https://fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a> as a Proposed Standard.
+          
+          
+            If you wish to make comments regarding this document, please 
+            <a href="https://fidoalliance.org/contact">Contact Us</a>.
+          
+          
+          
+          
+            All comments are welcome.
+          
+        </p>
+        
+	
+	
+	
+        
+          <p>
+	    Implementation of certain elements of this Specification may require licenses under third party intellectual 
+	    property rights, including without limitation, patent rights. The <abbr title="FIDO Alliance">FIDO Alliance</abbr>, Inc. and its Members
+            and any other contributors to the Specification are not, and shall not be held, responsible in any manner
+            for identifying or failing to identify any or all such third party intellectual property rights.
+	  </p>
+	  <p>
+	    THIS FIDO ALLIANCE SPECIFICATION IS PROVIDED “AS IS” AND WITHOUT ANY 
+            WARRANTY OF ANY KIND, INCLUDING, WITHOUT LIMITATION, ANY EXPRESS OR IMPLIED
+	    WARRANTY OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A
+	    PARTICULAR PURPOSE.
+          </p>
+        
+        
+          <p>
+            This document has been reviewed by FIDO Aliance Members
+            and is endorsed as a Proposed Standard.
+            It is a stable document and may be used as reference material or cited from another
+            document. <abbr title="FIDO Alliance">FIDO Alliance</abbr>'s role in making the Recommendation is to draw attention to the
+            specification and to promote its widespread deployment.
+          </p>
+        
+        
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#notation" class="tocxref"><span class="secno">1. </span>Notation</a><ul class="toc"><li class="tocline"><a href="#key-words" class="tocxref"><span class="secno">1.1 </span>Key Words</a></li></ul></li><li class="tocline"><a href="#overview" class="tocxref"><span class="secno">2. </span>Overview</a><ul class="toc"><li class="tocline"><a href="#code-example-format" class="tocxref"><span class="secno">2.1 </span>Code &amp; Example format</a></li></ul></li><li class="tocline"><a href="#asm-requests-and-responses" class="tocxref"><span class="secno">3. </span>ASM Requests and Responses</a><ul class="toc"><li class="tocline"><a href="#request-enum" class="tocxref"><span class="secno">3.1 </span>Request enum</a></li><li class="tocline"><a href="#statuscode-interface" class="tocxref"><span class="secno">3.2 </span>StatusCode Interface</a><ul class="toc"><li class="tocline"><a href="#constants" class="tocxref"><span class="secno">3.2.1 </span>Constants</a></li></ul></li><li class="tocline"><a href="#asmrequest-dictionary" class="tocxref"><span class="secno">3.3 </span>ASMRequest Dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-asmrequest-members" class="tocxref"><span class="secno">3.3.1 </span>Dictionary <span class="formerLink"><code>ASMRequest</code></span> Members</a></li></ul></li><li class="tocline"><a href="#asmresponse-dictionary" class="tocxref"><span class="secno">3.4 </span>ASMResponse Dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-asmresponse-members" class="tocxref"><span class="secno">3.4.1 </span>Dictionary <span class="formerLink"><code>ASMResponse</code></span> Members</a></li></ul></li><li class="tocline"><a href="#getinfo-request" class="tocxref"><span class="secno">3.5 </span>GetInfo Request</a><ul class="toc"><li class="tocline"><a href="#getinfoout-dictionary" class="tocxref"><span class="secno">3.5.1 </span>GetInfoOut Dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-getinfoout-members" class="tocxref"><span class="secno">3.5.1.1 </span>Dictionary <span class="formerLink"><code>GetInfoOut</code></span> Members</a></li></ul></li><li class="tocline"><a href="#authenticatorinfo-dictionary" class="tocxref"><span class="secno">3.5.2 </span>AuthenticatorInfo Dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-authenticatorinfo-members" class="tocxref"><span class="secno">3.5.2.1 </span>Dictionary <span class="formerLink"><code>AuthenticatorInfo</code></span> Members</a></li></ul></li></ul></li><li class="tocline"><a href="#register-request" class="tocxref"><span class="secno">3.6 </span>Register Request</a><ul class="toc"><li class="tocline"><a href="#registerin-object" class="tocxref"><span class="secno">3.6.1 </span>RegisterIn Object</a><ul class="toc"><li class="tocline"><a href="#dictionary-registerin-members" class="tocxref"><span class="secno">3.6.1.1 </span>Dictionary <span class="formerLink"><code>RegisterIn</code></span> Members</a></li></ul></li><li class="tocline"><a href="#registerout-object" class="tocxref"><span class="secno">3.6.2 </span>RegisterOut Object</a><ul class="toc"><li class="tocline"><a href="#dictionary-registerout-members" class="tocxref"><span class="secno">3.6.2.1 </span>Dictionary <span class="formerLink"><code>RegisterOut</code></span> Members</a></li></ul></li><li class="tocline"><a href="#detailed-description-for-processing-the-register-request" class="tocxref"><span class="secno">3.6.3 </span>Detailed Description for Processing the Register Request</a></li></ul></li><li class="tocline"><a href="#authenticate-request" class="tocxref"><span class="secno">3.7 </span>Authenticate Request</a><ul class="toc"><li class="tocline"><a href="#authenticatein-object" class="tocxref"><span class="secno">3.7.1 </span>AuthenticateIn Object</a><ul class="toc"><li class="tocline"><a href="#dictionary-authenticatein-members" class="tocxref"><span class="secno">3.7.1.1 </span>Dictionary <span class="formerLink"><code>AuthenticateIn</code></span> Members</a></li></ul></li><li class="tocline"><a href="#transaction-object" class="tocxref"><span class="secno">3.7.2 </span>Transaction Object</a><ul class="toc"><li class="tocline"><a href="#dictionary-transaction-members" class="tocxref"><span class="secno">3.7.2.1 </span>Dictionary <span class="formerLink"><code>Transaction</code></span> Members</a></li></ul></li><li class="tocline"><a href="#authenticateout-object" class="tocxref"><span class="secno">3.7.3 </span>AuthenticateOut Object</a><ul class="toc"><li class="tocline"><a href="#dictionary-authenticateout-members" class="tocxref"><span class="secno">3.7.3.1 </span>Dictionary <span class="formerLink"><code>AuthenticateOut</code></span> Members</a></li></ul></li><li class="tocline"><a href="#detailed-description-for-processing-the-authenticate-request" class="tocxref"><span class="secno">3.7.4 </span>Detailed Description for Processing the Authenticate Request</a></li></ul></li><li class="tocline"><a href="#deregister-request" class="tocxref"><span class="secno">3.8 </span>Deregister Request</a><ul class="toc"><li class="tocline"><a href="#deregisterin-object" class="tocxref"><span class="secno">3.8.1 </span>DeregisterIn Object</a><ul class="toc"><li class="tocline"><a href="#dictionary-deregisterin-members" class="tocxref"><span class="secno">3.8.1.1 </span>Dictionary <span class="formerLink"><code>DeregisterIn</code></span> Members</a></li></ul></li><li class="tocline"><a href="#detailed-description-for-processing-the-deregister-request" class="tocxref"><span class="secno">3.8.2 </span>Detailed Description for Processing the Deregister Request</a></li></ul></li><li class="tocline"><a href="#getregistrations-request" class="tocxref"><span class="secno">3.9 </span>GetRegistrations Request</a><ul class="toc"><li class="tocline"><a href="#getregistrationsout-object" class="tocxref"><span class="secno">3.9.1 </span>GetRegistrationsOut Object</a><ul class="toc"><li class="tocline"><a href="#dictionary-getregistrationsout-members" class="tocxref"><span class="secno">3.9.1.1 </span>Dictionary <span class="formerLink"><code>GetRegistrationsOut</code></span> Members</a></li></ul></li><li class="tocline"><a href="#appregistration-object" class="tocxref"><span class="secno">3.9.2 </span>AppRegistration Object</a><ul class="toc"><li class="tocline"><a href="#dictionary-appregistration-members" class="tocxref"><span class="secno">3.9.2.1 </span>Dictionary <span class="formerLink"><code>AppRegistration</code></span> Members</a></li></ul></li><li class="tocline"><a href="#detailed-description-for-processing-the-getregistrations-request" class="tocxref"><span class="secno">3.9.3 </span>Detailed Description for Processing the GetRegistrations Request</a></li></ul></li><li class="tocline"><a href="#opensettings-request" class="tocxref"><span class="secno">3.10 </span>OpenSettings Request</a></li></ul></li><li class="tocline"><a href="#using-asm-api" class="tocxref"><span class="secno">4. </span>Using ASM API</a></li><li class="tocline"><a href="#using-the-asm-api-on-various-platforms" class="tocxref"><span class="secno">5. </span>Using the ASM API on various platforms</a><ul class="toc"><li class="tocline"><a href="#android-asm-intent-api" class="tocxref"><span class="secno">5.1 </span>Android ASM Intent API</a><ul class="toc"><li class="tocline"><a href="#discovering-asms" class="tocxref"><span class="secno">5.1.1 </span>Discovering ASMs</a></li></ul></li><li class="tocline"><a href="#windows-asm-api" class="tocxref"><span class="secno">5.2 </span>Windows ASM API</a></li></ul></li><li class="tocline"><a href="#security-and-privacy-guidelines" class="tocxref"><span class="secno">6. </span>Security and Privacy Guidelines</a><ul class="toc"><li class="tocline"><a href="#khaccesstoken" class="tocxref"><span class="secno">6.1 </span>KHAccessToken</a></li><li class="tocline"><a href="#access-control-for-asm-apis" class="tocxref"><span class="secno">6.2 </span>Access Control for ASM APIs</a></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></section>
+
+    <section id="notation">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_notation"><span class="secno">1. </span>Notation</h2>
+      
+      <p>Type names, attribute names and element names are written as <code>code</code>.</p>
+      
+      <p>String literals are enclosed in “”, e.g. “UAF-TLV”.</p>
+      
+      <p>In formulas we use “|” to denote byte wise concatenation
+	operations.</p>
+      
+      <p>DOM APIs are described using the ECMAScript [<cite><a class="bibref" href="#bib-ECMA-262">ECMA-262</a></cite>] bindings
+	for WebIDL [<cite><a class="bibref" href="#bib-WebIDL-ED">WebIDL-ED</a></cite>].</p>
+
+      <p>The notation base64url refers to "Base 64 Encoding with URL and Filename
+	Safe Alphabet" [<cite><a class="bibref" href="#bib-RFC4648">RFC4648</a></cite>] <i>without padding</i>.  </p>
+
+      <p>Following [<cite><a class="bibref" href="#bib-WebIDL-ED">WebIDL-ED</a></cite>], dictionary members are optional unless they are 
+	explicitly marked as <code>required</code>.</p>
+      
+      <p>WebIDL dictionary members <em class="rfc2119" title="MUST NOT">MUST NOT</em> have a value of null.</p>
+      
+      <p>Unless otherwise specified, if a WebIDL dictionary member is DOMString, 
+	it <em class="rfc2119" title="MUST NOT">MUST NOT</em> be empty.</p>
+      
+      <p>Unless otherwise specified, if a WebIDL dictionary member is a List, 
+	it <em class="rfc2119" title="MUST NOT">MUST NOT</em> be an empty list.</p>
+      
+      <p>UAF specific terminology used in this document is defined in
+	[<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>].</p>
+
+      <p>All diagrams, examples, notes in this specification are non-normative.</p>
+      
+      <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_1"><span>Note</span></div><p class="">
+	Note: Certain dictionary members need to be present in order to
+	comply with FIDO requirements. Such members are marked in the
+	WebIDL definitions found in this document, as
+	<code>required</code>. The keyword <code>required</code> has been
+	introduced by [<cite><a class="bibref" href="#bib-WebIDL-ED">WebIDL-ED</a></cite>], which is a work-in-progress. If you
+	are using a WebIDL parser which implements [<cite><a class="bibref" href="#bib-WebIDL">WebIDL</a></cite>], then you
+	may remove the keyword <code>required</code> from your WebIDL and
+	use other means to ensure those fields are present.  
+      </p></div>
+
+      <section id="key-words">
+	<h3 aria-level="2" role="heading" id="h3_key-words"><span class="secno">1.1 </span>Key Words</h3>
+	
+	<p>The key words “<em class="rfc2119" title="MUST">MUST</em>”, “<em class="rfc2119" title="MUST NOT">MUST NOT</em>”, “<em class="rfc2119" title="REQUIRED">REQUIRED</em>”, “<em class="rfc2119" title="SHALL">SHALL</em>”, “<em class="rfc2119" title="SHALL
+	  NOT">SHALL
+	  NOT</em>”, “<em class="rfc2119" title="SHOULD">SHOULD</em>”, “<em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em>”, “<em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em>”, “<em class="rfc2119" title="MAY">MAY</em>”, and
+	  “<em class="rfc2119" title="OPTIONAL">OPTIONAL</em>” in this document are to be interpreted as
+	  described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].</p>
+      </section>
+    </section>
+    
+    <section class="informative" id="overview">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_overview"><span class="secno">2. </span>Overview</h2><p><em>This section is non-normative.</em></p>
+      <p>
+        UAF authenticators may be connected to a user device via various physical interfaces
+        (SPI, USB, Bluetooth, etc). The UAF Authenticator-Specific module (ASM) is a software interface
+        on top of UAF authenticators which gives a standardized way for FIDO UAF Clients to detect and
+        access the functionality of UAF authenticators, and hides internal communication
+        complexity from clients.
+      </p>
+      <p>The ASM is a platform-specific
+	software component offering an API to FIDO UAF Clients, enabling
+	them to discover and communicate with one or more available
+	authenticators.
+      </p>
+      <p>A single ASM may report on behalf of multiple authenticators.</p>
+      <p>The intended audience for this document is FIDO UAF authenticator and
+	FIDO UAF Client vendors.
+      </p>
+
+      <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_2"><span>Note</span></div><div class="">
+        <p>
+          Platform vendors might choose to not expose the ASM API defined in this document 
+	  to applications.
+          They might instead choose to expose ASM functionality through some other API
+          (such as, for example, the Android KeyStore API, or iOS KeyChain API).
+          In these cases it's important to make sure that the underlying ASM communicates 
+	  with the FIDO UAF authenticator in a
+          manner defined in this document.
+        </p>
+      </div></div>
+	
+	
+      <p>The FIDO UAF protocol and its various operations is described in the
+	FIDO UAF Protocol Specification [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]. The following
+	simplified architecture diagram illustrates the interactions
+	and actors this document is concerned with:
+      </p>
+      <figure id="fig-uaf-asm-api-architecture">
+	<img src="./img/fido-uaf-asm-api-arch.png" onerror="./img/fido-uaf-asm-api-arch.png" alt="UAF ASM API Architecture">
+	<figcaption>Fig. <span class="figno">1</span> <span class="fig-title">
+          UAF ASM API Architecture
+	</span></figcaption>
+      </figure>
+      <section id="code-example-format">
+	<h3 aria-level="2" role="heading" id="h3_code-example-format"><span class="secno">2.1 </span>Code &amp; Example format</h3>
+	<p>ASM requests and responses are presented in WebIDL format.</p>
+      </section>
+    </section>
+    
+    <section class="normativeDisclaimer" id="asm-requests-and-responses">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_asm-requests-and-responses"><span class="secno">3. </span>ASM Requests and Responses</h2><p><em>This section is normative.</em></p>
+
+      <p class="fido-normal">The ASM API is defined in terms of JSON-formatted [<cite><a class="bibref" href="#bib-ECMA-404">ECMA-404</a></cite>] request 
+	and reply messages. In order to send a request to an ASM, a FIDO UAF Client 
+	creates an appropriate object (e.g., in ECMAscript), "stringifies" it (also known 
+	as serialization) into a JSON-formated string, and sends it to the ASM. The 
+	ASM de-serializes the JSON-formatted string, processes the request, constructs 
+	a response, stringifies it, returning it as a JSON-formatted string.
+      </p>
+
+      <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_3"><span>Note</span></div><div class="">
+        <p>
+          The ASM request processing rules in this document
+          explicitly assume that the underlying authenticator
+          implements the "UAFV1TLV" assertion scheme
+          (e.g. references to TLVs and tags) as described in
+          [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].  If an authenticator supports a
+          different assertion scheme then the corresponding
+          processing rules must be replaced with appropriate
+          assertion scheme-specific rules.
+        </p>
+      </div></div>
+
+      <p>
+	Authenticator implementers <em class="rfc2119" title="MAY">MAY</em> create custom authenticator command interfaces other 
+	than the one defined in [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>]. 
+	Such implementations are not required to 
+	implement the exact message-specific processing steps described in this section. 
+	However, 
+	</p><ol>
+	  <li>the command interfaces <em class="rfc2119" title="MUST">MUST</em> present the ASM with external behavior equivalent 
+	    to that described below in order for the ASM to properly respond to the client 
+	    request messages (e.g. returning appropriate UAF status codes for specific 
+	    conditions).</li>
+	  <li>all authenticator implementations <em class="rfc2119" title="MUST">MUST</em> support an assertion scheme 
+	    as defined [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>] and <em class="rfc2119" title="MUST">MUST</em> return the related objects, i.e. 
+	  <code>TAG_UAFV1_REG_ASSERTION</code> and <code>TAG_UAFV1_AUTH_ASSERTION</code>.</li>
+	</ol>
+      <p></p>
+
+
+      <section id="request-enum">
+        <h3 aria-level="2" role="heading" id="h3_request-enum"><span class="secno">3.1 </span>Request enum</h3>
+        <pre class="idl"><span class="idlEnum" id="idl-def-Request">enum <span class="idlEnumID">Request</span> {
+    "<a href="#idl-def-Request.xGetInfo" class="idlEnumItem">GetInfo</a>",
+    "<a href="#idl-def-Request.xRegister" class="idlEnumItem">Register</a>",
+    "<a href="#idl-def-Request.xAuthenticate" class="idlEnumItem">Authenticate</a>",
+    "<a href="#idl-def-Request.xDeregister" class="idlEnumItem">Deregister</a>",
+    "<a href="#idl-def-Request.xGetRegistrations" class="idlEnumItem">GetRegistrations</a>",
+    "<a href="#idl-def-Request.xOpenSettings" class="idlEnumItem">OpenSettings</a>"
+};</span></pre><table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr><tr><td><code id="idl-def-Request.xGetInfo">GetInfo</code></td><td>GetInfo</td></tr><tr><td><code id="idl-def-Request.xRegister">Register</code></td><td>Register</td></tr><tr><td><code id="idl-def-Request.xAuthenticate">Authenticate</code></td><td>Authenticate</td></tr><tr><td><code id="idl-def-Request.xDeregister">Deregister</code></td><td>Deregister</td></tr><tr><td><code id="idl-def-Request.xGetRegistrations">GetRegistrations</code></td><td>GetRegistrations</td></tr><tr><td><code id="idl-def-Request.xOpenSettings">OpenSettings</code></td><td>OpenSettings</td></tr></tbody></table>
+	
+      </section>
+
+      <section id="statuscode-interface">
+	<h3 aria-level="2" role="heading" id="h3_statuscode-interface"><span class="secno">3.2 </span>StatusCode Interface</h3>
+
+	<pre class="idl"><span class="idlInterface" id="idl-def-StatusCode">interface <span class="idlInterfaceID">StatusCode</span> {
+<span class="idlConst">    const <span class="idlConstType">short</span> <span class="idlConstName"><a href="#UAF_ASM_STATUS_OK">UAF_ASM_STATUS_OK</a></span> = <span class="idlConstValue">0x00</span>;</span>
+<span class="idlConst">    const <span class="idlConstType">short</span> <span class="idlConstName"><a href="#UAF_ASM_STATUS_ERROR">UAF_ASM_STATUS_ERROR</a></span> = <span class="idlConstValue">0x01</span>;</span>
+<span class="idlConst">    const <span class="idlConstType">short</span> <span class="idlConstName"><a href="#UAF_ASM_STATUS_ACCESS_DENIED">UAF_ASM_STATUS_ACCESS_DENIED</a></span> = <span class="idlConstValue">0x02</span>;</span>
+<span class="idlConst">    const <span class="idlConstType">short</span> <span class="idlConstName"><a href="#UAF_ASM_STATUS_USER_CANCELLED">UAF_ASM_STATUS_USER_CANCELLED</a></span> = <span class="idlConstValue">0x03</span>;</span>
+};</span></pre><section id="constants"><h4 aria-level="3" role="heading" id="h4_constants"><span class="secno">3.2.1 </span>Constants</h4><dl class="constants"><dt id="widl-StatusCode-UAF_ASM_STATUS_OK"><code>UAF_ASM_STATUS_OK</code> of type <span class="idlConstType">short</span></dt><dd>No error condition encountered.</dd><dt id="widl-StatusCode-UAF_ASM_STATUS_ERROR"><code>UAF_ASM_STATUS_ERROR</code> of type <span class="idlConstType">short</span></dt><dd>An unknown error has been encountered during the processing.</dd><dt id="widl-StatusCode-UAF_ASM_STATUS_ACCESS_DENIED"><code>UAF_ASM_STATUS_ACCESS_DENIED</code> of type <span class="idlConstType">short</span></dt><dd>Access to this request is denied.</dd><dt id="widl-StatusCode-UAF_ASM_STATUS_USER_CANCELLED"><code>UAF_ASM_STATUS_USER_CANCELLED</code> of type <span class="idlConstType">short</span></dt><dd>Indicates that user explicitly canceled the request.</dd></dl></section>
+
+      </section>
+
+      <section id="asmrequest-dictionary">
+
+	<h3 aria-level="2" role="heading" id="h3_asmrequest-dictionary"><span class="secno">3.3 </span>ASMRequest Dictionary</h3>
+	
+	<p>All ASM requests are represented as <code>ASMRequest</code> objects.</p>
+	<pre class="idl"><span class="idlDictionary" id="idl-def-ASMRequest">dictionary <span class="idlDictionaryID">ASMRequest</span> {
+<span class="idlMember">    <span class="idlMemberType">required Request</span> <span class="idlMemberName"><a href="#widl-ASMRequest-requestType">requestType</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">Version</span>          <span class="idlMemberName"><a href="#widl-ASMRequest-asmVersion">asmVersion</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">unsigned short</span>   <span class="idlMemberName"><a href="#widl-ASMRequest-authenticatorIndex">authenticatorIndex</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">object</span>           <span class="idlMemberName"><a href="#widl-ASMRequest-args">args</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">Extension[]</span>      <span class="idlMemberName"><a href="#widl-ASMRequest-exts">exts</a></span>;</span>
+};</span></pre><section id="dictionary-asmrequest-members"><h4 aria-level="3" role="heading" id="h4_dictionary-asmrequest-members"><span class="secno">3.3.1 </span>Dictionary <a class="idlType" href="#idl-def-ASMRequest"><code>ASMRequest</code></a> Members</h4><dl class="dictionary-members"><dt id="widl-ASMRequest-requestType"><code>requestType</code> of type <span class="idlMemberType">required Request</span></dt><dd>Request type</dd><dt id="widl-ASMRequest-asmVersion"><code>asmVersion</code> of type <span class="idlMemberType">Version</span></dt><dd>ASM message version to be used with this request.
+            For the definition of the <code>Version</code> dictionary see [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].
+            The ASM version <em class="rfc2119" title="MUST">MUST</em> be 1.0 (i.e. major version is 1 and minor version 0).</dd><dt id="widl-ASMRequest-authenticatorIndex"><code>authenticatorIndex</code> of type <span class="idlMemberType">unsigned short</span></dt><dd>Refer to the <code>GetInfo</code> request for more details. 
+	    Field <code>authenticatorIndex</code> <em class="rfc2119" title="MUST NOT">MUST NOT</em> be set
+	    for <code>GetInfo</code> request.</dd><dt id="widl-ASMRequest-args"><code>args</code> of type <span class="idlMemberType">object</span></dt><dd>Request-specific arguments. If set, this attribute <em class="rfc2119" title="MAY">MAY</em> take
+	    one of the following types:
+	    <ul>
+	      <li><code>RegisterIn</code></li>
+	      <li><code>AuthenticateIn</code></li>
+            <li><code>DeregisterIn</code></li>
+	    </ul>
+	  </dd><dt id="widl-ASMRequest-exts"><code>exts</code> of type array of <span class="idlMemberType">Extension</span></dt><dd>List of UAF extensions.
+            For the definition of the <code>Extension</code> dictionary see [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].
+	  </dd></dl></section>
+      </section>
+      
+      <section id="asmresponse-dictionary">
+	<h3 aria-level="2" role="heading" id="h3_asmresponse-dictionary"><span class="secno">3.4 </span>ASMResponse Dictionary</h3>
+	
+	<p class="fido-normal">All ASM responses are represented as <code>ASMResponse</code> objects.
+	</p>
+	
+	<pre class="idl"><span class="idlDictionary" id="idl-def-ASMResponse">dictionary <span class="idlDictionaryID">ASMResponse</span> {
+<span class="idlMember">    <span class="idlMemberType">required short</span> <span class="idlMemberName"><a href="#widl-ASMResponse-statusCode">statusCode</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">object</span>         <span class="idlMemberName"><a href="#widl-ASMResponse-responseData">responseData</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">Extension[]</span>    <span class="idlMemberName"><a href="#widl-ASMResponse-exts">exts</a></span>;</span>
+};</span></pre><section id="dictionary-asmresponse-members"><h4 aria-level="3" role="heading" id="h4_dictionary-asmresponse-members"><span class="secno">3.4.1 </span>Dictionary <a class="idlType" href="#idl-def-ASMResponse"><code>ASMResponse</code></a> Members</h4><dl class="dictionary-members"><dt id="widl-ASMResponse-statusCode"><code>statusCode</code> of type <span class="idlMemberType">required short</span></dt><dd><em class="rfc2119" title="MUST">MUST</em> contain one of the values defined in the <code>StatusCode</code> interface</dd><dt id="widl-ASMResponse-responseData"><code>responseData</code> of type <span class="idlMemberType">object</span></dt><dd>Request-specific response data. This attribute <em class="rfc2119" title="MUST">MUST</em> have one of
+	    the following types:
+            <ul>
+              <li><code>GetInfoOut</code></li>
+              <li><code>RegisterOut</code></li>
+              <li><code>AuthenticateOut</code></li>
+              <li><code>GetRegistrationOut</code></li>
+            </ul>
+	  </dd><dt id="widl-ASMResponse-exts"><code>exts</code> of type array of <span class="idlMemberType">Extension</span></dt><dd>List of UAF extensions.
+            For the definition of the <code>Extension</code> dictionary see [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].
+	  </dd></dl></section>
+	
+      </section>
+
+      <section id="getinfo-request">
+	<h3 aria-level="2" role="heading" id="h3_getinfo-request"><span class="secno">3.5 </span>GetInfo Request</h3>
+	
+	<p>Return information about available authenticators.</p>
+	<ol>
+	  <li>Enumerate all of the authenticators this ASM supports</li>
+	  <li>Collect information about all of them</li>
+	  <li>Assign indices to them (<code>authenticatorIndex</code>)</li>
+	  <li>Return the information to the caller</li>
+	</ol>
+	<div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_4"><span>Note</span></div><p class="">
+          Where possible, an <code>authenticatorIndex</code> should be
+          a persistent identifier that uniquely identifies an
+          authenticator over time, even if it is repeatedly
+          disconnected and reconnected.  This avoids possible
+          confusion if the set of available authenticators changes
+          between a <code>GetInfo</code> request and subsequent ASM requests,
+          and allows a FIDO client to perform caching of information about removable
+          authenticators for a better user experience.</p></div>
+
+
+
+	<p>For a GetInfo request, the following <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+        have the following value(s). The remaining  <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> members
+        <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+	<ul>
+	  <li><code>ASMRequest.requestType</code> <em class="rfc2119" title="MUST">MUST</em> be set to <code>GetInfo</code></li>
+	</ul>
+
+    <p>For a GetInfo response, the following <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+              have the following value(s). The remaining  <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> members
+              <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+	<ul>
+	  <li><code>ASMResponse.statusCode</code> <em class="rfc2119" title="MUST">MUST</em> have one of the following values</li>
+	  <ul>
+	    <li><code>UAF_ASM_STATUS_OK</code></li>
+	    <li><code>UAF_ASM_STATUS_ERROR</code></li>
+	  </ul>
+          <li><code>ASMResponse.responseData</code> <em class="rfc2119" title="MUST">MUST</em> be an object of type <code>GetInfoOut</code></li>
+	</ul>
+
+	<section id="getinfoout-dictionary">
+	  <h4 aria-level="3" role="heading" id="h4_getinfoout-dictionary"><span class="secno">3.5.1 </span>GetInfoOut Dictionary</h4>
+	  
+	  <pre class="idl"><span class="idlDictionary" id="idl-def-GetInfoOut">dictionary <span class="idlDictionaryID">GetInfoOut</span> {
+<span class="idlMember">    <span class="idlMemberType">required AuthenticatorInfo[]</span> <span class="idlMemberName"><a href="#widl-GetInfoOut-Authenticators">Authenticators</a></span>;</span>
+};</span></pre><section id="dictionary-getinfoout-members"><h5 aria-level="4" role="heading" id="h5_dictionary-getinfoout-members"><span class="secno">3.5.1.1 </span>Dictionary <a class="idlType" href="#idl-def-GetInfoOut"><code>GetInfoOut</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-GetInfoOut-Authenticators"><code>Authenticators</code> of type array of <span class="idlMemberType">required AuthenticatorInfo</span></dt><dd>List of authenticators reported by the current ASM. <em class="rfc2119" title="MAY">MAY</em> be empty an empty list.</dd></dl></section>
+	  
+	</section>
+	
+	<section id="authenticatorinfo-dictionary">	  
+	  <h4 aria-level="3" role="heading" id="h4_authenticatorinfo-dictionary"><span class="secno">3.5.2 </span>AuthenticatorInfo Dictionary</h4>
+	  <pre class="idl"><span class="idlDictionary" id="idl-def-AuthenticatorInfo">dictionary <span class="idlDictionaryID">AuthenticatorInfo</span> {
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>               <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-authenticatorIndex">authenticatorIndex</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required Version[]</span>                    <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-asmVersions">asmVersions</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required boolean</span>                      <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-isUserEnrolled">isUserEnrolled</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required boolean</span>                      <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-hasSettings">hasSettings</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required AAID</span>                         <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-aaid">aaid</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>                    <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-assertionScheme">assertionScheme</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>               <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-authenticationAlgorithm">authenticationAlgorithm</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short[]</span>             <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-attestationTypes">attestationTypes</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned long</span>                <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-userVerification">userVerification</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>               <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-keyProtection">keyProtection</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>               <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-matcherProtection">matcherProtection</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned long</span>                <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-attachmentHint">attachmentHint</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required boolean</span>                      <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-isSecondFactorOnly">isSecondFactorOnly</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required boolean</span>                      <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-isRoamingAuthenticator">isRoamingAuthenticator</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString[]</span>                  <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-supportedExtensionIDs">supportedExtensionIDs</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>               <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-tcDisplay">tcDisplay</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DOMString</span>                             <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-tcDisplayContentType">tcDisplayContentType</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DisplayPNGCharacteristicsDescriptor[]</span> <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-tcDisplayPNGCharacteristics">tcDisplayPNGCharacteristics</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DOMString</span>                             <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-title">title</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DOMString</span>                             <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-description">description</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DOMString</span>                             <span class="idlMemberName"><a href="#widl-AuthenticatorInfo-icon">icon</a></span>;</span>
+};</span></pre><section id="dictionary-authenticatorinfo-members"><h5 aria-level="4" role="heading" id="h5_dictionary-authenticatorinfo-members"><span class="secno">3.5.2.1 </span>Dictionary <a class="idlType" href="#idl-def-AuthenticatorInfo"><code>AuthenticatorInfo</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-AuthenticatorInfo-authenticatorIndex"><code>authenticatorIndex</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>Authenticator index. Unique, within the scope of all
+	      authenticators reported by the ASM, index
+	      referring to an authenticator. This index is used by the UAF
+	      Client to refer to the appropriate authenticator in further requests.</dd><dt id="widl-AuthenticatorInfo-asmVersions"><code>asmVersions</code> of type array of <span class="idlMemberType">required Version</span></dt><dd>A list of ASM Versions that this authenticator can be used with.
+              For the definition of the <code>Version</code> dictionary see [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].
+            </dd><dt id="widl-AuthenticatorInfo-isUserEnrolled"><code>isUserEnrolled</code> of type <span class="idlMemberType">required boolean</span></dt><dd>Indicates whether a user is enrolled with this authenticator. Authenticators which
+              don't have user verification technology <em class="rfc2119" title="MUST">MUST</em> always return true.
+              Bound authenticators which support different profiles per operating system (OS) user 
+	      <em class="rfc2119" title="MUST">MUST</em> report enrollment status for the current OS user.</dd><dt id="widl-AuthenticatorInfo-hasSettings"><code>hasSettings</code> of type <span class="idlMemberType">required boolean</span></dt><dd>A boolean value indicating whether the authenticator has its own
+	      settings. If so, then a FIDO UAF Client can launch these settings by
+	      sending a <code>OpenSettings</code> request.</dd><dt id="widl-AuthenticatorInfo-aaid"><code>aaid</code> of type <span class="idlMemberType">required AAID</span></dt><dd>The "Authenticator Attestation ID" (AAID), which identifies the type and
+	      batch of the authenticator. See [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>] for the definition of the AAID structure. 
+	    </dd><dt id="widl-AuthenticatorInfo-assertionScheme"><code>assertionScheme</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>The assertion scheme the authenticator uses for attested data and
+	      signatures.
+	      <p>AssertionScheme identifiers are defined in the UAF Protocol
+		specification [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].</p>
+	    </dd><dt id="widl-AuthenticatorInfo-authenticationAlgorithm"><code>authenticationAlgorithm</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>Indicates the authentication algorithm that the authenticator uses.
+	      Authentication algorithm identifiers are defined in are defined 
+	      in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>] with <code>UAF_ALG</code> prefix.</dd><dt id="widl-AuthenticatorInfo-attestationTypes"><code>attestationTypes</code> of type array of <span class="idlMemberType">required unsigned short</span></dt><dd>Indicates attestation types supported by the authenticator.
+              Attestation type TAGs are defined in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>] 
+	      with <code>TAG_ATTESTATION</code> prefix</dd><dt id="widl-AuthenticatorInfo-userVerification"><code>userVerification</code> of type <span class="idlMemberType">required unsigned long</span></dt><dd>A set of bit flags indicating the user verification method(s)
+	      supported by the authenticator. The values are defined by the
+	      <code>USER_VERIFY</code> constants in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].</dd><dt id="widl-AuthenticatorInfo-keyProtection"><code>keyProtection</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>A set of bit flags indicating the key protections used by the
+	      authenticator. The values are defined by the <code>KEY_PROTECTION</code>
+	      constants in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].</dd><dt id="widl-AuthenticatorInfo-matcherProtection"><code>matcherProtection</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>A set of bit flags indicating the matcher protections used by the
+              authenticator. The values are defined by the <code>MATCHER_PROTECTION</code>
+              constants in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].</dd><dt id="widl-AuthenticatorInfo-attachmentHint"><code>attachmentHint</code> of type <span class="idlMemberType">required unsigned long</span></dt><dd>A set of bit flags indicating how the authenticator is currently
+	      connected to the system hosting the FIDO UAF Client software. The
+	      values are defined by the <code>ATTACHMENT_HINT</code> constants defined in
+	      [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].
+              <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_5"><span>Note</span></div><p class="">Because the connection state and topology of an authenticator
+		may be transient, these values are only hints that can be used
+		by server-supplied policy to guide the user experience, e.g. to
+		prefer a device that is connected and ready for authenticating
+		or confirming a low-value transaction, rather than one that is
+		more secure but requires more user effort. These values are not
+		reflected in authenticator metadata and cannot be relied on by
+		the relying party, although some models of authenticator may
+		provide attested measurements with similar semantics as part of
+		UAF protocol messages.
+	      </p></div>
+	    </dd><dt id="widl-AuthenticatorInfo-isSecondFactorOnly"><code>isSecondFactorOnly</code> of type <span class="idlMemberType">required boolean</span></dt><dd>Indicates whether the authenticator can be used only as a second
+	      factor.</dd><dt id="widl-AuthenticatorInfo-isRoamingAuthenticator"><code>isRoamingAuthenticator</code> of type <span class="idlMemberType">required boolean</span></dt><dd>Indicates whether this is a roaming authenticator or not.</dd><dt id="widl-AuthenticatorInfo-supportedExtensionIDs"><code>supportedExtensionIDs</code> of type array of <span class="idlMemberType">required DOMString</span></dt><dd>List of supported UAF extension Ids. <em class="rfc2119" title="MAY">MAY</em> be an empty list.</dd><dt id="widl-AuthenticatorInfo-tcDisplay"><code>tcDisplay</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>A set of bit flags indicating the availability and type of
+	      the authenticator's transaction confirmation display. The values are 
+	      defined by the <code>TRANSACTION_CONFIRMATION_DISPLAY</code>
+	      constants in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].
+	      <p>This value <em class="rfc2119" title="MUST">MUST</em> be 0 if transaction confirmation is not 
+		supported by the authenticator.</p>
+	    </dd><dt id="widl-AuthenticatorInfo-tcDisplayContentType"><code>tcDisplayContentType</code> of type <span class="idlMemberType">DOMString</span></dt><dd>Supported transaction content type [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>].
+	      <p>This value <em class="rfc2119" title="MUST">MUST</em> be present if transaction confirmation is supported, 
+		i.e. <code>tcDisplay</code> is non-zero.</p>
+	    </dd><dt id="widl-AuthenticatorInfo-tcDisplayPNGCharacteristics"><code>tcDisplayPNGCharacteristics</code> of type array of <span class="idlMemberType">DisplayPNGCharacteristicsDescriptor</span></dt><dd>Supported transaction Portable Network Graphic (PNG) type [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>].
+	      For the definition of the <code>DisplayPNGCharacteristicsDescriptor</code> 
+	      structure see [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>].
+	      <p>This list <em class="rfc2119" title="MUST">MUST</em> be present if transaction confirmation is supported, 
+		i.e. <code>tcDisplay</code> is non-zero.</p>
+	    </dd><dt id="widl-AuthenticatorInfo-title"><code>title</code> of type <span class="idlMemberType">DOMString</span></dt><dd>A human-readable short title for the authenticator. It should be
+              localized for the current locale.
+              <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_6"><span>Note</span></div><p class="">If the ASM doesn't return a title, the FIDO UAF Client 
+		must provide a title to the calling App.
+                See section "Authenticator interface" in [<cite><a class="bibref" href="#bib-UAFAppAPIAndTransport">UAFAppAPIAndTransport</a></cite>].</p></div>
+          </dd><dt id="widl-AuthenticatorInfo-description"><code>description</code> of type <span class="idlMemberType">DOMString</span></dt><dd>Human-readable longer description of what the authenticator
+            represents.
+            <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_7"><span>Note</span></div><div class="">
+              <p>This text should be localized for current locale.</p>
+              <p>The text is intended to be displayed to the user.  It might deviate from the description
+                specified in the metadata statement for the authenticator [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>].</p>
+              <p>If the ASM doesn't return a description, the FIDO UAF Client 
+		will provide a description to the calling application.
+                See section "Authenticator interface" in [<cite><a class="bibref" href="#bib-UAFAppAPIAndTransport">UAFAppAPIAndTransport</a></cite>].</p>
+            </div></div>
+          </dd><dt id="widl-AuthenticatorInfo-icon"><code>icon</code> of type <span class="idlMemberType">DOMString</span></dt><dd>Portable Network Graphic (PNG) format image file representing the 
+	      icon encoded as a data: url [<cite><a class="bibref" href="#bib-RFC2397">RFC2397</a></cite>].
+	      <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_8"><span>Note</span></div><p class="">If the ASM doesn't return an icon, the FIDO UAF Client 
+		will provide a default icon to the calling application.
+		See section "Authenticator interface" in [<cite><a class="bibref" href="#bib-UAFAppAPIAndTransport">UAFAppAPIAndTransport</a></cite>].</p></div>
+	    </dd></dl></section>
+	</section>
+      </section>
+      <section id="register-request">	
+	<h3 aria-level="2" role="heading" id="h3_register-request"><span class="secno">3.6 </span>Register Request</h3>
+	
+	<p>Verify the user and return an authenticator-generated UAF
+	  registration assertion.
+	</p>
+
+
+    <p>For a Register request, the following <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+              have the following value(s). The remaining  <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> members
+              <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+
+	<ul>
+	  <li><code>ASMRequest.requestType</code> <em class="rfc2119" title="MUST">MUST</em> be set to <code>Register</code></li>
+	  <li><code>ASMRequest.asmVersion</code> <em class="rfc2119" title="MUST">MUST</em> be set to the desired version</li>
+	  <li><code>ASMRequest.authenticatorIndex</code> <em class="rfc2119" title="MUST">MUST</em> be set to the target authenticator index</li>
+	  <li><code>ASMRequest.args</code> <em class="rfc2119" title="MUST">MUST</em> be set to an object of type <code>RegisterIn</code>
+	  </li>
+	</ul>
+
+    <p>For a Register response, the following <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+              have the following value(s). The remaining  <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> members
+              <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+
+	<ul>
+	  <li><code>ASMResponse.statusCode</code> <em class="rfc2119" title="MUST">MUST</em> have one of the following values:
+	    <ul>
+	      <li><code>UAF_ASM_STATUS_OK</code></li>
+	      <li><code>UAF_ASM_STATUS_ERROR</code></li>
+	      <li><code>UAF_ASM_STATUS_ACCESS_DENIED</code></li>
+              <li><code>UAF_ASM_STATUS_USER_CANCELLED</code></li>
+	    </ul>
+	  </li>
+	  <li><code>ASMResponse.responseData</code> <em class="rfc2119" title="MUST">MUST</em> be an object of type <code>RegisterOut</code></li>
+	</ul>
+
+	<section id="registerin-object">
+	  <h4 aria-level="3" role="heading" id="h4_registerin-object"><span class="secno">3.6.1 </span>RegisterIn Object</h4>
+	  
+	  <pre class="idl"><span class="idlDictionary" id="idl-def-RegisterIn">dictionary <span class="idlDictionaryID">RegisterIn</span> {
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>      <span class="idlMemberName"><a href="#widl-RegisterIn-appID">appID</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>      <span class="idlMemberName"><a href="#widl-RegisterIn-username">username</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>      <span class="idlMemberName"><a href="#widl-RegisterIn-finalChallenge">finalChallenge</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span> <span class="idlMemberName"><a href="#widl-RegisterIn-attestationType">attestationType</a></span>;</span>
+};</span></pre><section id="dictionary-registerin-members"><h5 aria-level="4" role="heading" id="h5_dictionary-registerin-members"><span class="secno">3.6.1.1 </span>Dictionary <a class="idlType" href="#idl-def-RegisterIn"><code>RegisterIn</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-RegisterIn-appID"><code>appID</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>The FIDO server Application Identity.</dd><dt id="widl-RegisterIn-username"><code>username</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>Human-readable user account name</dd><dt id="widl-RegisterIn-finalChallenge"><code>finalChallenge</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>base64url-encoded challenge data [<cite><a class="bibref" href="#bib-RFC4648">RFC4648</a></cite>]</dd><dt id="widl-RegisterIn-attestationType"><code>attestationType</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>Single requested attestation type</dd></dl></section>
+	</section>
+
+	<section id="registerout-object">
+	  <h4 aria-level="3" role="heading" id="h4_registerout-object"><span class="secno">3.6.2 </span>RegisterOut Object</h4>
+	  
+	  <pre class="idl"><span class="idlDictionary" id="idl-def-RegisterOut">dictionary <span class="idlDictionaryID">RegisterOut</span> {
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span> <span class="idlMemberName"><a href="#widl-RegisterOut-assertion">assertion</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span> <span class="idlMemberName"><a href="#widl-RegisterOut-assertionScheme">assertionScheme</a></span>;</span>
+};</span></pre><section id="dictionary-registerout-members"><h5 aria-level="4" role="heading" id="h5_dictionary-registerout-members"><span class="secno">3.6.2.1 </span>Dictionary <a class="idlType" href="#idl-def-RegisterOut"><code>RegisterOut</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-RegisterOut-assertion"><code>assertion</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>FIDO UAF authenticator registration assertion, base64url-encoded</dd><dt id="widl-RegisterOut-assertionScheme"><code>assertionScheme</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>Assertion scheme. 	      
+	      <p>AssertionScheme identifiers are defined in the UAF Protocol
+		specification [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].</p>
+	    </dd></dl></section>
+	</section>
+
+	<section id="detailed-description-for-processing-the-register-request">
+	  <h4 aria-level="3" role="heading" id="h4_detailed-description-for-processing-the-register-request"><span class="secno">3.6.3 </span>Detailed Description for Processing the Register Request</h4>
+	  
+	  <p class="fido-normal">Refer to [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>] document for more information about
+	    the TAGs and structure mentioned in this paragraph.</p>
+	  
+	  <ol>
+	    <li>Locate authenticator using <code>authenticatorIndex</code>.  
+	      If the authenticator cannot be located, then fail with <code>UAF_ASM_STATUS_ERROR</code>.
+	    </li>
+	    <li>If a user is already enrolled with this authenticator (such as
+	      biometric enrollment, PIN setup, etc. for example) then the ASM <em class="rfc2119" title="MUST">MUST</em> request that the
+	      authenticator verifies the user.
+
+              <div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_9"><span>Note</span></div><p class="">
+                If the authenticator supports <code>UserVerificationToken</code> 
+		(see [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>]), then the ASM
+                must obtain this token in order to later include it with 
+		the <code>Register</code> command.
+              </p></div>
+	      <ul>
+		<li>If verification fails, return <code>UAF_ASM_STATUS_ACCESS_DENIED</code></li>
+	      </ul>
+	    </li>
+	    <li>If the user is not enrolled with the authenticator then take the user
+	      through the enrollment process.
+	      <ul>
+		<li>If enrollment fails, return <code>UAF_ASM_STATUS_ACCESS_DENIED</code></li>
+	      </ul>
+	    </li>
+	    <li>Construct <code>KHAccessToken</code> (see section 
+	      <a href="#khaccesstoken">KHAccessToken</a> for more
+	      details)</li>
+	    <li>Hash the provided <code>RegisterIn.finalChallenge</code> using the 
+	      authenticator-specific hash function (<code>FinalChallengeHash</code>)
+	      <p>An authenticator's preferred hash function information <em class="rfc2119" title="MUST">MUST</em> meet the 
+		algorithm defined in the <code>AuthenticatorInfo.authenticationAlgorithm</code> field.</p>
+	    </li>
+	    <li>Create a <code>TAG_UAFV1_REGISTER_CMD</code> structure and pass it to the authenticator
+	      <ol>
+		<li>Copy <code>FinalChallengeHash</code>, <code>KHAccessToken</code>, 
+		  <code>RegisterIn.Username</code>,
+		  <code>UserVerificationToken</code>, <code>RegisterIn.AppID</code>, 
+		  <code>RegisterIn.AttestationType</code>
+		  <ol>
+                    <li>Depending on <code>AuthenticatorType</code> some arguments may be optional. 
+		      Refer to [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>]
+                      for more information on authenticator types and their required arguments.</li>
+		  </ol>
+		</li>
+              </ol>
+	    </li>
+	    <li>Invoke the command and receive the response</li>
+	    <li>Parse <code>TAG_UAFV1_REGISTER_CMD_RESP</code>
+              <ol>
+                <li>Parse the content of <code>TAG_AUTHENTICATOR_ASSERTION</code> 
+		  (e.g. <code>TAG_UAFV1_REG_ASSERTION</code>) and
+                  extract <code>TAG_KEYID</code></li>
+              </ol>
+	    </li>
+	    <li>If the authenticator is a bound authenticator
+	      <ol>
+		<li>Store <code>CallerID</code>, <code>AppID</code>, <code>TAG_KEYHANDLE</code>, 
+		  <code>TAG_KEYID</code> and <code>CurrentTimestamp</code> in the ASM's database.
+		  <div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_10"><span>Note</span></div><p class="">
+                    What data an ASM will store at this stage depends on underlying authenticator's architecture.
+                    For example some authenticators might store AppID, KeyHandle, KeyID inside their own secure storage.
+                    In this case ASM doesn't have to store these data in its database.
+		  </p></div>
+		</li>
+		</ol>
+	      </li>
+	    <li>Create a <code>RegisterOut</code> object
+	      <ol>
+		<li>Set <code>RegisterOut.assertionScheme</code> according to <code>AuthenticatorInfo.assertionScheme</code></li>
+		<li>Encode the content of <code>TAG_AUTHENTICATOR_ASSERTION</code> 
+		  (e.g. <code>TAG_UAFV1_REG_ASSERTION</code>) in base64url format and set as
+		  <code>RegisterOut.assertion</code>.
+		</li>
+		<li>Return <code>RegisterOut</code> object</li>
+	      </ol>
+	    </li>	    
+	  </ol>
+	</section>
+      </section>
+
+      <section id="authenticate-request">
+	<h3 aria-level="2" role="heading" id="h3_authenticate-request"><span class="secno">3.7 </span>Authenticate Request</h3>
+	
+	<p>Verify the user and return authenticator-generated UAF
+	  authentication assertion.
+	</p>
+    <p>For an Authenticate request, the following <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+        have the following value(s). The remaining  <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> members
+        <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+
+	<ul>
+	  <li><code>ASMRequest.requestType</code> <em class="rfc2119" title="MUST">MUST</em> be set to <code>Authenticate</code>.</li>
+	  <li><code>ASMRequest.asmVersion</code> <em class="rfc2119" title="MUST">MUST</em> be set to the desired version.</li>
+	  <li><code>ASMRequest.authenticatorIndex</code> <em class="rfc2119" title="MUST">MUST</em> be set to the target authenticator index.</li>
+	  <li><code>ASMRequest.args</code> <em class="rfc2119" title="MUST">MUST</em> be set to an object of type <code>AuthenticateIn</code></li>
+	</ul>
+
+
+    <p>For an Authenticate response, the following <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+        have the following value(s). The remaining  <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> members
+        <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+	<ul>
+	  <li><code>ASMResponse.statusCode</code> <em class="rfc2119" title="MUST">MUST</em> have one of the following values:
+	    <ul>
+	      <li><code>UAF_ASM_STATUS_OK</code>
+	      </li>
+	      <li><code>UAF_ASM_STATUS_ERROR</code>
+	      </li>
+	      <li><code>UAF_ASM_STATUS_ACCESS_DENIED</code>
+	      </li>
+              <li><code>UAF_ASM_STATUS_USER_CANCELLED</code>
+              </li>
+	    </ul>
+	  </li>
+	  <li><code>ASMResponse.responseData</code> <em class="rfc2119" title="MUST">MUST</em> be an object of type
+          <code>AuthenticateOut</code>
+	  </li>
+	</ul>
+
+	<section id="authenticatein-object">
+	  <h4 aria-level="3" role="heading" id="h4_authenticatein-object"><span class="secno">3.7.1 </span>AuthenticateIn Object</h4>
+	  
+	  <pre class="idl"><span class="idlDictionary" id="idl-def-AuthenticateIn">dictionary <span class="idlDictionaryID">AuthenticateIn</span> {
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span> <span class="idlMemberName"><a href="#widl-AuthenticateIn-appID">appID</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DOMString[]</span>        <span class="idlMemberName"><a href="#widl-AuthenticateIn-keyIDs">keyIDs</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span> <span class="idlMemberName"><a href="#widl-AuthenticateIn-finalChallenge">finalChallenge</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType"><a href="#idl-def-Transaction" class="idlType"><code>Transaction</code></a>[]</span>      <span class="idlMemberName"><a href="#widl-AuthenticateIn-transaction">transaction</a></span>;</span>
+};</span></pre><section id="dictionary-authenticatein-members"><h5 aria-level="4" role="heading" id="h5_dictionary-authenticatein-members"><span class="secno">3.7.1.1 </span>Dictionary <a class="idlType" href="#idl-def-AuthenticateIn"><code>AuthenticateIn</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-AuthenticateIn-appID"><code>appID</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>appID string</dd><dt id="widl-AuthenticateIn-keyIDs"><code>keyIDs</code> of type array of <span class="idlMemberType">DOMString</span></dt><dd>base64url [<cite><a class="bibref" href="#bib-RFC4648">RFC4648</a></cite>] encoded keyIDs</dd><dt id="widl-AuthenticateIn-finalChallenge"><code>finalChallenge</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>base64url [<cite><a class="bibref" href="#bib-RFC4648">RFC4648</a></cite>] encoded final challenge</dd><dt id="widl-AuthenticateIn-transaction"><code>transaction</code> of type array of <span class="idlMemberType"><a href="#idl-def-Transaction" class="idlType"><code>Transaction</code></a></span></dt><dd>An array of transaction data to be confirmed by user. If multiple transactions are provided, then
+              the ASM <em class="rfc2119" title="MUST">MUST</em> select the one that best matches the current display characteristics.
+              <div class="note"><div class="note-title" aria-level="5" role="heading" id="h_note_11"><span>Note</span></div><p class="">This may, for example, depend on whether user's device is positioned horizontally or 
+		vertically at the moment of transaction.</p></div>
+	      </dd></dl></section>
+	</section>
+
+	<section id="transaction-object">
+	  <h4 aria-level="3" role="heading" id="h4_transaction-object"><span class="secno">3.7.2 </span>Transaction Object</h4>
+
+	  <pre class="idl"><span class="idlDictionary" id="idl-def-Transaction">dictionary <span class="idlDictionaryID">Transaction</span> {
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>                  <span class="idlMemberName"><a href="#widl-Transaction-contentType">contentType</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>                  <span class="idlMemberName"><a href="#widl-Transaction-content">content</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DisplayPNGCharacteristicsDescriptor</span> <span class="idlMemberName"><a href="#widl-Transaction-tcDisplayPNGCharacteristics">tcDisplayPNGCharacteristics</a></span>;</span>
+};</span></pre><section id="dictionary-transaction-members"><h5 aria-level="4" role="heading" id="h5_dictionary-transaction-members"><span class="secno">3.7.2.1 </span>Dictionary <a class="idlType" href="#idl-def-Transaction"><code>Transaction</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-Transaction-contentType"><code>contentType</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>Contains the MIME Content-Type supported by the authenticator according to
+	      its metadata statement (see [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>])</dd><dt id="widl-Transaction-content"><code>content</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>Contains the base64url-encoded [<cite><a class="bibref" href="#bib-RFC4648">RFC4648</a></cite>] transaction content according to
+	      the <code>contentType</code> to be shown to the user.</dd><dt id="widl-Transaction-tcDisplayPNGCharacteristics"><code>tcDisplayPNGCharacteristics</code> of type <span class="idlMemberType">DisplayPNGCharacteristicsDescriptor</span></dt><dd>Transaction content PNG characteristics. For the definition of the 
+	      <code>DisplayPNGCharacteristicsDescriptor</code> structure See [<cite><a class="bibref" href="#bib-UAFAuthnrMetadata">UAFAuthnrMetadata</a></cite>].</dd></dl></section>
+	</section>
+
+	<section id="authenticateout-object">
+	  <h4 aria-level="3" role="heading" id="h4_authenticateout-object"><span class="secno">3.7.3 </span>AuthenticateOut Object</h4>
+	  <pre class="idl"><span class="idlDictionary" id="idl-def-AuthenticateOut">dictionary <span class="idlDictionaryID">AuthenticateOut</span> {
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span> <span class="idlMemberName"><a href="#widl-AuthenticateOut-assertion">assertion</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span> <span class="idlMemberName"><a href="#widl-AuthenticateOut-assertionScheme">assertionScheme</a></span>;</span>
+};</span></pre><section id="dictionary-authenticateout-members"><h5 aria-level="4" role="heading" id="h5_dictionary-authenticateout-members"><span class="secno">3.7.3.1 </span>Dictionary <a class="idlType" href="#idl-def-AuthenticateOut"><code>AuthenticateOut</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-AuthenticateOut-assertion"><code>assertion</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>Authenticator UAF authentication assertion.</dd><dt id="widl-AuthenticateOut-assertionScheme"><code>assertionScheme</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>Assertion scheme</dd></dl></section>
+	</section>
+
+	<section id="detailed-description-for-processing-the-authenticate-request">
+	  <h4 aria-level="3" role="heading" id="h4_detailed-description-for-processing-the-authenticate-request"><span class="secno">3.7.4 </span>Detailed Description for Processing the Authenticate Request</h4>
+
+	  <p class="fido-normal">Refer to the [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>] document for more 
+	    information about the
+	    TAGs and structure mentioned in this paragraph.
+	  </p>
+	  
+	  <ol>
+	    <li>Locate the authenticator using <code>authenticatorIndex</code></li>
+	    <li>If no user is enrolled with this authenticator (such as
+	      biometric enrollment, PIN setup, etc.), return
+	      <code>UAF_ASM_STATUS_ACCESS_DENIED</code>
+	    </li>
+	    <li>The ASM <em class="rfc2119" title="MUST">MUST</em> request the authenticator to verify the user.
+	      <ul>
+		<li>If verification fails, return <code>UAF_ASM_STATUS_ACCESS_DENIED</code></li>
+		<div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_12"><span>Note</span></div><p class="">
+		  If the authenticator supports <code>UserVerificationToken</code> 
+		  (see [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>]), the  ASM
+                  must obtain this token in order to later pass to <code>Sign</code> command.
+		</p></div>
+	      </ul>
+	    </li>
+            <li>Construct <code>KHAccessToken</code> (see section <a href="#khaccesstoken">KHAccessToken</a> for more
+              details)
+            </li>
+            <li>Hash the provided <code>AuthenticateIn.finalChallenge</code> using an authenticator-specific 
+	      hash function (<code>FinalChallengeHash</code>).
+	      <p>The authenticator's preferred hash function information <em class="rfc2119" title="MUST">MUST</em> meet the 
+		algorithm defined in the <code>AuthenticatorInfo.authenticationAlgorithm</code> field.</p>
+	    </li>
+	    <li>If this is a Second Factor authenticator and
+	      <code>AuthenticateIn.keyIDs</code> is empty, then return <code>UAF_ASM_STATUS_ACCESS_DENIED</code>
+	    </li>
+	    <li>If AuthenticateIn.keyIDs is not empty,
+	      <ol>
+		<li>If this is a bound authenticator, then look up ASM's database with
+		  <code>AuthenticateIn.appID</code> and <code>AuthenticateIn.keyIDs</code> and obtain
+		  the KeyHandles associated with it.
+		  <ul>
+		    <li>Return <code>UAF_ASM_STATUS_ACCESS_DENIED</code> if no entry has been found	</li>
+		  </ul>
+		</li>
+		<li>If this is a roaming authenticator, then treat
+		  <code>AuthenticateIn.keyIDs</code> as KeyHandles
+		</li>
+	      </ol>
+	    </li>
+	    <li>Create <code>TAG_UAFV1_SIGN_CMD</code> structure and pass it to the authenticator.
+	      <ol>
+		<li>Copy <code>AuthenticateIn.AppID</code>, <code>AuthenticateIn.Transaction.content</code> 
+		  (if not empty), <code>FinalChallengeHash</code>, <code>KHAccessToken</code>, 
+		  <code>UserVerificationToken</code>, <code>KeyHandles</code>
+		  <ul>
+                    <li>Depending on AuthenticatorType some arguments may 
+		      be optional. Refer to [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>]
+                      for more information on authenticator types and their required arguments.</li>
+                    <li>If multiple transactions are provided, select the one that best matches 
+		      the current display characteristics.
+                      <div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_13"><span>Note</span></div><p class="">This may, for example, depend on whether user's device 
+			is positioned horizontally or vertically at the
+			moment of transaction.</p></div>
+                    </li>
+                    <li>Decode the base64url encoded <code>AuthenticateIn.Transaction.content</code> 
+		      before passing it to the authenticator</li>
+		  </ul>
+		</li>
+	      </ol>
+	    </li>
+	    <li>Invoke the command and receive the response</li>
+	    <li>Parse <code>TAG_UAFV1_SIGN_CMD_RESP</code>
+	      <ul>
+		<li>If it's a first-factor authenticator and the response includes
+		  <code>TAG_USERNAME_AND_KEYHANDLE</code>, then
+		  <ol>
+		    <li>Extract usernames from <code>TAG_USERNAME_AND_KEYHANDLE</code> fields</li>
+		    <li>If two equal usernames are found, then choose the one which has registered most recently</li>
+		    <li>Show remaining distinct usernames and ask the user to choose a single username</li>
+		    <li>Set <code>TAG_UAFV1_SIGN_CMD.KeyHandles</code> to the single KeyHandle associated with the selected
+		      username.
+		    </li>
+		    <li>Go to step #8 and send a new <code>TAG_UAFV1_SIGN_CMD command</code></li>
+		  </ol>
+		</li>
+	      </ul>
+	    </li>	    
+	    <li>Create the <code>AuthenticateOut</code> object
+	      <ol>
+		<li>Set <code>AuthenticateOut.assertionScheme</code> as <code>AuthenticatorInfo.assertionScheme</code>
+		</li>
+		<li>Encode the content of <code>TAG_AUTHENTICATOR_ASSERTION</code> 
+		  (e.g. <code>TAG_UAFV1_AUTH_ASSERTION</code>) in base64url format and
+		  set as <code>AuthenticateOut.assertion</code>
+		</li>
+		<li>Return the <code>AuthenticateOut</code> object
+		</li>
+	      </ol>
+	    </li>
+	  </ol>
+          <div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_14"><span>Note</span></div><div class="">
+	    <p>Some authenticators might support "Transaction Confirmation Display" functionality
+	      not inside the authenticator but within the boundaries of the
+	      ASM. Typically these are software based Transaction Confirmation Displays. When
+	      processing the <code>Sign</code> command with a given transaction such ASM
+	      should show transaction content in its own UI and after user
+	      confirms it -- pass the content to authenticator so that
+	      the authenticator includes it in the final assertion.</p>
+	    <p>See [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>] for flags describing Transaction Confirmation Display type.</p>
+          </div></div>
+	  <p>The authenticator metadata statement <em class="rfc2119" title="MUST">MUST</em> truly indicate the
+	    type of transaction confirmation display implementation. 
+	    Typically the "Transaction Confirmation Display" flag
+	    will be set to <code>TRANSACTION_CONFIRMATION_DISPLAY_ANY</code> or 
+	    <code>TRANSACTION_CONFIRMATION_DISPLAY_PRIVILEGED_SOFTWARE</code>.
+	  </p>
+	</section>
+      </section>
+
+      <section id="deregister-request">	  
+	<h3 aria-level="2" role="heading" id="h3_deregister-request"><span class="secno">3.8 </span>Deregister Request</h3>
+	<p>Delete registered UAF record from the authenticator.</p>
+
+    <p>For a Deregister request, the following <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+              have the following value(s). The remaining  <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> members
+              <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+	<ul>
+	  <li><code>ASMRequest.requestType</code> <em class="rfc2119" title="MUST">MUST</em> be set to <code>Deregister</code></li>
+	  <li><code>ASMRequest.asmVersion</code> <em class="rfc2119" title="MUST">MUST</em> be set to the desired version</li>
+	  <li><code>ASMRequest.authenticatorIndex</code> <em class="rfc2119" title="MUST">MUST</em> be set to the target authenticator index</li>
+	  <li><code>ASMRequest.args</code> <em class="rfc2119" title="MUST">MUST</em> be set to an object of type <code>DeregisterIn</code></li>
+	</ul>
+
+
+    <p>For a Deregister response, the following <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+              have the following value(s). The remaining  <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> members
+              <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+	<ul>
+	  <li><code>ASMResponse.statusCode</code> <em class="rfc2119" title="MUST">MUST</em> have one of the following values:
+	    <ul>
+	      <li><code>UAF_ASM_STATUS_OK</code></li>
+	      <li><code>UAF_ASM_STATUS_ERROR</code></li>
+	      <li><code>UAF_ASM_STATUS_ACCESS_DENIED</code></li>
+	    </ul>
+	  </li>
+	</ul>
+	
+	<section id="deregisterin-object">
+	  <h4 aria-level="3" role="heading" id="h4_deregisterin-object"><span class="secno">3.8.1 </span>DeregisterIn Object</h4>
+	  
+	  <pre class="idl"><span class="idlDictionary" id="idl-def-DeregisterIn">dictionary <span class="idlDictionaryID">DeregisterIn</span> {
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span> <span class="idlMemberName"><a href="#widl-DeregisterIn-appID">appID</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span> <span class="idlMemberName"><a href="#widl-DeregisterIn-keyID">keyID</a></span>;</span>
+};</span></pre><section id="dictionary-deregisterin-members"><h5 aria-level="4" role="heading" id="h5_dictionary-deregisterin-members"><span class="secno">3.8.1.1 </span>Dictionary <a class="idlType" href="#idl-def-DeregisterIn"><code>DeregisterIn</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-DeregisterIn-appID"><code>appID</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>FIDO Server Application Identity</dd><dt id="widl-DeregisterIn-keyID"><code>keyID</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>Base64url-encoded [<cite><a class="bibref" href="#bib-RFC4648">RFC4648</a></cite>] key identifier of
+	      the authenticator to be de-registered.</dd></dl></section>
+	</section>
+	
+	<section id="detailed-description-for-processing-the-deregister-request">
+	  <h4 aria-level="3" role="heading" id="h4_detailed-description-for-processing-the-deregister-request"><span class="secno">3.8.2 </span>Detailed Description for Processing the Deregister Request</h4>
+	  
+	  <p>Refer to [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>] for more 
+	    information about the TAGs and structures mentioned in this paragraph.
+	  </p>
+	  
+	  <ol>
+	    <li>Locate the authenticator using <code>authenticatorIndex</code></li>
+            <li>Construct <code>KHAccessToken</code> (see section <a href="#khaccesstoken">KHAccessToken</a> for more
+	      details).
+            </li>
+	    <li>If this is a bound authenticator, then
+	      <ul>
+		<li>Lookup the authenticator related data in the ASM database and delete the record associated 
+		  with <code>DeregisterIn.appID</code> and <code>DeregisterIn.keyID</code>
+		</li>
+	      </ul>
+	    </li>
+	    <li>Create the <code>TAG_UAFV1_DEREGISTER_CMD</code> structure, copy <code>KHAccessToken</code>, 
+	      <code>DeregisterIn.keyID</code> and pass it to the authenticator.
+	    </li>
+	    <li>Invoke the command and receive the response</li>
+	  </ol>
+	</section>
+      </section>
+      <section id="getregistrations-request">
+	<h3 aria-level="2" role="heading" id="h3_getregistrations-request"><span class="secno">3.9 </span>GetRegistrations Request</h3>
+	
+	<p>Return all registrations made for the calling FIDO UAF Client.</p>
+
+	<p>For a GetRegistrations request, the following <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+          have the following value(s). The remaining  <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> members
+          <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+	<ul>
+	  <li><code>ASMRequest.requestType</code> <em class="rfc2119" title="MUST">MUST</em> be set to <code>GetRegistrations</code></li>
+	  <li><code>ASMRequest.asmVersion</code> <em class="rfc2119" title="MUST">MUST</em> be set to the desired version </li>
+	  <li><code>ASMRequest.authenticatorIndex</code> <em class="rfc2119" title="MUST">MUST</em> be set to corresponding ID </li>
+	</ul>
+
+
+	<p>For a GetRegistrations response, the following <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+          have the following value(s). The remaining  <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> members
+          <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+	<ul>
+	  <li><code>ASMResponse.statusCode</code> <em class="rfc2119" title="MUST">MUST</em> have one of the following values:
+	    <ul>
+	      <li><code>UAF_ASM_STATUS_OK</code></li>
+	      <li><code>UAF_ASM_STATUS_ERROR</code></li>
+	    </ul>
+	  </li>
+	  <li>The <code>ASMResponse.responseData</code> <em class="rfc2119" title="MUST">MUST</em> be an object of type
+            <code>GetRegistrationsOut</code>
+	  </li>
+	</ul>
+	
+	<section id="getregistrationsout-object">
+	  <h4 aria-level="3" role="heading" id="h4_getregistrationsout-object"><span class="secno">3.9.1 </span>GetRegistrationsOut Object</h4>
+	  
+	  <pre class="idl"><span class="idlDictionary" id="idl-def-GetRegistrationsOut">dictionary <span class="idlDictionaryID">GetRegistrationsOut</span> {
+<span class="idlMember">    <span class="idlMemberType">required AppRegistration[]</span> <span class="idlMemberName"><a href="#widl-GetRegistrationsOut-appRegs">appRegs</a></span>;</span>
+};</span></pre><section id="dictionary-getregistrationsout-members"><h5 aria-level="4" role="heading" id="h5_dictionary-getregistrationsout-members"><span class="secno">3.9.1.1 </span>Dictionary <a class="idlType" href="#idl-def-GetRegistrationsOut"><code>GetRegistrationsOut</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-GetRegistrationsOut-appRegs"><code>appRegs</code> of type array of <span class="idlMemberType">required AppRegistration</span></dt><dd>List of registrations associated with an <code>appID</code> (see <code>AppRegistration</code> below).
+            <em class="rfc2119" title="MAY">MAY</em> be an empty list.
+	    </dd></dl></section>
+	  
+	</section>
+	
+	<section id="appregistration-object">	  
+	  <h4 aria-level="3" role="heading" id="h4_appregistration-object"><span class="secno">3.9.2 </span>AppRegistration Object</h4>
+	  
+	  <pre class="idl"><span class="idlDictionary" id="idl-def-AppRegistration">dictionary <span class="idlDictionaryID">AppRegistration</span> {
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>   <span class="idlMemberName"><a href="#widl-AppRegistration-appID">appID</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString[]</span> <span class="idlMemberName"><a href="#widl-AppRegistration-keyIDs">keyIDs</a></span>;</span>
+};</span></pre><section id="dictionary-appregistration-members"><h5 aria-level="4" role="heading" id="h5_dictionary-appregistration-members"><span class="secno">3.9.2.1 </span>Dictionary <a class="idlType" href="#idl-def-AppRegistration"><code>AppRegistration</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-AppRegistration-appID"><code>appID</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>FIDO Server Application Identity.</dd><dt id="widl-AppRegistration-keyIDs"><code>keyIDs</code> of type array of <span class="idlMemberType">required DOMString</span></dt><dd>List of key identifiers associated with the <code>appID</code></dd></dl></section>
+	</section>
+
+	<section id="detailed-description-for-processing-the-getregistrations-request">	  
+	  <h4 aria-level="3" role="heading" id="h4_detailed-description-for-processing-the-getregistrations-request"><span class="secno">3.9.3 </span>Detailed Description for Processing the GetRegistrations Request</h4>
+	  
+	  <ol>
+	    <li>Locate the authenticator using <code>authenticatorIndex</code></li>
+	    <li>If this is bound authenticator, then
+	      <ul>
+		<li>Lookup the registrations associated with CallerID and AppID in the ASM database and construct a list of <code>AppRegistration</code> objects</li>
+		<div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_15"><span>Note</span></div><p class="">
+                  Some ASMs might not store this information inside their own database. Instead it might have
+                  been stored inside the authenticator's secure storage area. In this case the ASM must send a
+                  proprietary command to obtain the necessary data.
+		</p></div>
+	      </ul>
+	    </li>
+	    <li>Create <code>GetRegistrationsOut</code> object and return</li>
+	  </ol>
+	</section>
+      </section>
+      
+      
+      <section id="opensettings-request">
+	<h3 aria-level="2" role="heading" id="h3_opensettings-request"><span class="secno">3.10 </span>OpenSettings Request</h3>
+	
+	<p>Display the authenticator-specific settings interface. If the authenticator has its own built-in user interface,
+          then the ASM <em class="rfc2119" title="MUST">MUST</em> invoke <code>TAG_UAFV1_OPEN_SETTINGS_CMD</code> to display it.
+	</p>
+
+    <p>For an OpenSettings request, the following <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+              have the following value(s). The remaining  <a href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a> members
+              <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+	<ul>
+	  <li><code>ASMRequest.requestType</code> <em class="rfc2119" title="MUST">MUST</em> be set to <code>OpenSettings</code></li>
+        <li><code>ASMRequest.asmVersion</code> <em class="rfc2119" title="MUST">MUST</em> be set to the desired version</li>
+        <li><code>ASMRequest.authenticatorIndex</code> <em class="rfc2119" title="MUST">MUST</em> be set to the target authenticator index</li>
+	</ul>
+
+
+    <p>For an OpenSettings response, the following <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> member(s) <em class="rfc2119" title="MUST">MUST</em>
+              have the following value(s). The remaining  <a href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a> members
+              <em class="rfc2119" title="SHOULD">SHOULD</em> be omitted:</p>
+	<ul>
+	  <li><code>ASMResponse.statusCode</code> <em class="rfc2119" title="MUST">MUST</em> have one of the following values:
+	    <ul>
+	      <li><code>UAF_ASM_STATUS_OK</code></li>
+	    </ul>
+	  </li>
+	</ul>
+      </section>
+    </section>
+      
+    <section class="informative" id="using-asm-api">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_using-asm-api"><span class="secno">4. </span>Using ASM API</h2><p><em>This section is non-normative.</em></p>
+      <p>In a typical implementation, the FIDO UAF Client will call
+	<code>GetInfo</code> during initialization and obtain information about
+	the authenticators. Once the information is obtained it will
+	typically be used during FIDO UAF message processing to find a match
+	for given FIDO UAF policy. Once a match is found the FIDO UAF Client will
+	send the appropriate request (Register/Authenticate/Deregister...)
+	to this ASM.
+      </p>
+      <p>The FIDO UAF Client may use the information obtained from
+	a <code>GetInfo</code> response to display relevant information about an
+	authenticator to the user.
+      </p>
+    </section>
+    
+    <section class="normativeDisclaimer" id="using-the-asm-api-on-various-platforms">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_using-the-asm-api-on-various-platforms"><span class="secno">5. </span>Using the ASM API on various platforms</h2><p><em>This section is normative.</em></p>
+      
+      <section id="android-asm-intent-api">
+	<h3 aria-level="2" role="heading" id="h3_android-asm-intent-api"><span class="secno">5.1 </span>Android ASM Intent API</h3>
+	<p>On Android systems FIDO UAF ASMs <em class="rfc2119" title="MAY">MAY</em> be implemented as a separate 
+	  APK-packaged application.</p>
+	<p>The FIDO UAF Client invokes ASM operations via Android Intents. All interactions between
+          the FIDO UAF Client and an ASM on Android takes place through the following intent identifier:</p>
+        <pre>org.fidoalliance.intent.FIDO_OPERATION</pre>
+	
+	<p>To carry messages described in this document, an intent <em class="rfc2119" title="MUST">MUST</em> also have 
+	  its <code>type</code> attribute set
+          to <code>application/fido.uaf_asm+json</code>.</p>
+	
+	<p>ASMs <em class="rfc2119" title="MUST">MUST</em> register that intent in their manifest file and implement a handler for it.</p>
+	
+	<p>FIDO UAF Clients <em class="rfc2119" title="MUST">MUST</em> append an extra, <code>message</code>, containing a <code>String</code>
+          representation of a <a title="ASMRequest" href="#idl-def-ASMRequest" class="idlType"><code>ASMRequest</code></a>, before invoking the intent.</p>
+	
+	<p>FIDO UAF Clients <em class="rfc2119" title="MUST">MUST</em> invoke ASMs by calling <code>startActivityForResult()</code></p>
+	
+	<p>FIDO UAF Clients <em class="rfc2119" title="SHOULD">SHOULD</em> assume that ASMs will display an interface to the user in order to handle 
+	  this intent, e.g. prompting the user to complete the verification ceremony. 
+	  However, the ASM <em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em> display any user interface when processing a <code>GetInfo</code> request.</p>
+	<p>After processing is complete the ASM will return the response intent 
+	  as an argument to <code>onActivityResult()</code>.
+          The response intent will have an extra, <code>message</code>, containing a <code>String</code>
+          representation of a <a title="ASMResponse" href="#idl-def-ASMResponse" class="idlType"><code>ASMResponse</code></a>.
+	</p>
+
+	<section id="discovering-asms">
+          <h4 aria-level="3" role="heading" id="h4_discovering-asms"><span class="secno">5.1.1 </span>Discovering ASMs</h4>
+          <p>FIDO UAF Clients can discover the ASMs available on the system by using
+            <code><a href="http://developer.android.com/reference/android/content/pm/PackageManager.html#queryIntentActivities(android.content.Intent,%20int)">PackageManager.queryIntentActivities(Intent intent, int flags)</a></code>
+            with the FIDO Intent described above to see if any activities are available.</p>
+          <p>A typical FIDO UAF Client will enumerate all
+            ASM applications using this function and will invoke the <code>GetInfo</code> operation for each one discovered.</p>	  
+	</section>	
+      </section>
+	    
+      
+      <section id="windows-asm-api">
+	<h3 aria-level="2" role="heading" id="h3_windows-asm-api"><span class="secno">5.2 </span>Windows ASM API</h3>
+	<p class="fido-normal">On Windows, an ASM is implemented in the form of a Dynamic Link
+	  Library (DLL). The following is an example <code>asmplugin.h</code> header
+	  file defining a Windows ASM API:
+	</p>
+	<div class="example"><div class="example-title"><span>Example 1</span></div><pre class="example">/*! @file asm.h
+*/
+
+#ifndef __ASM<u>H</u>_
+#define __ASM<u>H</u>_
+#ifdef _WIN32
+#define ASM_API __declspec(dllexport)
+#endif
+
+#ifdef _WIN32
+#pragma warning ( disable : 4251 )
+#endif
+
+#define ASM_FUNC extern "C" ASM_API
+#define ASM_NULL 0
+
+/*! \brief Error codes returned by ASM Plugin API.
+*  Authenticator specific error codes are returned in JSON form.
+*  See JSON schemas for more details.
+*/
+
+enum asmResult_t
+{
+  Success = 0, /**&lt; Success */
+  Failure /**&lt; Generic failure */
+};
+
+/*! \brief Generic structure containing JSON string in UTF-8
+*  format.
+*  This structure is used throughout functions to pass and receives
+*  JSON data.
+*/
+
+struct asmJSONData_t
+{
+  int length; /**&lt; JSON data length */
+  char <em>pData; /</em>*&lt; JSON data */
+};
+
+/*! \brief Enumeration event types for authenticators.
+These events will be fired when an authenticator becomes
+  available (plugged) or unavailable (unplugged).
+*/
+
+enum asmEnumerationType_t
+{
+  Plugged = 0, /**&lt; Indicates that authenticator Plugged to system */
+  Unplugged /**&lt; Indicates that authenticator Unplugged from system */
+};
+
+namespace ASM
+{
+  /*! \brief Callback listener.
+  FIDO UAF Client must pass an object implementating this interface to
+  Authenticator::Process function. This interface is used to provide
+  ASM JSON based response data.*/
+  class ICallback
+  {
+    public
+      virtual ~ICallback() {}
+      /**
+      This function is called when ASM's response is ready.
+      *
+      @param response JSON based event data
+      @param exchangeData must be provided by ASM if it needs some
+      data back right after calling the callback function.
+      The lifecycle of this parameter must be managed by ASM. ASM must
+      allocate enough memory for getting the data back.
+      */
+
+      virtual void Callback(const asmJSONData_t &amp;response,
+      asmJSONData_t &amp;exchangeData) = 0;
+  };
+
+  /*! \brief Authenticator Enumerator.
+  FIDO UAF Client must provide an object implementing this
+  interface. It will be invoked when a new authenticator is plugged or
+  when an authenticator has been unplugged. */
+
+  class IEnumerator
+  {
+    public
+      virtual ~IEnumerator() {}
+      /**
+        This function is called when an authenticator is plugged or
+	    unplugged.
+      * @param eventType event type (plugged/unplugged)
+        @param AuthenticatorInfo JSON based GetInfoResponse object
+      */
+
+      virtual void Notify(const asmEnumerationType_t eventType, const
+      asmJSONData_t &amp;AuthenticatorInfo) = 0;
+  };
+}
+
+/**
+Initializes ASM plugin. This is the first function to be
+	    called.
+*
+@param pEnumerationListener caller provided Enumerator
+*/
+
+ASM_FUNC asmResult_t asmInit(ASM::IEnumerator
+	  *pEnumerationListener);
+/**
+Process given JSON request and returns JSON response.
+*
+If the caller wants to execute a function defined in ASM JSON
+	    schema then this is the function that must be called.
+*
+@param pInData input JSON data
+@param pListener event listener for receiving events from ASM
+*/
+ASM_FUNC asmResult_t asmProcess(const asmJSONData_t *pInData,
+	  ASM::ICallback *pListener);
+/**
+Unitializes ASM plugin.
+*
+*/
+ASM_FUNC asmResult_t asmUninit();
+#endif // __ASMPLUGIN<u>H</u>_</pre></div>
+	<p>A Windows-based FIDO UAF Client <em class="rfc2119" title="MUST">MUST</em> look for ASM DLLs in the following
+	  registry paths:
+	</p>
+	<p><code>HKCU\Software\FIDO\UAF\ASM</code></p>
+	<p><code>HKLM\Software\FIDO\UAF\ASM</code></p>
+	<p>The FIDO UAF Client iterates over all keys under this path and looks
+	  for "path" field:</p>
+	<p><code>[HK**\Software\FIDO\UAF\ASM\&lt;exampleASMName&gt;]</code></p>
+	<p><code>"path"="&lt;ABSOLUTE_PATH_TO_ASM&gt;.dll"</code></p>
+	<p><code>path</code> <em class="rfc2119" title="MUST">MUST</em> point to the absolute location of the ASM DLL.</p>
+      </section>
+    </section>
+
+    <section class="normativeDisclaimer" id="security-and-privacy-guidelines">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_security-and-privacy-guidelines"><span class="secno">6. </span>Security and Privacy Guidelines</h2><p><em>This section is normative.</em></p>
+      
+      <p>ASM developers must carefully protect the FIDO UAF data they are working
+	with. ASMs must follow these security guidelines:</p>
+
+      <ul>
+	<li>
+	  <p class="certifiction">ASMs <em class="rfc2119" title="MUST">MUST</em> implement a mechanism for isolating UAF credentials
+	    registered by two different FIDO UAF Clients from one another. One
+	    FIDO UAF Client <em class="rfc2119" title="MUST NOT">MUST NOT</em> have access to FIDO UAF credentials that have
+	    been registered via a different FIDO UAF Client. This prevents 
+	    malware from exercising credentials associated with a legitimate FIDO
+	    Client.
+	  </p>	  
+	</li><li>
+	  <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_16"><span>Note</span></div><p class="">ASMs must properly protect their sensitive data against
+	    malware using platform-provided isolation capabilities in order to 
+	    follow the assumptions made in [<cite><a class="bibref" href="#bib-FIDOSecRef">FIDOSecRef</a></cite>]. 
+	    Malware with root access to the system or direct physical attack on the
+	    device are out of scope for this requirement.</p></div>
+
+	  <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_17"><span>Note</span></div><div class="">
+	    <p>The following are examples for achieving this:</p>
+	    <ul>
+	      <li>
+		If an ASM is bundled with a FIDO UAF Client, this isolation
+		mechanism is already built-in.
+              </li>
+	      <li>
+		If the ASM and FIDO UAF Client are implemented by the same vendor,
+		the vendor may implement proprietary mechanisms to bind its ASM
+		exclusively to its own FIDO UAF Client.</li>
+	      <li>
+		On some platforms ASMs and the FIDO UAF Clients may be assigned
+		with a special privilege or permissions which regular
+		applications don't have. ASMs built for such platforms may
+		avoid supporting isolation of UAF credentials per FIDO UAF Clients
+		since all FIDO UAF Clients will be considered equally trusted.
+	      </li>
+	    </ul>
+	  </div></div>
+	</li>
+	<li>
+	  <p class="certification">An ASM designed specifically for bound authenticators <em class="rfc2119" title="MUST">MUST</em>
+	    ensure that FIDO UAF credentials registered with one ASM cannot be
+	    accessed by another ASM. This is to prevent an application
+	    pretending to be an ASM from exercising legitimate UAF
+	    credentials.
+	  </p>
+          <ul>
+	    <li>Using a <a href="#khaccesstoken">KHAccessToken</a> offers such a mechanism.</li>
+	  </ul>
+	</li>
+	<li>
+	  <p class="certification">An ASMs must implement platform-provided security best practices for
+	    protecting UAF related stored data.
+	  </p>
+	</li>
+	<li>
+	  <div class="certification">
+	    <p>ASMs <em class="rfc2119" title="MUST NOT">MUST NOT</em> store any sensitive FIDO UAF data in its local storage, except the
+	      following:</p>
+            <ul>
+	      <li>
+		<code>CallerID</code>, <code>ASMToken</code>, <code>PersonaID</code>, 
+		<code>KeyID</code>, <code>KeyHandle</code>, <code>AppID</code>
+              </li>
+	    </ul>
+	  </div>
+	  <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_18"><span>Note</span></div><p class="">An ASM, for example, must never store a username provided by a FIDO Server
+	    in its local storage in a form other than being decryptable exclusively by the authenticator.
+	  </p></div>
+	</li>
+	<li>
+	  <div class="certification">
+	    <p>ASMs <em class="rfc2119" title="SHOULD">SHOULD</em> ensure that applications cannot use silent
+	      authenticators for tracking purposes. ASMs implementing support
+	      for a silent authenticator <em class="rfc2119" title="MUST">MUST</em> show, during every registration,
+	      a user interface which explains what a silent authenticator is,
+	      asking for the users consent for the registration. Also, it is <em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em> that ASMs
+	      designed to support roaming silent authenticators either
+	    </p>
+            <ul>
+	      <li>
+		Run with a special permission/privilege on the system, or
+              </li>
+              <li>
+		Have a built-in binding with the authenticator which ensures
+		that other applications cannot directly communicate with the
+		authenticator by bypassing this ASM.
+              </li>
+            </ul>
+	  </div>
+	</li>
+      </ul>
+
+      <section id="khaccesstoken">
+	<h3 aria-level="2" role="heading" id="h3_khaccesstoken"><span class="secno">6.1 </span>KHAccessToken</h3>
+	
+	<p><code>KHAccessToken</code> is an access control mechanism for protecting an
+	  authenticator's FIDO UAF credentials from unauthorized use. It is
+	  created by the ASM by mixing various sources of information
+	  together. Typically, a <code>KHAccessToken</code> contains the following four
+	  data items in it: <code>AppID</code>, <code>PersonaID</code>, 
+	  <code>ASMToken</code> and <code>CallerID</code>.
+	</p>
+	<p><b><code>AppID</code></b> is provided by the FIDO Server and is contained in every
+	  FIDO UAF message.
+	</p>
+	<p><b><code>PersonaID</code></b> is obtained by the ASM from the operational environment.
+	  Typically a different <code>PersonaID</code> is assigned to every operating system user
+	  account.
+	</p>
+	<p><b><code>ASMToken</code></b> is a randomly generated secret which is maintained
+	  and protected by the ASM.</p>
+	<div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_19"><span>Note</span></div><p class="">In a typical implementation an ASM will
+	  randomly generate an ASMToken when it is launched the first time
+	  and will maintain this secret until the ASM is uninstalled.
+	</p></div>
+	<p><b><code>CallerID</code></b> is the ID the platform has assigned to the calling FIDO UAF Client
+	  (e.g. "bundle ID" for iOS). On different platforms the caller ID
+	  can be obtained differently. </p>
+	<div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_20"><span>Note</span></div><p class="">For example on Android platform
+	  ASM can use the hash of the caller's <code>apk-signing-cert</code>.
+	</p></div>
+	<p>The ASM uses the <code>KHAccessToken</code> to establish a link between the ASM and
+	  the key handle that is created by authenticator on behalf of
+	  this ASM.
+	</p>
+	<p>The ASM provides the <code>KHAccessToken</code> to the authenticator with every
+	  command which works with key handles.
+	</p>
+	<div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_21"><span>Note</span></div><div class="">
+	  <p>The following example describes how the ASM constructs and uses
+	    <code>KHAccessToken</code>.
+	  </p>
+	  
+	  <ul>
+            <li>
+	      During a <code>Register</code> request
+              <ul>
+		<li>
+		  Append <code>AppID</code>
+		  <ul>
+		    <li><code>KHAccessToken = AppID</code></li>
+		  </ul>
+		</li>
+		<li>
+		  If a bound authenticator, append <code>ASMToken</code>, 
+		  <code>PersonaID</code> and <code>CallerID</code>
+		  <ul>
+		    <li><code>KHAccessToken |= ASMToken | PersonaID | CallerID</code></li>
+		  </ul>
+		</li>
+		<li>
+		  Hash <code>KHAccessToken</code>
+		  <ul>
+		    <li>Hash <code>KHAccessToken</code> using the authenticator's hashing algorithm.
+		      The reason of using authenticator specific hash function is to
+		      make sure of interoperability between ASMs. If interoperability
+		      is not required, an ASM can use any other secure hash function it
+		      wants.
+                    </li>
+                    <li><code>KHAccessToken=hash(KHAccessToken)</code></li>
+		  </ul>
+		</li>
+		<li>Provide <code>KHAccessToken</code> to the authenticator</li>
+		<li>The authenticator puts the <code>KHAccessToken</code> into 
+		  <code>RawKeyHandle</code> (see
+		  [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>] for more details)
+		</li>
+              </ul>
+            </li>
+	    <li>
+	      During other commands which require <code>KHAccessToken</code> as input
+	      argument
+              <ul>
+		<li>
+		  The ASM computes <code>KHAccessToken</code> the same way as 
+		  during the <code>Register</code>
+		  request and provides it to the authenticator along with other
+		  arguments.
+		</li>
+		<li>
+		  The authenticator unwraps the provided key handle(s) and proceeds with
+		  the command only if <code>RawKeyHandle.KHAccessToken</code> is equal to
+		  the provided <code>KHAccessToken</code>.
+		</li>
+	      </ul>
+	    </li>
+	  </ul>
+	</div></div>
+	
+	<p class="certification">Bound authenticators <em class="rfc2119" title="MUST">MUST</em> support a mechanism for binding
+          generated key handles to ASMs. The binding mechanism <em class="rfc2119" title="MUST">MUST</em> have at
+          least the same security characteristics as mechanism for protcting <code>KHAccessToken</code>
+          described above. As a consequence it is <em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em> to securely derive
+	  <code>KHAccessToken</code> from <code>AppID</code>, <code>ASMToken</code>, 
+	  <code>PersonaID</code> and the <code>CallerID</code>.
+	</p>
+	<div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_22"><span>Note</span></div><div class="">
+	  <p>It is recommended for roaming authenticators that the
+            <code>KHAccessToken</code> contains only the <code>AppID</code> since otherwise users won't
+            be able to use them on different machines (<code>PersonaID</code>, <code>ASMToken</code>
+            and <code>CallerID</code> are platform specific). If the authenticator
+            vendor decides to do that in order to address a specific use case, however, it is allowed.
+	  </p>
+	  <p>Including <code>PersonaID</code> in the <code>KHAccessToken</code> is optional for all types
+            of authenticators. However an authenticator designed for
+            multi-user systems will likely have to support it.
+	  </p>
+	</div></div>
+      </section>
+      <section id="access-control-for-asm-apis">
+	<h3 aria-level="2" role="heading" id="h3_access-control-for-asm-apis"><span class="secno">6.2 </span>Access Control for ASM APIs</h3>
+
+	<p>The following table summarizes the access control requirements
+	  for each API call.
+	</p>
+
+	<p>ASMs <em class="rfc2119" title="MUST">MUST</em> implement the access control requirements defined below. ASM vendors <em class="rfc2119" title="MAY">MAY</em>
+          implement additional security mechanisms.
+        </p>
+
+	<p>Terms used in the table:
+	</p>
+
+	<ul>
+	  <li><code>NoAuth</code> -- no access control</li>
+	  <li><code>CallerID</code> -- FIDO UAF Client's platform-assigned ID is verified</li>
+	  <li><code>UserVerify</code> -- user must be explicitly verification</li>
+	  <li><code>KeyIDList</code> -- must be known to the caller</li>
+	</ul>
+
+	<table title="Table 1: Access Control for ASM API" border="1" cellpadding="5">
+	  <tbody><tr>
+	    <th>Commands</th>
+	    <th>First-factor bound authenticator</th>
+	    <th>Second-factor bound authenticator</th>
+	    <th>First-factor roaming authenticator</th>
+	    <th>Second-factor roaming authenticator</th>
+	  </tr>
+	  <tr>
+	    <td>GetInfo</td>
+	    <td>NoAuth</td>
+	    <td>NoAuth</td>
+	    <td>NoAuth</td>
+	    <td>NoAuth</td>
+	  </tr>
+	  <tr>
+	    <td>OpenSettings</td>
+	    <td>NoAuth</td>
+	    <td>NoAuth</td>
+	    <td>NoAuth</td>
+	    <td>NoAuth</td>
+	  </tr>
+	  <tr>
+	    <td>Register</td>
+	    <td>UserVerify</td>
+	    <td>UserVerify</td>
+	    <td>UserVerify</td>
+	    <td>UserVerify</td>
+	  </tr>
+	  <tr>
+	    <td>Authenticate</td>
+	    <td>UserVerify
+	      <br>AppID
+	      <br>CallerID
+	      <br>PersonaID
+	    </td>
+	    <td>UserVerify
+	      <br>AppID
+	      <br>KeyIDList
+	      <br>CallerID
+	      <br>PersonaID
+	    </td>
+	    <td>UserVerify
+	      <br>AppID
+	    </td>
+	    <td>UserVerify
+	      <br>AppiD
+	      <br>KeyIDList
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>GetRegistrations*</td>
+	    <td>CallerID
+	      <br>PersonaID
+	    </td>
+	    <td>CallerID
+	      <br>PersonaID
+	    </td>
+	    <td>X</td>
+	    <td>X</td>
+	  </tr>
+	  <tr>
+	    <td>Deregister</td>
+	    <td>AppID
+	      <br>KeyID
+	      <br>PersonaID
+	      <br>CallerID
+	    </td>
+	    <td>AppID
+	      <br>KeyID
+	      <br>PersonaID
+	      <br>CallerID
+	    </td>
+	    <td>AppID
+	      <br>KeyID
+	    </td>
+	    <td>AppID
+	      <br>KeyID
+	    </td>
+	  </tr>
+	</tbody></table>
+	
+      </section>
+    </section>
+  
+
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_references"><span class="secno">A. </span>References</h2><section id="normative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_normative-references"><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography" about=""><dt id="bib-ECMA-262">[ECMA-262]</dt><dd rel="dcterms:requires"><a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm"><cite>ECMAScript Language Specification, Edition 5.1</cite></a>. June 2011. URL: <a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm">http://www.ecma-international.org/publications/standards/Ecma-262.htm</a>
+</dd><dt id="bib-FIDOGlossary">[FIDOGlossary]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, B. Hill, J. Hodges, <cite>FIDO Technical Glossary</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.html">fido-glossary-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.pdf">fido-glossary-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd rel="dcterms:requires">S. Bradner. <a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+</dd><dt id="bib-RFC4648">[RFC4648]</dt><dd rel="dcterms:requires">S. Josefsson, <a href="http://www.ietf.org/rfc/rfc4648.txt"><cite>The Base16, Base32, and Base64 Data Encodings (RFC 4648)</cite></a>, IETF, October 2006, URL: <a href="http://www.ietf.org/rfc/rfc4648.txt">http://www.ietf.org/rfc/rfc4648.txt</a>
+</dd><dt id="bib-UAFAuthnrCommands">[UAFAuthnrCommands]</dt><dd rel="dcterms:requires">D. Baghdasaryan, J. Kemp, R. Lindemann, R. Sasson, B. Hill, <cite>FIDO UAF Authenticator Commands v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML:  <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-cmds-v1.0-ps-20141208.html">fido-uaf-authnr-cmds-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-cmds-v1.0-ps-20141208.pdf">fido-uaf-authnr-cmds-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFAuthnrMetadata">[UAFAuthnrMetadata]</dt><dd rel="dcterms:requires">B. Hill, D. Baghdasaryan, J. Kemp, <cite>FIDO UAF Authenticator Metadata Statements v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML:  <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-metadata-v1.0-ps-20141208.html">fido-uaf-authnr-metadata-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-metadata-v1.0-ps-20141208.pdf">fido-uaf-authnr-metadata-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFProtocol">[UAFProtocol]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, E. Tiffany, D. Balfanz, B. Hill, J. Hodges, <cite>FIDO UAF Protocol Specification v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.html">fido-uaf-protocol-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.pdf">fido-uaf-protocol-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFRegistry">[UAFRegistry]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, B. Hill, <cite>FIDO UAF Registry of Predefined Values</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.html">fido-uaf-reg-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.pdf">fido-uaf-reg-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-WebIDL-ED">[WebIDL-ED]</dt><dd rel="dcterms:requires">Cameron McCormack, <a href="http://heycam.github.io/webidl/"><cite>Web IDL</cite></a>, W3C.  Editor's Draft 13 November 2014.  URL: <a href="http://heycam.github.io/webidl/">http://heycam.github.io/webidl/</a>
+</dd></dl></section><section id="informative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_informative-references"><span class="secno">A.2 </span>Informative references</h3><dl class="bibliography" about=""><dt id="bib-ECMA-404">[ECMA-404]</dt><dd rel="dcterms:references">. <a href="http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf"><cite>The JSON Data Interchange Format</cite></a>. 1 October 2013. Standard. URL: <a href="http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf">http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf</a>
+</dd><dt id="bib-FIDOSecRef">[FIDOSecRef]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, B. Hill, <cite>FIDO Security Reference</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-security-ref-v1.0-ps-20141208.html">fido-security-ref-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-security-ref-v1.0-ps-20141208.pdf">fido-security-ref-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-RFC2397">[RFC2397]</dt><dd rel="dcterms:references">L. Masinter. <a href="https://tools.ietf.org/html/rfc2397"><cite>The "data" URL scheme</cite></a>. August 1998. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc2397">https://tools.ietf.org/html/rfc2397</a>
+</dd><dt id="bib-UAFAppAPIAndTransport">[UAFAppAPIAndTransport]</dt><dd rel="dcterms:references">B. Hill, D. Baghdasaryan, B. Blanke, <cite>FIDO UAF Application API and Transport Binding Specification</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-client-api-transport-v1.0-ps-20141208.html">fido-uaf-client-api-transport-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-client-api-transport-v1.0-ps-20141208.pdf">fido-uaf-client-api-transport-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-WebIDL">[WebIDL]</dt><dd rel="dcterms:references">Cameron McCormack. <a href="http://www.w3.org/TR/WebIDL/"><cite>Web IDL</cite></a>. 19 April 2012. W3C Candidate Recommendation. URL: <a href="http://www.w3.org/TR/WebIDL/">http://www.w3.org/TR/WebIDL/</a>
+</dd></dl></section></section></body></html>

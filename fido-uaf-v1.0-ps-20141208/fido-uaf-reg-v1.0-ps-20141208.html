@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document w3p:REC" about="" property="dcterms:language" content="en">
+<head>
+    <title>FIDO UAF Registry of Predefined Values</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    
+       
+<style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #003a7c;
+}
+
+.simple th {
+    background: #003a7c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><link rel="stylesheet" href="resources/FIDO-PS.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+
+<body style="" class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    
+      <a href="https://www.fidoalliance.org/"><img width="250" id="toplogo" src="resources/logo.png" alt="FIDO Alliance"></a>
+    
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">FIDO UAF Registry of Predefined Values</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-12-08T08:00:00.000Z" id="fido-alliance-proposed-standard-08-december-2014"><abbr title="FIDO Alliance">FIDO Alliance</abbr> Proposed Standard <time class="dt-published" datetime="2014-12-08">08 December 2014</time></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.html">https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.html</a></dd>
+      <!--<dt>Latest published version:</dt>
+      <dd><a href='https://fidoalliance.org/specs/fido-uaf-reg/'>https://fidoalliance.org/specs/fido-uaf-reg/</a></dd>
+    
+    -->
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="https://fidoalliance.org/specs/fido-uaf-reg-v1.0-rd-20141008.pdf">https://fidoalliance.org/specs/fido-uaf-reg-v1.0-rd-20141008.pdf</a></dd>
+    
+    
+    <dt>Editors:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Dr. Rolf Lindemann</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Davit Baghdasaryan</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Brad Hill</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.paypal.com/">PayPal</a></span>
+</dd>
+
+    
+    
+  </dl>
+  
+  
+  
+    <p>
+      The English version of this specification is the only normative version. Non-normative
+      <a href="https://www.fidoalliance.org/specifications/translation/">translations</a> may also be available.
+    </p>
+  
+  
+    
+      <p class="copyright">
+        Copyright ©
+        2013-2014
+        
+        <a href="https://www.fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a>
+        All Rights Reserved.
+      </p>
+    
+  
+  <hr>
+</div>
+  <!-- only modify this if a custom Status of this Document is needed -->
+  
+  
+  <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+    <p>This document defines all the strings and constants reserved by UAF protocols. 
+      The values defined in this document are referenced by various UAF specifications.</p>
+  </section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="FIDO Alliance">FIDO Alliance</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="https://www.fidoalliance.org/specifications/"><abbr title="FIDO Alliance">FIDO Alliance</abbr> specifications index</a> at
+          https://www.fidoalliance.org/specifications/.</em>
+        </p>
+        
+        <p>
+          This document was published by the <a href="https://fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a> as a Proposed Standard.
+          
+          
+            If you wish to make comments regarding this document, please 
+            <a href="https://fidoalliance.org/contact">Contact Us</a>.
+          
+          
+          
+          
+            All comments are welcome.
+          
+        </p>
+        
+	
+	
+	
+        
+          <p>
+	    Implementation of certain elements of this Specification may require licenses under third party intellectual 
+	    property rights, including without limitation, patent rights. The <abbr title="FIDO Alliance">FIDO Alliance</abbr>, Inc. and its Members
+            and any other contributors to the Specification are not, and shall not be held, responsible in any manner
+            for identifying or failing to identify any or all such third party intellectual property rights.
+	  </p>
+	  <p>
+	    THIS FIDO ALLIANCE SPECIFICATION IS PROVIDED “AS IS” AND WITHOUT ANY 
+            WARRANTY OF ANY KIND, INCLUDING, WITHOUT LIMITATION, ANY EXPRESS OR IMPLIED
+	    WARRANTY OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A
+	    PARTICULAR PURPOSE.
+          </p>
+        
+        
+          <p>
+            This document has been reviewed by FIDO Aliance Members
+            and is endorsed as a Proposed Standard.
+            It is a stable document and may be used as reference material or cited from another
+            document. <abbr title="FIDO Alliance">FIDO Alliance</abbr>'s role in making the Recommendation is to draw attention to the
+            specification and to promote its widespread deployment.
+          </p>
+        
+        
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#notation" class="tocxref"><span class="secno">1. </span>Notation</a><ul class="toc"><li class="tocline"><a href="#key-words" class="tocxref"><span class="secno">1.1 </span>Key Words</a></li></ul></li><li class="tocline"><a href="#overview" class="tocxref"><span class="secno">2. </span>Overview</a></li><li class="tocline"><a href="#authenticator-characteristics" class="tocxref"><span class="secno">3. </span>Authenticator Characteristics</a><ul class="toc"><li class="tocline"><a href="#user-verification-methods" class="tocxref"><span class="secno">3.1 </span>User Verification Methods</a></li><li class="tocline"><a href="#key-protection-types" class="tocxref"><span class="secno">3.2 </span>Key Protection Types</a></li><li class="tocline"><a href="#matcher-protection-types" class="tocxref"><span class="secno">3.3 </span>Matcher Protection Types</a></li><li class="tocline"><a href="#authenticator-attachment-hints" class="tocxref"><span class="secno">3.4 </span>Authenticator Attachment Hints</a></li><li class="tocline"><a href="#transaction-confirmation-display-types" class="tocxref"><span class="secno">3.5 </span>Transaction Confirmation Display Types</a></li><li class="tocline"><a href="#tags-used-for-crypto-algorithms-and-types" class="tocxref"><span class="secno">3.6 </span>Tags used for crypto algorithms and types</a><ul class="toc"><li class="tocline"><a href="#authentication-algorithms" class="tocxref"><span class="secno">3.6.1 </span>Authentication Algorithms</a></li><li class="tocline"><a href="#public-key-representation-formats" class="tocxref"><span class="secno">3.6.2 </span>Public Key Representation Formats</a></li></ul></li><li class="tocline"><a href="#assertion-schemes" class="tocxref"><span class="secno">3.7 </span>Assertion Schemes</a></li></ul></li><li class="tocline"><a href="#predefined-tags" class="tocxref"><span class="secno">4. </span>Predefined Tags</a><ul class="toc"><li class="tocline"><a href="#tags-used-in-the-protocol" class="tocxref"><span class="secno">4.1 </span>Tags used in the protocol</a></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></section>
+  
+  <section id="notation">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_notation"><span class="secno">1. </span>Notation</h2>
+    
+    <p>Type names, attribute names and element names are written as <code>code</code>.</p>
+    
+    <p>String literals are enclosed in “”, e.g. “UAF-TLV”.</p>
+    
+    <p>In formulas we use “|” to denote byte wise concatenation operations.</p>
+    
+    <p>UAF specific terminology used in this document is defined in [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>].</p>
+
+      <p>All diagrams, examples, notes in this specification are non-normative.</p>
+      
+    <section id="key-words">
+      <h3 aria-level="2" role="heading" id="h3_key-words"><span class="secno">1.1 </span>Key Words</h3>
+      
+      <p>The key words “<em class="rfc2119" title="MUST">MUST</em>”, “<em class="rfc2119" title="MUST NOT">MUST NOT</em>”, “<em class="rfc2119" title="REQUIRED">REQUIRED</em>”, “<em class="rfc2119" title="SHALL">SHALL</em>”, “<em class="rfc2119" title="SHALL NOT">SHALL NOT</em>”, 
+	“<em class="rfc2119" title="SHOULD">SHOULD</em>”, “<em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em>”, “<em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em>”, “<em class="rfc2119" title="MAY">MAY</em>”, and “<em class="rfc2119" title="OPTIONAL">OPTIONAL</em>” in
+	this document are to be interpreted as described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].</p>
+    </section>
+  </section>
+  <section class="informative" id="overview">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_overview"><span class="secno">2. </span>Overview</h2><p><em>This section is non-normative.</em></p>
+    <p>This document defines the registry of UAF-specific constants that are used and 
+      referenced in various UAF specifications.
+      It is expected that, over time, new constants will be added to this registry. For 
+      example new authentication algorithms and
+      new types of authenticator characteristics will require new constants to be defined 
+      for use within the specifications.</p>
+  </section>
+
+  <section class="normativeDisclaimer" id="authenticator-characteristics">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_authenticator-characteristics"><span class="secno">3. </span>Authenticator Characteristics</h2><p><em>This section is normative.</em></p>
+
+    <section id="user-verification-methods">
+      <h3 aria-level="2" role="heading" id="h3_user-verification-methods"><span class="secno">3.1 </span>User Verification Methods</h3>
+      <p>The <code>USER_VERIFY</code> constants are flags in a bitfield represented 
+	as a 32 bit long integer. They describe
+	the methods and capabilities of an UAF authenticator for <i>locally</i> verifying 
+	a user. The operational details of
+	these methods are opaque to the server. These constants are used in the 
+	authoritative metadata for an authenticator,
+	reported and queried through the UAF Discovery APIs, and used to form authenticator 
+	policies in UAF protocol messages.</p>
+      <p>All user verification methods must be performed locally by the authenticator 
+	in order to meet FIDO privacy principles. </p>
+      <dl>
+        <dt><code>USER_VERIFY_PRESENCE</code> <code>0x01</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator is able to confirm user presence 
+	  in any fashion. If this flag and no
+	  other is set for user verification, the guarantee is only that the authenticator 
+	  cannot be operated without some human
+	  intervention, not necessarily that the presence verification provides any level 
+	  of authentication of the human's identity.
+	  (e.g. a device that requires a touch to activate)</dd>
+        <dt><code>USER_VERIFY_FINGERPRINT</code> <code>0x02</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator uses any type of measurement of 
+	  a fingerprint for user verification.</dd>
+        <dt><code>USER_VERIFY_PASSCODE</code> <code>0x04</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator uses a local-only passcode 
+	  (i.e. a passcode not known by the server) for user verification.</dd>
+        <dt><code>USER_VERIFY_VOICEPRINT</code> <code>0x08</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator uses a voiceprint (also known as speaker recognition) 
+	  for user verification.</dd>
+        <dt><code>USER_VERIFY_FACEPRINT</code> <code>0x10</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator uses any manner of face recognition 
+	  to verify the user.</dd>
+        <dt><code>USER_VERIFY_LOCATION</code> <code>0x20</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator uses any form of location sensor 
+	  or measurement for user verification.</dd>
+        <dt><code>USER_VERIFY_EYEPRINT</code> <code>0x40</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator uses any form of eye biometrics 
+	  for user verification.</dd>
+        <dt><code>USER_VERIFY_PATTERN</code> <code>0x80</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator uses a drawn pattern for user verification.</dd>
+        <dt><code>USER_VERIFY_HANDPRINT</code> <code>0x100</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator uses any measurement of a full 
+	  hand (including palm-print, hand geometry or vein geometry) for user verification.</dd>
+        <dt><code>USER_VERIFY_NONE</code> <code>0x200</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator will respond without any 
+	  user interaction (e.g. Silent Authenticator).
+        </dd>
+        <dt><code>USER_VERIFY_ALL</code> <code>0x400</code></dt>
+        <dd>If an authenticator sets multiple flags for user verification types, it <em class="rfc2119" title="MAY">MAY</em> 
+	  also set this flag to indicate that all verification methods will be enforced 
+	  (e.g. faceprint AND voiceprint). If flags for multiple
+          user verification methods are set and this flag is not set, verification with 
+	  only one is necessary (e.g. fingerprint OR passcode).</dd>
+      </dl>
+    </section>
+    <section id="key-protection-types">
+      <h3 aria-level="2" role="heading" id="h3_key-protection-types"><span class="secno">3.2 </span>Key Protection Types</h3>
+      <p>The <code>KEY_PROTECTION</code> constants are flags in a bit field 
+	represented as a 16 bit long integer.  They describe the method an 
+	authenticator uses to protect the private key material for FIDO registrations.
+	Refer to [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>] for more details on the relevance of keys and 
+	key protection.  These constants are used in the authoritative metadata for an 
+	authenticator, reported and queried through the UAF Discovery APIs, and used to 
+	form authenticator policies in UAF protocol messages. </p>
+      <p>When used in metadata describing an authenticator, several of these flags are <em>exclusive</em> of 
+	others (i.e. can not be combined) - the certified metadata may have
+	at most one of the mutually exclusive bits set to 1. When used in authenticator 
+	policy, any bit may be set to 1, e.g. to indicate that a server is 
+	willing to accept authenticators using either <code>KEY_PROTECTION_SOFTWARE</code> or
+	<code>KEY_PROTECTION_HARDWARE</code>.</p>
+      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_1"><span>Note</span></div><p class="">These flags must be set according to the <i>effective</i> security of the 
+	keys, in order to follow the assumptions made in [<cite><a class="bibref" href="#bib-FIDOSecRef">FIDOSecRef</a></cite>].  For example, if a key
+	is stored in a secure element <i>but</i> software running on the FIDO User Device 
+	could call a function in the secure element to export the key either in the clear or using 
+	an arbitrary wrapping key, then the effective security is <code>KEY_PROTECTION_SOFTWARE</code> and 
+	not <code>KEY_PROTECTION_SECURE_ELEMENT</code>.
+      </p></div>
+      <dl>
+        <dt><code>KEY_PROTECTION_SOFTWARE</code> <code>0x01</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator uses software-based key management. 
+	  Exclusive in authenticator metadata with
+          <code>KEY_PROTECTION_HARDWARE</code>, <code>KEY_PROTECTION_TEE</code>, 
+	  <code>KEY_PROTECTION_SECURE_ELEMENT</code>
+        </dd>
+        <dt><code>KEY_PROTECTION_HARDWARE</code> <code>0x02</code></dt>
+        <dd>This flag <em class="rfc2119" title="SHOULD">SHOULD</em> be set if the authenticator uses hardware-based key management. 
+	  Exclusive in authenticator metadata with
+          <code>KEY_PROTECTION_SOFTWARE</code>
+        </dd>
+        <dt><code>KEY_PROTECTION_TEE</code> <code>0x04</code></dt>
+        <dd>This flag <em class="rfc2119" title="SHOULD">SHOULD</em> be set if the authenticator uses the Trusted Execution 
+	  Environment [<cite><a class="bibref" href="#bib-TEE">TEE</a></cite>] for key management. In authenticator metadata,
+	  this flag should be set in conjunction with <code>KEY_PROTECTION_HARDWARE</code>. 
+	  Exclusive in authenticator metadata with
+          <code>KEY_PROTECTION_SOFTWARE</code>, <code>KEY_PROTECTION_SECURE_ELEMENT</code>
+        </dd>
+        <dt><code>KEY_PROTECTION_SECURE_ELEMENT</code> <code>0x08</code></dt>
+        <dd>This flag <em class="rfc2119" title="SHOULD">SHOULD</em> be set if the authenticator uses a 
+	  Secure Element [<cite><a class="bibref" href="#bib-SecureElement">SecureElement</a></cite>] for key management. In authenticator metadata,
+	  this flag should be set in conjunction with <code>KEY_PROTECTION_HARDWARE</code>. 
+	  Exclusive in authenticator metadata with
+	  <code>KEY_PROTECTION_TEE</code>, <code>KEY_PROTECTION_SOFTWARE</code>
+        </dd>
+        <dt><code>KEY_PROTECTION_REMOTE_HANDLE</code> <code>0x10</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator does not store (wrapped) UAuth keys 
+	  at the client, but relies on a server-provided key handle.
+	  This flag <em class="rfc2119" title="MUST">MUST</em> be set in conjunction with one of the other <code>KEY_PROTECTION</code> 
+	  flags to indicate how the local key handle wrapping key and operations are protected. 
+	  Servers <em class="rfc2119" title="MAY">MAY</em> unset this flag in authenticator policy if they are not prepared to store and return
+	  key handles, for example, if they have a requirement to respond 
+	  indistinguishably to authentication attempts against userIDs that do and
+	  do not exist. Refer to [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>] for more details.</dd>    
+      </dl>
+    </section>
+    
+    
+    <section id="matcher-protection-types">
+      <h3 aria-level="2" role="heading" id="h3_matcher-protection-types"><span class="secno">3.3 </span>Matcher Protection Types</h3>
+      <p>The <code>MATCHER_PROTECTION</code> constants are flags in a bit field 
+	represented as a 16 bit long integer.
+	They describe the method an authenticator uses to protect the matcher 
+	that performs user verification. 
+	These constants are used in the authoritative metadata for an authenticator, 
+	reported and queried through 
+	the UAF Discovery APIs, and used to form authenticator policies in 
+	UAF protocol messages.  Refer to [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>]
+	for more details on the matcher component.</p>
+      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_2"><span>Note</span></div><p class="">These flags must be set according to the <i>effective</i> security of the 
+	matcher, in order to follow the assumptions made in [<cite><a class="bibref" href="#bib-FIDOSecRef">FIDOSecRef</a></cite>].  For example, if a passcode based
+	matcher is implemented in a secure element, but the passcode is expected to be 
+	provided as unauthenticated parameter, then the effective security 
+	is <code>MATCHER_PROTECTION_SOFTWARE</code> and 
+	not <code>MATCHER_PROTECTION_ON_CHIP</code>.
+      </p></div>
+      <dl>
+        <dt><code>MATCHER_PROTECTION_SOFTWARE</code> <code>0x01</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set if the authenticator's matcher is running in software. 
+	  Exclusive in authenticator metadata with
+          <code>MATCHER_PROTECTION_TEE</code>,
+          <code>MATCHER_PROTECTION_ON_CHIP</code>
+        </dd>
+        <dt><code>MATCHER_PROTECTION_TEE</code> <code>0x02</code></dt>
+        <dd>This flag <em class="rfc2119" title="SHOULD">SHOULD</em> be set if the authenticator's matcher is running inside 
+	  the Trusted Execution Environment [<cite><a class="bibref" href="#bib-TEE">TEE</a></cite>]. Exclusive in authenticator metadata with
+          <code>MATCHER_PROTECTION_SOFTWARE</code>,
+          <code>MATCHER_PROTECTION_ON_CHIP</code>
+        </dd>
+        <dt><code>MATCHER_PROTECTION_ON_CHIP</code> <code>0x04</code></dt>
+        <dd>This flag <em class="rfc2119" title="SHOULD">SHOULD</em> be set if the authenticator's matcher is running on the chip. 
+	  Exclusive in authenticator metadata with <code>MATCHER_PROTECTION_TEE</code>,
+          <code>MATCHER_PROTECTION_SOFTWARE</code>
+        </dd>
+      </dl>
+    </section>
+	
+    
+    <section id="authenticator-attachment-hints">
+      <h3 aria-level="2" role="heading" id="h3_authenticator-attachment-hints"><span class="secno">3.4 </span>Authenticator Attachment Hints</h3>
+      <p>The <code>ATTACHMENT_HINT</code> constants are flags in a bit field 
+	represented as a 32 bit long. They describe the method an
+	authenticator uses to communicate with the FIDO User Device. These constants are reported and
+	queried through the UAF Discovery APIs [<cite><a class="bibref" href="#bib-UAFAppAPIAndTransport">UAFAppAPIAndTransport</a></cite>], and used to form Authenticator 
+	policies in UAF protocol messages. Because the connection
+	state and topology of an authenticator may be transient, these values are 
+	only hints that can be used by server-supplied policy
+	to guide the user experience, e.g. to prefer a device that is connected and 
+	ready for authenticating or confirming a low-value transaction,
+	rather than one that is more secure but requires more user effort.</p> 
+      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_3"><span>Note</span></div><p class="">These flags are not a mandatory part of authenticator metadata and,
+	when present, only indicate possible states that may be reported during 
+	authenticator discovery.</p></div>
+      <dl>
+        <dt><code>ATTACHMENT_HINT_INTERNAL</code> <code>0x01</code></dt>
+        <dd>This flag <em class="rfc2119" title="MAY">MAY</em> be set to indicate that the authenticator is permanently attached 
+	  to the FIDO User Device.
+          <p>A device such as a smartphone may have authenticator functionality 
+	    that is able to be used both locally and remotely.
+	    In such a case, the FIDO client <em class="rfc2119" title="MUST">MUST</em> filter and exclusively 
+	    report only the relevant bit during Discovery and when performing policy matching.</p>
+          <p>This flag cannot be combined with any other <code>ATTACHMENT_HINT</code> flags.</p>
+        </dd>
+        <dt><code>ATTACHMENT_HINT_EXTERNAL</code> <code>0x02</code></dt>
+        <dd>This flag <em class="rfc2119" title="MAY">MAY</em> be set to indicate, for a hardware-based authenticator, that 
+	  it is removable or remote from the FIDO User Device. 
+	  <p>A device such as a smartphone may have 
+	    authenticator functionality that is able to be used
+	    both locally and remotely. In such a case, the FIDO UAF Client <em class="rfc2119" title="MUST">MUST</em> filter and 
+	    exclusively report only the relevant bit during
+	    discovery and when performing policy matching.</p>
+	</dd>
+	
+        <dt><code>ATTACHMENT_HINT_WIRED</code> <code>0x04</code></dt>
+        <dd>This flag <em class="rfc2119" title="MAY">MAY</em> be set to indicate that an external authenticator currently has an exclusive 
+	  wired connection, e.g. through USB, Firewire
+	  or similar, to the FIDO User Device.</dd>
+	
+        <dt><code>ATTACHMENT_HINT_WIRELESS</code> <code>0x08</code></dt>
+        <dd>This flag <em class="rfc2119" title="MAY">MAY</em> be set to indicate that an external authenticator communicates with the FIDO User Device
+	  through a personal area or otherwise non-routed wireless protocol, such as Bluetooth or NFC.</dd>
+	
+        <dt><code>ATTACHMENT_HINT_NFC</code> <code>0x10</code></dt>
+        <dd>This flag <em class="rfc2119" title="MAY">MAY</em> be set to indicate that an external authenticator is able to communicate by NFC 
+	  to the FIDO User Device. As part of
+	  authenticator metadata, or when reporting characteristics through discovery, if this flag is set, the
+          <code>ATTACHMENT_HINT_WIRELESS</code> flag <em class="rfc2119" title="SHOULD">SHOULD</em> also be set as well.</dd>
+	
+        <dt><code>ATTACHMENT_HINT_BLUETOOTH</code> <code>0x20</code></dt>
+        <dd>This flag <em class="rfc2119" title="MAY">MAY</em> be set to indicate that an external authenticator is able to communicate using 
+	  Bluetooth with the FIDO User Device.
+	  As part of authenticator metadata, or when reporting characteristics through 
+	  discovery, if this flag is set, the
+          <code>ATTACHMENT_HINT_WIRELESS</code> flag <em class="rfc2119" title="SHOULD">SHOULD</em> also be set.</dd>
+	
+        <dt><code>ATTACHMENT_HINT_NETWORK</code> <code>0x40</code></dt>
+        <dd>This flag <em class="rfc2119" title="MAY">MAY</em> be set to indicate that the authenticator is connected to the FIDO User Device
+	  ver a non-exclusive network (e.g. over a TCP/IP LAN or WAN, as opposed 
+	  to a PAN or point-to-point connection).</dd>
+        <dt><code>ATTACHMENT_HINT_READY</code> <code>0x80</code></dt>
+        <dd>Thif flag <em class="rfc2119" title="MAY">MAY</em> be set to indicate that an external authenticator is in a "ready" state. This flag 
+	  is set by the ASM at its discretion.
+	  <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_4"><span>Note</span></div><p class="">Generally this should indicate that the device is immediately available to 
+	    perform user verification without additional
+	    actions such as connecting the device or creating a new biometric 
+	    profile enrollment, but the exact meaning may vary for
+	    different types of devices. For example, a USB authenticator may only 
+	    report itself as ready when it is plugged in,
+	    or a Bluetooth authenticator when it is paired and connected, but an 
+	    NFC-based authenticator may always report itself as ready.</p></div>
+	</dd>
+	
+        <dt><code>ATTACHMENT_HINT_WIFI_DIRECT</code> <code>0x100</code></dt>
+        <dd>This flag <em class="rfc2119" title="MAY">MAY</em> be set to indicate that an external authenticator is able to communicate using 
+	  WiFi Direct with the FIDO User Device.
+	  As part of authenticator metadata and when reporting characteristics 
+	  through discovery, if this flag is set, the
+          <code>ATTACHMENT_HINT_WIRELESS</code> flag <em class="rfc2119" title="SHOULD">SHOULD</em> also be set.</dd>
+      </dl>
+    </section>
+    <section id="transaction-confirmation-display-types">
+      <h3 aria-level="2" role="heading" id="h3_transaction-confirmation-display-types"><span class="secno">3.5 </span>Transaction Confirmation Display Types</h3>
+      <p>The <code>TRANSACTION_CONFIRMATION_DISPLAY</code> constants are flags 
+	in a bit field represented as a 16 bit long
+	integer. They describe the availability and implementation of a 
+	transaction confirmation display capability required
+	for the transaction confirmation operation. These constants are 
+	used in the authoritative metadata for an authenticator,
+	reported and queried through the UAF Discovery APIs, and used to 
+	form authenticator policies in UAF protocol messages.
+	Refer to [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>] for more details on the security aspects 
+	of TransactionConfirmation Display.</p>
+      <dl>
+        <dt><code>TRANSACTION_CONFIRMATION_DISPLAY_ANY</code> <code>0x01</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set to indicate, that some form of transaction confirmation 
+	  display is available on this authenticator.</dd>
+        <dt><code>TRANSACTION_CONFIRMATION_DISPLAY_PRIVILEGED_SOFTWARE</code> 
+	  <code>0x02</code></dt>
+        <dd>This flag <em class="rfc2119" title="MUST">MUST</em> be set to indicate, that a software-based transaction confirmation 
+	  display operating in a privileged context is available on this authenticator. 
+	  <p>A FIDO client that is capable of providing this 
+	    capability <em class="rfc2119" title="MAY">MAY</em> set this bit for all authenticators of type
+            <code>ATTACHMENT_HINT_INTERNAL</code>, even if the authoritative metadata for the 
+	    authenticator does not indicate this capability.</p>
+	  <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_5"><span>Note</span></div><p class="">Software based transaction confirmation displays might be implemented within 
+	    the boundaries of the ASM rather than by the authenticator itself [<cite><a class="bibref" href="#bib-UAFASM">UAFASM</a></cite>].</p></div>
+	</dd>
+        <dt><code>TRANSACTION_CONFIRMATION_DISPLAY_TEE</code> <code>0x04</code></dt>
+        <dd>This flag <em class="rfc2119" title="SHOULD">SHOULD</em> be set to indicate that the authenticator implements a transaction confirmation 
+	  display in a Trusted Execution Environment ([<cite><a class="bibref" href="#bib-TEE">TEE</a></cite>], [<cite><a class="bibref" href="#bib-TEESecureDisplay">TEESecureDisplay</a></cite>]).</dd>
+        <dt><code>TRANSACTION_CONFIRMATION_DISPLAY_HARDWARE</code> <code>0x08</code></dt>
+        <dd>This flag <em class="rfc2119" title="SHOULD">SHOULD</em> be set to indicate that a transaction confirmation display based on 
+	  hardware assisted capabilities is available on this authenticator.</dd>
+        <dt><code>TRANSACTION_CONFIRMATION_DISPLAY_REMOTE</code> <code>0x10</code></dt>
+        <dd>This flag <em class="rfc2119" title="SHOULD">SHOULD</em> be set to indicate that the transaction confirmation display 
+	  is provided on a distinct device from the FIDO User Device.</dd>
+      </dl>
+    </section>
+
+    <section id="tags-used-for-crypto-algorithms-and-types">
+      <h3 aria-level="2" role="heading" id="h3_tags-used-for-crypto-algorithms-and-types"><span class="secno">3.6 </span>Tags used for crypto algorithms and types</h3>
+      <p>These tags indicate the specific authentication algorithms, public key formats and other crypto relevant data.</p>
+
+      <section id="authentication-algorithms">
+        <h4 aria-level="3" role="heading" id="h4_authentication-algorithms"><span class="secno">3.6.1 </span>Authentication Algorithms</h4>
+        <p>The <code>UAF_ALG_SIGN</code> constants are 16 bit long integers indicating the specific
+	  signature algorithm and encoding.</p>
+	<div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_6"><span>Note</span></div><p class="">FIDO UAF supports RAW and DER signature encodings in order to allow small footprint
+	  authenticator implementations. 
+	</p></div>
+
+        <dl>
+          <dt><code>UAF_ALG_SIGN_SECP256R1_ECDSA_SHA256_RAW</code> <code>0x01</code></dt>
+          <dd>An ECDSA signature on the NIST secp256r1 curve which <em class="rfc2119" title="MUST">MUST</em> have raw R and S buffers, 
+	    encoded in big-endian order. 
+	    <p>I.e. <code>[R (32 bytes), S (32 bytes)]</code></p>
+	  </dd>
+          
+	  <dt><code>UAF_ALG_SIGN_SECP256R1_ECDSA_SHA256_DER</code> <code>0x02</code></dt>
+          <dd>DER [<cite><a class="bibref" href="#bib-ITU-X690-2008">ITU-X690-2008</a></cite>] encoded ECDSA signature [<cite><a class="bibref" href="#bib-RFC5480">RFC5480</a></cite>] on the NIST secp256r1 curve. 
+	    <p>I.e. a DER encoded <code>SEQUENCE { r INTEGER, s INTEGER }</code></p>
+	  </dd>	      	      
+          
+	  <dt><code>UAF_ALG_SIGN_RSASSA_PSS_SHA256_RAW</code> <code>0x03</code></dt>
+          <dd>RSASSA-PSS [<cite><a class="bibref" href="#bib-RFC3447">RFC3447</a></cite>] signature <em class="rfc2119" title="MUST">MUST</em> have raw S buffers, 
+	    encoded in big-endian order [<cite><a class="bibref" href="#bib-RFC4055">RFC4055</a></cite>] [<cite><a class="bibref" href="#bib-RFC4056">RFC4056</a></cite>].
+	    The default parameters as specified in [<cite><a class="bibref" href="#bib-RFC4055">RFC4055</a></cite>] <em class="rfc2119" title="MUST">MUST</em> be assumed, i.e.
+	    <ul>
+	      <li>Mask Generation Algorithm MGF1 with SHA256</li>
+	      <li>Salt Length of 32 bytes, i.e. the length of a SHA256 hash value.</li>
+	      <li>Trailer Field value of 1, which represents the trailer field with hexadecimal value <code>0xBC</code>.
+	    </li></ul>
+	    <p>I.e. <code>[ S (256 bytes) ]</code></p>
+          </dd>
+
+          <dt><code>UAF_ALG_SIGN_RSASSA_PSS_SHA256_DER</code> <code>0x04</code></dt>
+          <dd>DER [<cite><a class="bibref" href="#bib-ITU-X690-2008">ITU-X690-2008</a></cite>] encoded OCTET STRING (not BIT STRING!) containing the RSASSA-PSS [<cite><a class="bibref" href="#bib-RFC3447">RFC3447</a></cite>] 
+	    signature [<cite><a class="bibref" href="#bib-RFC4055">RFC4055</a></cite>] [<cite><a class="bibref" href="#bib-RFC4056">RFC4056</a></cite>].
+	    The default parameters as specified in [<cite><a class="bibref" href="#bib-RFC4055">RFC4055</a></cite>] <em class="rfc2119" title="MUST">MUST</em> be assumed, i.e.
+	    <ul>
+	      <li>Mask Generation Algorithm MGF1 with SHA256</li>
+	      <li>Salt Length of 32 bytes, i.e. the length of a SHA256 hash value.</li>
+	      <li>Trailer Field value of 1, which represents the trailer field with hexadecimal value <code>0xBC</code>.
+	    </li></ul>
+	    <p>I.e. a DER encoded <code>OCTET STRING</code> (including its tag and length bytes).</p>
+	  </dd>
+          
+          <dt><code>UAF_ALG_SIGN_SECP256K1_ECDSA_SHA256_RAW</code> <code>0x05</code></dt>
+          <dd>An ECDSA signature on the secp256k1 curve which  <em class="rfc2119" title="MUST">MUST</em> have raw R and S buffers, 
+	    encoded in big-endian order. 
+	    <p>I.e.<code>[R (32 bytes), S (32 bytes)]</code></p>
+	  </dd>
+	  
+          <dt><code>UAF_ALG_SIGN_SECP256K1_ECDSA_SHA256_DER</code> <code>0x06</code></dt>
+          <dd>DER [<cite><a class="bibref" href="#bib-ITU-X690-2008">ITU-X690-2008</a></cite>] encoded ECDSA signature [<cite><a class="bibref" href="#bib-RFC5480">RFC5480</a></cite>] on the secp256k1 curve.
+	    <p>I.e. a DER encoded <code>SEQUENCE { r INTEGER, s INTEGER }</code></p>
+	  </dd>              
+        </dl>	
+      </section>
+	  
+      <section id="public-key-representation-formats">
+        <h4 aria-level="3" role="heading" id="h4_public-key-representation-formats"><span class="secno">3.6.2 </span>Public Key Representation Formats</h4>
+        <p>The <code>UAF_ALG_KEY</code> constants are 16 bit long integers indicating the specific
+	  Public Key algorithm and encoding.</p>
+	<div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_7"><span>Note</span></div><p class="">FIDO UAF supports RAW and DER encodings in order to allow small footprint
+	  authenticator implementations. By definition, the authenticator must encode the 
+	  public key as part of the registration assertion.
+	</p></div>
+
+        <dl>
+          <dt><code>UAF_ALG_KEY_ECC_X962_RAW</code> <code>0x100</code></dt>
+          <dd>Raw ANSI X9.62 formatted Elliptic Curve public key [<cite><a class="bibref" href="#bib-SEC1">SEC1</a></cite>].
+	    <p>I.e. <code>[0x04, X (32 bytes), Y (32 bytes)]</code>.  Where the 
+	      byte <code>0x04</code> denotes the uncompressed point compression method.</p>
+	  </dd>
+	  
+          <dt><code>UAF_ALG_KEY_ECC_X962_DER</code> <code>0x101</code></dt>
+          <dd>DER [<cite><a class="bibref" href="#bib-ITU-X690-2008">ITU-X690-2008</a></cite>] encoded ANSI X.9.62 formatted  
+	    <code>SubjectPublicKeyInfo</code> [<cite><a class="bibref" href="#bib-RFC5480">RFC5480</a></cite>] specifying an elliptic curve public key.    
+	    <p>I.e. a DER encoded <code>SubjectPublicKeyInfo</code> as defined in [<cite><a class="bibref" href="#bib-RFC5480">RFC5480</a></cite>].</p>
+	    <p>Authenticator implementations <em class="rfc2119" title="MUST">MUST</em> generate <code>namedCurve</code> 
+	      in the <code>ECParameters</code> object 
+	      which is included in the <code>AlgorithmIdentifier</code>. A FIDO UAF Server <em class="rfc2119" title="MUST">MUST</em> accept
+	      <code>namedCurve</code> in the <code>ECParameters</code> object 
+	      which is included in the <code>AlgorithmIdentifier</code>.
+	    </p>
+	  </dd>
+	  
+          <dt><code>UAF_ALG_KEY_RSA_2048_PSS_RAW</code> <code>0x102</code></dt>
+          <dd>Raw encoded RSASSA-PSS public key [<cite><a class="bibref" href="#bib-RFC3447">RFC3447</a></cite>].
+	    <p>The default parameters according to [<cite><a class="bibref" href="#bib-RFC4055">RFC4055</a></cite>] <em class="rfc2119" title="MUST">MUST</em> be assumed, i.e.
+	      </p><ul>
+		<li>Mask Generation Algorithm MGF1 with SHA256</li>
+		<li>Salt Length of 32 bytes, i.e. the length of a SHA256 hash value.</li>
+		<li>Trailer Field value of 1, which represents the trailer field with 
+		  hexadecimal value <code>0xBC</code>.
+	      </li></ul>
+	    <p></p>
+	    <p>That is, <code>[n (256 bytes), e (N-n bytes)]</code>.  
+	      Where <code>N</code> is the total length of the field.</p>
+	    <p>This total length should be taken from the object containing this key, 
+	      e.g. the TLV encoded field.</p>
+	  </dd>
+
+          <dt><code>UAF_ALG_KEY_RSA_2048_PSS_DER</code> <code>0x103</code></dt>
+          <dd>ASN.1 DER [<cite><a class="bibref" href="#bib-ITU-X690-2008">ITU-X690-2008</a></cite>] encoded RSASSA-PSS [<cite><a class="bibref" href="#bib-RFC3447">RFC3447</a></cite>] public key [<cite><a class="bibref" href="#bib-RFC4055">RFC4055</a></cite>].
+	    <p>The default parameters according to [<cite><a class="bibref" href="#bib-RFC4055">RFC4055</a></cite>] <em class="rfc2119" title="MUST">MUST</em> be assumed, i.e.
+	      </p><ul>
+		<li>Mask Generation Algorithm MGF1 with SHA256</li>
+		<li>Salt Length of 32 bytes, i.e. the length of a SHA256 hash value.</li>
+		<li>Trailer Field value of 1, which represents the trailer field with hexadecimal value <code>0xBC</code>.
+	      </li></ul>
+	    <p></p>
+	    <p>That is, a DER encoded <code>SEQUENCE { n INTEGER, e INTEGER }</code>.</p>
+	  </dd>
+        </dl>
+      </section>
+    </section>
+   
+    <section id="assertion-schemes">
+      <h3 aria-level="2" role="heading" id="h3_assertion-schemes"><span class="secno">3.7 </span>Assertion Schemes</h3>
+      <p>Names of assertion schemes are strings with a length of 8 characters.
+        </p><dl>
+          <dt><code>UAF TLV based assertion scheme “UAFV1TLV”</code></dt>
+          <dd>This assertion scheme allows the authenticator and the FIDO Server 
+	    to exchange an asymmetric authentication key generated by the authenticator. 
+	    The authenticator <em class="rfc2119" title="MUST">MUST</em> generate a key pair (UAuth.pub/UAuth.priv) to be 
+	    used with algorithm suites listed in section <a href="#authentication-algorithms">Authentication Algorithms</a> (with prefix
+            <code>UAF_ALG</code>). This assertion scheme is using a compact 
+	    Tag Length Value (TLV) encoding for the KRD and SignData messages generated 
+	    by the authenticators. This is the default assertion scheme for the UAF protocol.</dd>
+        </dl>
+      <p></p>
+    </section>
+  </section>
+  <section class="normativeDisclaimer" id="predefined-tags">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_predefined-tags"><span class="secno">4. </span>Predefined Tags</h2><p><em>This section is normative.</em></p>
+    <p>The internal structure of UAF authenticator commands is a “Tag-Length-Value” (TLV) 
+      sequence. The tag is a 2-byte unique unsigned value describing the type of field 
+      the data represents, the length is a 2-byte unsigned value indicating the size 
+      of the value in bytes, and the value is the variable-sized series of bytes which 
+      contain data for this item in the sequence.</p>
+    <p>Although 2 bytes are allotted for the tag, only the first 14 bits 
+      (values up to 0x3FFF) should be used to accommodate the limitations 
+      of some hardware platforms.</p>
+    <p>A tag that has the 14th bit (0x2000) set indicates that it is critical 
+      and a receiver must abort processing the entire message if it cannot process that tag.</p>
+    <p>A tag that has the 13th bit (0x1000) set indicates a composite tag that 
+      can be parsed by recursive descent.</p>      
+
+    <section id="tags-used-in-the-protocol">
+      <h3 aria-level="2" role="heading" id="h3_tags-used-in-the-protocol"><span class="secno">4.1 </span>Tags used in the protocol</h3>
+      <p>The following tags have been allocated for data types in UAF protocol messages:</p>
+      <dl>
+	<dt><code>TAG_UAFV1_REG_ASSERTION</code> <code>0x3E01</code></dt>
+	<dd>The content of this tag is the authenticator response to a Register command.</dd>
+	<dt><code>TAG_UAFV1_AUTH_ASSERTION</code> <code>0x3E02</code></dt>
+	<dd>The content of this tag is the authenticator response to a Sign command.</dd>
+	<dt><code>TAG_UAFV1_KRD</code> <code>0x3E03</code></dt>
+	<dd>Indicates Key Registration Data.</dd>
+	<dt><code>TAG_UAFV1_SIGNED_DATA</code> <code>0x3E04</code></dt>
+	<dd>Indicates data signed by the authenticator using UAuth.priv key.</dd>
+	<dt><code>TAG_ATTESTATION_CERT</code> <code>0x2E05</code></dt>
+	<dd>Indicates DER encoded attestation certificate.</dd>
+	<dt><code>TAG_SIGNATURE</code> <code>0x2E06</code></dt>
+	<dd>Indicates a cryptographic signature.</dd>
+	<dt><code>TAG_ATTESTATION_BASIC_FULL</code> <code>0x3E07</code></dt>
+	<dd>Indicates full basic attestation as defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].</dd>
+	<dt><code>TAG_ATTESTATION_BASIC_SURROGATE</code> <code>0x3E08</code></dt>
+	<dd>Indicates surrogate basic attestation as defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].</dd>
+	<dt><code>TAG_KEYID</code> <code>0x2E09</code></dt>
+	<dd>Represents a generated KeyID.</dd>
+	<dt><code>TAG_FINAL_CHALLENGE</code> <code>0x2E0A</code></dt>
+	<dd>Represents a generated final challenge as defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].</dd>
+	<dt><code>TAG_AAID</code> <code>0x2E0B</code></dt>
+	<dd>Represents an Authenticator Attestation ID as defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].</dd>
+	<dt><code>TAG_PUB_KEY</code> <code>0x2E0C</code></dt>
+	<dd>Represents a generated public key.</dd>
+	<dt><code>TAG_COUNTERS</code> <code>0x2E0D</code></dt>
+	<dd>Represents the use counters for an authenticator.</dd>
+	<dt><code>TAG_ASSERTION_INFO</code> <code>0x2E0E</code></dt>
+	<dd>Represents authenticator information necessary for message processing.</dd>
+	<dt><code>TAG_AUTHENTICATOR_NONCE</code> <code>0x2E0F</code></dt>
+	<dd>Represents a nonce value generated by the authenticator.</dd>
+	<dt><code>TAG_TRANSACTION_CONTENT_HASH</code> <code>0x2E10</code></dt>
+	<dd>Represents a hash of the transaction content sent to the authenticator.</dd>
+	<dt><code>TAG_EXTENSION</code> <code>0x3E11, 0x3E12</code></dt>
+	<dd>This is a composite tag indicating that the content is an extension.
+	  </dd><dt><code>TAG_EXTENSION_ID</code> <code>0x2E13</code></dt>
+	<dd>Represents extension ID. Content of this tag is a UINT8[] encoding of a UTF-8 string.</dd>
+	<dt><code>TAG_EXTENSION_DATA</code> <code>0x2E14</code></dt>
+	<dd>Represents extension data. Content of this tag is a UINT8[] byte array.</dd>
+      </dl>      
+    </section>
+  </section>
+
+    
+  <section id="tof" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+  </section>
+
+
+
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_references"><span class="secno">A. </span>References</h2><section id="normative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_normative-references"><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography" about=""><dt id="bib-FIDOGlossary">[FIDOGlossary]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, B. Hill, J. Hodges, <cite>FIDO Technical Glossary</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.html">fido-glossary-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.pdf">fido-glossary-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-ITU-X690-2008">[ITU-X690-2008]</dt><dd rel="dcterms:requires"><a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en"><cite>X.690: Information technology - ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER), (T-REC-X.690-200811)</cite></a>. International Telecommunications Union, November 2008 URL: <a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en">http://www.itu.int/rec/T-REC-X.690-200811-I/en</a>
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd rel="dcterms:requires">S. Bradner. <a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+</dd><dt id="bib-RFC3447">[RFC3447]</dt><dd rel="dcterms:requires">J. Jonsson; B. Kaliski. <a href="https://tools.ietf.org/html/rfc3447"><cite>Public-Key Cryptography Standards (PKCS) #1: RSA Cryptography Specifications Version 2.1</cite></a>. February 2003. Informational. URL: <a href="https://tools.ietf.org/html/rfc3447">https://tools.ietf.org/html/rfc3447</a>
+</dd><dt id="bib-RFC4055">[RFC4055]</dt><dd rel="dcterms:requires">J. Schaad; B. Kaliski; R. Housley. <a href="https://tools.ietf.org/html/rfc4055"><cite>Additional Algorithms and Identifiers for RSA Cryptography for use in the Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</cite></a>. June 2005. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc4055">https://tools.ietf.org/html/rfc4055</a>
+</dd><dt id="bib-RFC4056">[RFC4056]</dt><dd rel="dcterms:requires">J. Schaad. <a href="https://tools.ietf.org/html/rfc4056"><cite>Use of the RSASSA-PSS Signature Algorithm in Cryptographic Message Syntax (CMS)</cite></a>. June 2005. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc4056">https://tools.ietf.org/html/rfc4056</a>
+</dd><dt id="bib-RFC5480">[RFC5480]</dt><dd rel="dcterms:requires">S. Turner; D. Brown; K. Yiu; R. Housley; T. Polk. <a href="https://tools.ietf.org/html/rfc5480"><cite>Elliptic Curve Cryptography Subject Public Key Information</cite></a>. March 2009. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc5480">https://tools.ietf.org/html/rfc5480</a>
+</dd><dt id="bib-SEC1">[SEC1]</dt><dd rel="dcterms:requires">Standards for Efficient Cryptography Group (SECG), <a href="http://secg.org/download/aid-780/sec1-v2.pdf"><cite>SEC1: Elliptic Curve Cryptography</cite></a>, Version 2.0, September 2000.
+</dd></dl></section><section id="informative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_informative-references"><span class="secno">A.2 </span>Informative references</h3><dl class="bibliography" about=""><dt id="bib-FIDOSecRef">[FIDOSecRef]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, B. Hill, <cite>FIDO Security Reference</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-security-ref-v1.0-ps-20141208.html">fido-security-ref-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-security-ref-v1.0-ps-20141208.pdf">fido-security-ref-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-SecureElement">[SecureElement]</dt><dd rel="dcterms:references"><a href="https://www.globalplatform.org/specifications.asp"><cite>GlobalPlatform Card Specifications</cite></a> GlobalPlatform. Accessed March 2014. URL: <a href="https://www.globalplatform.org/specifications.asp">https://www.globalplatform.org/specifications.asp</a>
+</dd><dt id="bib-TEE">[TEE]</dt><dd rel="dcterms:references"><a href="https://www.globalplatform.org/specifications.asp"><cite>GlobalPlatform Trusted Execution Environment Specifications</cite></a> GlobalPlatform. Accessed March 2014. URL: <a href="https://www.globalplatform.org/specifications.asp">https://www.globalplatform.org/specifications.asp</a>
+</dd><dt id="bib-TEESecureDisplay">[TEESecureDisplay]</dt><dd rel="dcterms:references"><a href="https://www.globalplatform.org/specifications.asp"><cite>GlobalPlatform Trusted User Interface API Specifications</cite></a> GlobalPlatform. Accessed March 2014. URL: <a href="https://www.globalplatform.org/specifications.asp">https://www.globalplatform.org/specifications.asp</a>
+</dd><dt id="bib-UAFASM">[UAFASM]</dt><dd rel="dcterms:references">D. Baghdasaryan, J. Kemp, R. Lindemann, B. Hill, R. Sasson, <cite>FIDO UAF Authenticator-Specific Module API</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-asm-api-v1.0-ps-20141208.html">fido-uaf-asm-api-v1.0-ps-20141208.html</a><br>PDF:  <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-asm-api-v1.0-ps-20141208.pdf">fido-uaf-asm-api-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFAppAPIAndTransport">[UAFAppAPIAndTransport]</dt><dd rel="dcterms:references">B. Hill, D. Baghdasaryan, B. Blanke, <cite>FIDO UAF Application API and Transport Binding Specification</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-client-api-transport-v1.0-ps-20141208.html">fido-uaf-client-api-transport-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-client-api-transport-v1.0-ps-20141208.pdf">fido-uaf-client-api-transport-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFAuthnrCommands">[UAFAuthnrCommands]</dt><dd rel="dcterms:references">D. Baghdasaryan, J. Kemp, R. Lindemann, R. Sasson, B. Hill, <cite>FIDO UAF Authenticator Commands v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML:  <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-cmds-v1.0-ps-20141208.html">fido-uaf-authnr-cmds-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-cmds-v1.0-ps-20141208.pdf">fido-uaf-authnr-cmds-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFProtocol">[UAFProtocol]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, E. Tiffany, D. Balfanz, B. Hill, J. Hodges, <cite>FIDO UAF Protocol Specification v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.html">fido-uaf-protocol-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.pdf">fido-uaf-protocol-v1.0-ps-20141208.pdf</a>
+</dd></dl></section></section></body></html>

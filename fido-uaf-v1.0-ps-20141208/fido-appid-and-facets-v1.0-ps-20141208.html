@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document w3p:REC" about="" property="dcterms:language" content="en">
+<head>
+    <title>FIDO AppID and Facet Specification v1.0</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    
+    
+
+
+<style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #003a7c;
+}
+
+.simple th {
+    background: #003a7c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    //background: #fcfaee;    
+    background: rgba(252,250,238,0.3);    
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><style>/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #364e50;
+    border-bottom: 1px solid #364e50;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #364e50;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID, .idlCallbackID, .idlEnumID {
+    font-weight:    bold;
+    color:  #003a7c;
+}
+a.idlEnumItem {
+    color:  #000;
+    border-bottom:  1px dotted #ccc;
+    text-decoration: none;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #003a7c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #003a7c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType, .idlCallbackType {
+    color:  #003a7c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlCtor*/
+.idlCtorName {
+    color:  #ff4500;
+}
+.idlCtorName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #003a7c;
+}
+.idlParamName, .idlDefaultValue {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlSectionComment*/
+.idlSectionComment {
+    color: gray;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #003a7c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #003a7c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.constructors, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .constructors dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .constructors dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #003a7c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.constructors dt code {
+    background:  #cfc;
+}
+
+.attributes dd, .methods dd, .constants dd, .constructors dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #364e50; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #364e50; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+</style><link rel="stylesheet" href="resources/FIDO-PS.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+
+<body style="" class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    
+      <a href="https://www.fidoalliance.org/"><img width="250" id="toplogo" src="resources/logo.png" alt="FIDO Alliance"></a>
+    
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">FIDO AppID and Facet Specification v1.0</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-12-08T08:00:00.000Z" id="fido-alliance-proposed-standard-08-december-2014"><abbr title="FIDO Alliance">FIDO Alliance</abbr> Proposed Standard <time class="dt-published" datetime="2014-12-08">08 December 2014</time></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-appid-and-facets-v1.0-ps-20141208.html">https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-appid-and-facets-v1.0-ps-20141208.html</a></dd>
+      <!--<dt>Latest published version:</dt>
+      <dd><a href='https://fidoalliance.org/specs/fido-appid-and-facets/'>https://fidoalliance.org/specs/fido-appid-and-facets/</a></dd>
+    
+    -->
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="https://fidoalliance.org/specs/fido-appid-and-facets-v1.0-rd-20141008.pdf">https://fidoalliance.org/specs/fido-appid-and-facets-v1.0-rd-20141008.pdf</a></dd>
+    
+    
+    <dt>Editors:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Dirk Balfanz</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.google.com/">Google, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Brad Hill" href="mailto:hillbrad@gmail.com">Brad Hill</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.paypal.com">PayPal, Inc.</a></span>
+</dd>
+
+    
+      <dt>Contributors:</dt>
+      <dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Dr. Rolf Lindemann</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Davit Baghdasaryan</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+
+    
+    
+  </dl>
+  
+  
+  
+    <p>
+      The English version of this specification is the only normative version. Non-normative
+      <a href="https://www.fidoalliance.org/specifications/translation/">translations</a> may also be available.
+    </p>
+  
+  
+    
+      <p class="copyright">
+        Copyright ©
+        2013-2014
+        
+        <a href="https://www.fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a>
+        All Rights Reserved.
+      </p>
+    
+  
+  <hr>
+</div>
+    <!-- only modify this if a custom Status of this Document is needed -->
+    
+
+    <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+        <p>The FIDO family of protocols introduce a new security concept, <em>Application Facets</em>, to describe the scope of user credentials and how a trusted computing base which supports application isolation may make access control decisions about which keys can be used by which applications and web origins.</p>
+
+        <p>This document describes the motivations for and requirements for implementing the Application Facet concept and how it applies to the FIDO protocols.</p>
+
+
+    </section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="FIDO Alliance">FIDO Alliance</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="https://www.fidoalliance.org/specifications/"><abbr title="FIDO Alliance">FIDO Alliance</abbr> specifications index</a> at
+          https://www.fidoalliance.org/specifications/.</em>
+        </p>
+        
+        <p>
+          This document was published by the <a href="http://www.fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a> as a Proposed Standard.
+          
+          
+            If you wish to make comments regarding this document, please 
+            <a href="https://fidoalliance.org/contact">Contact Us</a>.
+          
+          
+          
+          
+            All comments are welcome.
+          
+        </p>
+        
+	
+	
+	
+        
+          <p>
+	    Implementation of certain elements of this Specification may require licenses under third party intellectual 
+	    property rights, including without limitation, patent rights. The <abbr title="FIDO Alliance">FIDO Alliance</abbr>, Inc. and its Members
+            and any other contributors to the Specification are not, and shall not be held, responsible in any manner
+            for identifying or failing to identify any or all such third party intellectual property rights.
+	  </p>
+	  <p>
+	    THIS FIDO ALLIANCE SPECIFICATION IS PROVIDED “AS IS” AND WITHOUT ANY 
+            WARRANTY OF ANY KIND, INCLUDING, WITHOUT LIMITATION, ANY EXPRESS OR IMPLIED
+	    WARRANTY OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A
+	    PARTICULAR PURPOSE.
+          </p>
+        
+        
+          <p>
+            This document has been reviewed by FIDO Aliance Members
+            and is endorsed as a Proposed Standard.
+            It is a stable document and may be used as reference material or cited from another
+            document. <abbr title="FIDO Alliance">FIDO Alliance</abbr>'s role in making the Recommendation is to draw attention to the
+            specification and to promote its widespread deployment.
+          </p>
+        
+        
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#notation" class="tocxref"><span class="secno">1. </span>Notation</a><ul class="toc"><li class="tocline"><a href="#key-words" class="tocxref"><span class="secno">1.1 </span>Key Words</a></li></ul></li><li class="tocline"><a href="#overview" class="tocxref"><span class="secno">2. </span>Overview</a><ul class="toc"><li class="tocline"><a href="#motivation" class="tocxref"><span class="secno">2.1 </span>Motivation</a></li><li class="tocline"><a href="#avoiding-app-phishing" class="tocxref"><span class="secno">2.2 </span>Avoiding App-Phishing</a></li><li class="tocline"><a href="#comparison-to-oauth-and-oauth2" class="tocxref"><span class="secno">2.3 </span>Comparison to OAuth and OAuth2</a></li><li class="tocline"><a href="#non-goals" class="tocxref"><span class="secno">2.4 </span>Non-Goals</a></li></ul></li><li class="tocline"><a href="#the-appid-and-facetid-assertions" class="tocxref"><span class="secno">3. </span>The AppID and FacetID Assertions</a><ul class="toc"><li class="tocline"><a href="#processing-rules-for-appid-and-facetid-assertions" class="tocxref"><span class="secno">3.1 </span>Processing Rules for AppID and FacetID Assertions </a><ul class="toc"><li class="tocline"><a href="#determining-the-facetid-of-a-calling-application" class="tocxref"><span class="secno">3.1.1 </span>Determining the FacetID of a Calling Application</a></li><li class="tocline"><a href="#determining-if-a-caller-s-facetid-is-authorized-for-an-appid" class="tocxref"><span class="secno">3.1.2 </span>Determining if a Caller's FacetID is Authorized for an AppID</a></li><li class="tocline"><a href="#trustedfacets-structure" class="tocxref"><span class="secno">3.1.3 </span>TrustedFacets structure</a><ul class="toc"><li class="tocline"><a href="#dictionary-trustedfacets-members" class="tocxref"><span class="secno">3.1.3.1 </span>Dictionary <span class="formerLink"><code>TrustedFacets</code></span> Members</a></li></ul></li><li class="tocline"><a href="#appid-example-1" class="tocxref"><span class="secno">3.1.4 </span>AppID Example 1:</a></li><li class="tocline"><a href="#appid-example-2" class="tocxref"><span class="secno">3.1.5 </span>AppID Example 2:</a></li><li class="tocline"><a href="#obtaining-facetid-of-android-native-app" class="tocxref"><span class="secno">3.1.6 </span>Obtaining FacetID of Android Native App</a></li><li class="tocline"><a href="#additional-security-considerations" class="tocxref"><span class="secno">3.1.7 </span>Additional Security Considerations</a><ul class="toc"><li class="tocline"><a href="#wildcards-in-trustedfacet-identifiers" class="tocxref"><span class="secno">3.1.7.1 </span>Wildcards in TrustedFacet identifiers</a></li></ul></li></ul></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></section>
+
+    <section id="notation">
+        <!--OddPage--><h2 aria-level="1" role="heading" id="h2_notation"><span class="secno">1. </span>Notation</h2>
+
+        <p>Type names, attribute names and element names are written as <code>code</code>.
+
+            </p><p>String literals are enclosed in “”, e.g. “UAF-TLV”.
+
+                </p><p>In formulas we use “|” to denote byte wise concatenation operations.
+
+                    </p><p>This document applies to both the U2F protocol and the UAF protocol. UAF specific terminology used in this document is defined in [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>].
+
+                    </p><p>All diagrams, examples, notes in this specification are non-normative.</p>
+
+                        <section id="key-words">
+                            <h3 aria-level="2" role="heading" id="h3_key-words"><span class="secno">1.1 </span>Key Words</h3>
+
+                            <p>The key words “<em class="rfc2119" title="MUST">MUST</em>”, “<em class="rfc2119" title="MUST NOT">MUST NOT</em>”, “<em class="rfc2119" title="REQUIRED">REQUIRED</em>”, “<em class="rfc2119" title="SHALL">SHALL</em>”, “<em class="rfc2119" title="SHALL NOT">SHALL NOT</em>”, “<em class="rfc2119" title="SHOULD">SHOULD</em>”, “<em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em>”, “<em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em>”, “<em class="rfc2119" title="MAY">MAY</em>”, and “<em class="rfc2119" title="OPTIONAL">OPTIONAL</em>” in this document are to be interpreted as described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].</p>
+                        </section>
+    </section>
+
+    <section class="informative" id="overview">
+        <!--OddPage--><h2 aria-level="1" role="heading" id="h2_overview"><span class="secno">2. </span>Overview</h2><p><em>This section is non-normative.</em></p>
+
+	<p>Modern networked applications typically present several ways that a user can interact with them.  
+	  This document introduces the concept of an <em>Application Facet</em> to describe the identities 
+	  of a single logical application across various platforms. For example, the application MyBank may 
+	  have an Android app, an iOS app, and a Web app accessible from a browser. These are all facets of 
+	  the MyBank application.</p>
+
+        <p>The FIDO architecture provides for simpler and stronger authentication than traditional username 
+	  and password approaches while avoiding many of the shortfalls of alternative authentication 
+	  schemes. At the core of the FIDO protocols are challenge and response operations performed with a 
+	  public/private keypair that serves as a user's credential.</p>
+
+        <p>To minimize frequently-encountered issues around privacy, entanglements with concepts of "identity", 
+	  and the necessity for trusted third parties, keys in FIDO are tightly scoped and dynamically 
+	  provisioned between the user and each Relying Party and only optionally associated with a 
+	  server-assigned username. This approach contrasts with, for example, traditional PKIX client certificates 
+	  as used in TLS, which introduce a trusted third party, mix in their implementation details identity 
+	  assertions with holder-of-key cryptographic proofs, lack audience restrictions, and may even be sent 
+	  in the cleartext portion of a protocol handshake without the user's notification or consent.</p>
+
+        <p>While the FIDO approach is preferable for many reasons, it introduces several challenges.</p>
+        <ul>
+            <li>What set of Web origins and native applications (facets) make up a single logical application and how 
+	      can they be reliably identified?</li>
+            <li>How can we avoid making the user register a new key for each web browser or application on 
+	      their device that accesses services controlled by the same target entity?</li>
+            <li>How can access to registered keys be shared without violating the security guarantees around 
+	      application isolation and protection from malicious code that users expect on their devices?</li>
+            <li>How can a user roam credentials between multiple devices, each with a user-friendly 
+	      Trusted Computing Base for FIDO?</li>
+        </ul>
+
+        <p>This document describes how FIDO addresses these goals (where adequate platform mechanisms 
+	  exist for enforcement) by allowing an application to declare a credential scope that crosses 
+	  all the various facets it presents to the user.</p>
+
+        <section id="motivation">
+            <h3 aria-level="2" role="heading" id="h3_motivation"><span class="secno">2.1 </span>Motivation</h3>
+            <p>FIDO conceptually sets a scope for registered keys to the tuple of (Username, Authenticator, Relying Party). 
+	      But what constitutes a Relying Party? It is quite common for a user to access the 
+	      same set of services from a Relying Party, on the same device, in one or more web 
+	      browsers as well as one or more dedicated apps. As the Relying Party may require 
+	      the user to perform a costly ceremony in order to prove her identity and register 
+	      a new FIDO key, it is undesirable that the user should have to repeat this ceremony 
+	      multiple times on the same device, once for each browser or app.
+            </p>
+        </section>
+
+        <section id="avoiding-app-phishing">
+            <h3 aria-level="2" role="heading" id="h3_avoiding-app-phishing"><span class="secno">2.2 </span>Avoiding App-Phishing</h3>
+
+            <p>FIDO provides for user-friendly verification ceremonies to allow access to registered keys, 
+	      such as entering a simple PIN code and touching a device, or scanning a finger. It should 
+	      not matter for security purposes if the user re-uses the same verification inputs across 
+	      Relying Parties, and in the case of a biometric, she may have no choice.</p>
+
+            <p>Modern operating systems that use an "app store" distribution model often make a promise 
+	      to the user that it is "safe to try" any app. They do this by providing strong isolation 
+	      between applications, so that they may not read each others' data or mutually interfere, 
+	      and by requiring explicit user permission to access shared system resources.</p>
+
+            <p>If a user were to download a maliciously constructed game that instructs her to activate 
+	      her FIDO authenticator in order to "save your progress" but actually unlocks her banking 
+	      credential and takes over her account, FIDO has failed, because the risk of phishing has 
+	      only been moved from the password to an app download. FIDO must not violate a platform's 
+	      promise that any app is "safe to try" by keeping good custody of the high-value shared 
+	      state that a registered key represents.</p>
+
+        </section>
+
+
+        <section id="comparison-to-oauth-and-oauth2">
+            <h3 aria-level="2" role="heading" id="h3_comparison-to-oauth-and-oauth2"><span class="secno">2.3 </span>Comparison to OAuth and OAuth2</h3>
+            <p>The OAuth and OAuth2 of protocols were designed for a server-to-server security model 
+	      with the assumption that each application instance can be issued, and keep, an "application secret". 
+	      This approach is ill-suited to the "app store" security model. Although it is common for services 
+	      to provision an OAuth-style application secret into their apps in an attempt to allow only 
+	      authorized/official apps to connect, any such "secret" is in fact shared among everyone 
+	      with access to the app store and can be trivially recovered thorough basic reverse engineering.</p>
+
+            <p>In contrast, FIDO's facet concept is designed for the "app store" model from the start. 
+	      It relies on client-side platform isolation features to make sure that a key registered 
+	      by a user with a member of a well-behaved "trusted club" stays within that trusted club, 
+	      even if the user later installs a malicious app, and does not require any secrets hard-coded 
+	      into a shared package to do so. The user must, however, still make good decisions about which 
+	      apps and browsers they are willing to preform a registration ceremony with. App store policing 
+	      can assist here by removing applications which solicit users to register FIDO keys to for Relying 
+	      Parties in order to make illegitmate or fraudulent use of them.</p>
+        </section>
+
+        <section id="non-goals">
+            <h3 aria-level="2" role="heading" id="h3_non-goals"><span class="secno">2.4 </span>Non-Goals</h3>
+            <p>The <em>Application Facet</em> concept does not attempt to strongly identify the calling 
+	      application to a service across a network. Remote attestation of an application identity 
+	      is an explicit non-goal.</p>
+
+            <p>If an unauthorized app can convince a user to provide all the information to it required 
+	      to register a new FIDO key, the Relying Party cannot use FIDO protocols or the Facet concept 
+	      to recognize as unauthorized, or deny such an application from performing FIDO operations, 
+	      and an application that a user has chosen to trust in such a manner can also share access 
+	      to a key outside of the mechanisms described in this document.</p>
+
+            <p>The facet mechanism provides a way for registered keys to maintain their proper scope when 
+	      created and accessed from a <em>Trusted Computing Base</em> (TCB) that provides isolation of malicious 
+	      apps. A user can also roam their credentials between multiple devices with user-friendly TCBs 
+	      and credentials will retain their proper scope if this mechanism is correctly implemented by 
+	      each. However, no guarantees can be made in environments where the TCB is user-hostile, such 
+	      as a device with malicious code operating with "root" level permissions. On environments that
+	      do not provide application isolation but run all code with the privileges of the user, (e.g. traditional 
+	      desktop operating systems) an intact TCB, including web browsers, may successfully enforce 
+	      scoping of credentials for web origins only, but cannot meaningfully enforce application scoping.</p>
+        </section>
+
+    </section>
+
+
+    <section id="the-appid-and-facetid-assertions">
+        <!--OddPage--><h2 aria-level="1" role="heading" id="h2_the-appid-and-facetid-assertions"><span class="secno">3. </span>The AppID and FacetID Assertions</h2>
+
+
+        <p>When a user performs a Registration operation [<cite><a class="bibref" href="#bib-UAFArchOverview">UAFArchOverview</a></cite>] a new private key is created 
+	  by their authenticator, and the public key is sent to the Relying Party. As part of this process, 
+	  each key is associated with an <code>AppID</code>. The <code>AppID</code> is a URL carried as part 
+	  of the protocol message sent by the server and indicates the target for this credential. By default, 
+	  the audience of the credential is restricted to the <em>Same Origin</em> of the <code>AppID</code>. 
+	  In some circumstances, a Relying Party may desire to apply a larger scope to a key. If 
+	  that <code>AppID</code> URL has the <code>https</code> scheme, a FIDO client may be able to 
+	  dereference and process it as a <code>TrustedFacetList</code> that designates a scope or audience 
+	  restriction that includes multiple facets, such as other web origins within the same DNS zone of 
+	  control of the AppID's origin, or URLs indicating the identity of other types of trusted facets 
+	  such as mobile apps.</p>
+
+        <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_1"><span>Note</span></div><p class="">Users may also register multiple keys on a single authenticator for an
+            <code>AppID</code>, such as for cases where they have multiple accounts. Such registrations may 
+	    have a Relying Party assigned username or local nicknames associated to allow them to be distinguished 
+	    by the user, or they may not (e.g. for 2nd factor use cases, the user account associated with a key 
+	    may be communicated out-of-band to what is specified by FIDO protocols).  All registrations 
+	    that share an <code>AppID</code>, also share these same audience restriction.</p></div>
+
+
+        <section id="processing-rules-for-appid-and-facetid-assertions">
+          <h3 aria-level="2" role="heading" id="h3_processing-rules-for-appid-and-facetid-assertions"><span class="secno">3.1 </span>Processing Rules for AppID and FacetID Assertions </h3>
+	  
+	  <section id="determining-the-facetid-of-a-calling-application">
+	    <h4 aria-level="3" role="heading" id="h4_determining-the-facetid-of-a-calling-application"><span class="secno">3.1.1 </span>Determining the FacetID of a Calling Application</h4>
+	    <p>In the Web case, the FacetID <em class="rfc2119" title="MUST">MUST</em> be the Web Origin [<cite><a class="bibref" href="#bib-RFC6454">RFC6454</a></cite>] of the
+	      web page triggering the FIDO operation, written as a URI with
+	      an empty path. Default ports are omitted and any path component is ignored.</p>
+
+	    <p>An example FacetID is shown below:</p>
+	      
+              <pre>https://login.mycorp.com/</pre>
+	      
+            <p>In the Android [<cite><a class="bibref" href="#bib-ANDROID">ANDROID</a></cite>] case, the FacetID <em class="rfc2119" title="MUST">MUST</em> be a URI derived from the SHA-1 hash
+	      of the APK signing certificate [<cite><a class="bibref" href="#bib-APK-Signing">APK-Signing</a></cite>], such as:
+	      
+	      </p><pre>android:apk-key-hash:&lt;sha1_hash-of-apk-signing-cert&gt;</pre>
+	      
+ 	    <p>The SHA-1 hash can be computed as follows:
+	      
+              </p><div class="example"><div class="example-title"><span>Example 1</span>: Computing an APK signing certificate hash</div><pre class="example"># Export the signing certificate in DER format, hash, base64 encode and trim '='
+
+keytool -exportcert -alias androiddebugkey -keystore \
+	&lt;path-to-apk-signing-keystore&gt; &amp;&gt;2 /dev/null | openssl sha1 \
+	-binary | openssl base64 | sed 's/=//g'</pre></div>
+
+	    <p>In the iOS [<cite><a class="bibref" href="#bib-iOS">iOS</a></cite>] case, the FacetID <em class="rfc2119" title="MUST">MUST</em> be the BundleID [<cite><a class="bibref" href="#bib-BundleID">BundleID</a></cite>] URI of the application:
+	      
+              </p><pre>ios:bundle-id:&lt;ios-bundle-id-of-app&gt;</pre>
+	      
+	  </section>
+	  
+	  <section id="determining-if-a-caller-s-facetid-is-authorized-for-an-appid">
+	    <h4 aria-level="3" role="heading" id="h4_determining-if-a-caller-s-facetid-is-authorized-for-an-appid"><span class="secno">3.1.2 </span>Determining if a Caller's FacetID is Authorized for an AppID</h4>
+            <div>
+              <ol>
+                <li>If the AppID is not an HTTPS URL, and matches the FacetID of the caller, 
+		  no additional processing is necessary and the operation may proceed.</li>
+                <li>If the AppID is null or empty, the client <em class="rfc2119" title="MUST">MUST</em> set the AppID to be the FacetID 
+		  of the caller, and the operation may proceed without additional processing.</li>
+                <li>If the caller's FacetID is an <code>https://</code> Origin sharing the same host as the AppID, 
+		  (e.g. if an application hosted at <code>https://fido.example.com/myApp</code> set 
+		  an AppID of <code>https://fido.example.com/myAppId</code>), no additional processing 
+		  is necessary and the operation may proceed.  This algorithm <em class="rfc2119" title="MAY">MAY</em> be continued 
+		  asynchronously for purposes of caching the Trusted Facet List, if desired.</li>
+                <li>Begin to fetch the Trusted Facet List using the HTTP GET method.  
+		  The location <em class="rfc2119" title="MUST">MUST</em> be identified with an HTTPS URL.</li>
+
+                <li>The URL <em class="rfc2119" title="MUST">MUST</em> be dereferenced with an 
+		  <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/fetching-resources.html#attr-crossorigin-anonymous">anonymous 
+		    fetch</a>. That is, the HTTP GET <em class="rfc2119" title="MUST">MUST</em> include no cookies, authentication, 
+		  Origin or Referer headers, and present no TLS certificates or other forms of credentials.
+                </li>
+                <li>The response <em class="rfc2119" title="MUST">MUST</em> set a MIME Content-Type of "application/fido.trusted-apps+json".</li>
+                <li>The caching related HTTP header fields in the HTTP response (e.g. “Expires”) <em class="rfc2119" title="SHOULD">SHOULD</em> be 
+		  respected when fetching a Trusted Facets List.</li>
+                <li>The server hosting the Trusted Facets List <em class="rfc2119" title="MUST">MUST</em> respond uniformly to all clients. 
+		  That is, it <em class="rfc2119" title="MUST NOT">MUST NOT</em> vary the contents of the response body based on any credential 
+		  material, including ambient authority such as originating IP address, supplied with the request.</li>
+                <li>If the server returns an HTTP redirect (status code 3xx) the server <em class="rfc2119" title="MUST">MUST</em> also send 
+		  the HTTP header <code>FIDO-AppID-Redirect-Authorized: true</code> and the client <em class="rfc2119" title="MUST">MUST</em> verify the presence 
+		  of such a header before following the redirect. This protects against abuse of open 
+		  redirectors within the target domain by unauthorized parties. If this check has passed, 
+		  restart this algorithm from step 4.</li>
+                <li>A Trusted Facet List <em class="rfc2119" title="MAY">MAY</em> contain an unlimited number of entries, but clients <em class="rfc2119" title="MAY">MAY</em> truncate 
+		  or decline to process large responses.</li>
+		<li>From among the objects in the <code>trustedFacet</code> array, select the one with 
+		  the <code>version</code> matching that of the protocol message version.</li>
+                <li>The scheme of URLs in <code>ids</code> <em class="rfc2119" title="MUST">MUST</em> identify either an application 
+		  identity (e.g. using the <code>apk:</code>, <code>ios:</code> or similar scheme) or an <code>https:</code> Web Origin [<cite><a class="bibref" href="#bib-RFC6454">RFC6454</a></cite>].</li>
+                <li>Entries in <code>ids</code> using the <code>https://</code> scheme <em class="rfc2119" title="MUST">MUST</em> contain only scheme, 
+		  host and port components, with an optional trailing /. Any path, query string, username/password, 
+		  or fragment information <em class="rfc2119" title="MUST">MUST</em> be discarded.</li>
+                <li>All Web Origins listed <em class="rfc2119" title="MUST">MUST</em> have host names under the scope of the same least-specific 
+		  private label in the DNS, using the following algorithm:
+                  <ol>
+                    <li>Obtain the list of public DNS suffixes 
+		      from <a href="https://publicsuffix.org/list/effective_tld_names.dat">https://publicsuffix.org/list/effective_tld_names.dat</a> 
+		      (the client <em class="rfc2119" title="MAY">MAY</em> cache such data), or equivalent functionality as available on the platform.</li>
+                    <li>Extract the host portion of the original AppID URL, before following any redirects.</li>
+                    <li>The least-specific private label is the portion of the host portion of the AppID URL that 
+		      matches a public suffix plus one additional label to the left.</li>
+                    <li>For each Web Origin in the TrustedFacets list, the calculation of the least-specific 
+		      private label in the DNS <em class="rfc2119" title="MUST">MUST</em> be a case-insensitive match of that of the AppID URL itself. 
+		      Entries that do not match <em class="rfc2119" title="MUST">MUST</em> be discarded.</li>
+                  </ol>
+		</li>
+                <li>If the TrustedFacets list cannot be retrieved and successfully parsed according to 
+		  these rules, the client <em class="rfc2119" title="MUST">MUST</em> abort processing of the requested FIDO operation.</li>
+		<li>After processing the <code>trustedFacets</code> entry of the correct 
+		  <code>version</code> and removing any invalid entries, if the
+		  caller's FacetID matches one listed in <code>ids</code>, the operation is allowed.</li>
+              </ol>
+            </div>
+	    </section>
+	    <section id="trustedfacets-structure">
+	    	<h4 aria-level="3" role="heading" id="h4_trustedfacets-structure"><span class="secno">3.1.3 </span>TrustedFacets structure</h4>
+		<p>The JSON resource hosted at the AppID URL consists of a dictionary containing 
+		  a single member, <code>trustedFacets</code> which is an
+		  array of <code>TrustedFacets</code> dictionaries.</p>
+		<pre class="idl"><span class="idlDictionary" id="idl-def-TrustedFacets">dictionary <span class="idlDictionaryID">TrustedFacets</span> {
+<span class="idlMember">    <span class="idlMemberType">Version</span>     <span class="idlMemberName"><a href="#widl-TrustedFacets-version">version</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DOMString[]</span> <span class="idlMemberName"><a href="#widl-TrustedFacets-ids">ids</a></span>;</span>
+};</span></pre><section id="dictionary-trustedfacets-members"><h5 aria-level="4" role="heading" id="h5_dictionary-trustedfacets-members"><span class="secno">3.1.3.1 </span>Dictionary <a class="idlType" href="#idl-def-TrustedFacets"><code>TrustedFacets</code></a> Members</h5><dl class="dictionary-members"><dt id="widl-TrustedFacets-version"><code>version</code> of type <span class="idlMemberType">Version</span></dt><dd>The protocol version to which this set of trusted facets applies.  
+			  See [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>] for the definition of the <code>version</code> structure.
+			  </dd><dt id="widl-TrustedFacets-ids"><code>ids</code> of type array of <span class="idlMemberType">DOMString</span></dt><dd>An array of URLs identifying authorized facets for this AppID.</dd></dl></section>
+	    </section>
+            <section id="appid-example-1">
+              <h4 aria-level="3" role="heading" id="h4_appid-example-1"><span class="secno">3.1.4 </span>AppID Example 1:</h4>
+
+                <div>
+                    ".com" is a public suffix. "https://www.example.com/appID" is provided as an AppID. 
+		    The body of the resource at this location contains:
+                    <div class="example"><div class="example-title"><span>Example 2</span></div><pre class="example">{
+  "trustedFacets" : [{
+    "version": { "major": 1, "minor" : 0 },
+    "ids": [
+	   "https://register.example.com", // VALID, shares "example.com" label
+	   "https://fido.example.com",     // VALID, shares "example.com" label
+	   "http://www.example.com",       // DISCARD, scheme is not https:
+	   "http://www.example-test.com",  // DISCARD, "example-test.com" does not match
+	   "https://www.example.com:444"   // VALID, port is not significant
+    ]
+  }]
+}</pre></div>
+                    For this policy, "https://www.example.com" and "https://register.example.com" 
+		    would have access to the keys registered for this AppID, and "https://user1.example.com" would not.
+                </div>
+            </section>
+            <section id="appid-example-2">
+              <h4 aria-level="3" role="heading" id="h4_appid-example-2"><span class="secno">3.1.5 </span>AppID Example 2:</h4>
+              <div>
+                "hosting.example.com" is a public suffix, operated under "example.com" and 
+		used to provide hosted cloud services for many companies. 
+		"https://companyA.hosting.example.com/appID" is provided as an AppID. The body of the resource at this location contains:
+                <div class="example"><div class="example-title"><span>Example 3</span></div><pre class="example">{
+  "trustedFacets" : [{
+    "version": { "major": 1, "minor" : 0 },
+    "ids": [
+        "https://register.example.com",              // DISCARD, does not share  "companyA.hosting.example.com" label
+        "https://fido.companyA.hosting.example.com", // VALID, shares "companyA.hosting.example.com" label
+        "https://xyz.companyA.hosting.example.com",  // VALID, shares "companyA.hosting.example.com" label
+        "https://companyB.hosting.example.com"       // DISCARD, "companyB.hosting.example.com" does not match 
+     ]
+  }]
+}</pre></div>
+                For this policy, "https://fido.companyA.hosting.example.com" would have 
+		access to the keys registered for this AppID, and "https://register.example.com" 
+		and "https://companyB.hosting.example.com" would not as a public-suffix exists between these DNS names and the AppID's.
+                </div>
+            </section>
+
+	    <section class="informative" id="obtaining-facetid-of-android-native-app">
+              <h4 aria-level="3" role="heading" id="h4_obtaining-facetid-of-android-native-app"><span class="secno">3.1.6 </span>Obtaining FacetID of Android Native App</h4><p><em>This section is non-normative.</em></p>
+              The following code demonstrates how a FIDO Client can obtain and construct
+              the FacetID of a calling Android native application.
+	      
+              <pre>                <div class="example" title="AndroidFacetID">
+private String getFacetID(Context aContext, int callingUid) {
+
+    String packageNames[] = aContext.getPackageManager().getPackagesForUid(callingUid);
+
+    if (packageNames == null) {
+        return null;
+    }
+
+    try {
+        PackageInfo info = aContext.getPackageManager().getPackageInfo(packageNames[0], PackageManager.GET_SIGNATURES);
+
+        byte[] cert = info.signatures[0].toByteArray();
+        InputStream input = new ByteArrayInputStream(cert);
+
+        CertificateFactory cf = CertificateFactory.getInstance("X509");
+        X509Certificate c = (X509Certificate) cf.generateCertificate(input);
+
+        MessageDigest md = MessageDigest.getInstance("SHA1");
+
+        return "android:apk-key-hash:" +
+                  Base64.encodeToString(md.digest(c.getEncoded()), Base64.DEFAULT | Base64.NO_WRAP | Base64.NO_PADDING);
+    }
+    catch (PackageManager.NameNotFoundException e) {
+        e.printStackTrace();
+    }
+    catch (CertificateException e) {
+        e.printStackTrace();
+    }
+    catch (NoSuchAlgorithmException e) {
+        e.printStackTrace();
+    }
+    catch (CertificateEncodingException e) {
+        e.printStackTrace();
+    }
+
+    return null;
+}
+              </div>
+            </pre>
+
+            </section>
+	    
+            <section id="additional-security-considerations">
+              <h4 aria-level="3" role="heading" id="h4_additional-security-considerations"><span class="secno">3.1.7 </span>Additional Security Considerations</h4> 
+              
+              <p>The UAF protocol supports passing FacetID to the FIDO Server and 
+		including the FacetID in the computation of the authentication response.</p>
+                
+                <p>Trusting a web origin facet implicitly trusts all subdomains under the named entity 
+		  because web user agents do not provide a security barrier between such origins. So, 
+		  in AppID Example 1, although not explicitly listed, "https://foobar.register.example.com" 
+		  would still have effective access to credentials registered for the AppID "https://www.example.com/appID" 
+		  because it can effectively act as "https://register.example.com".</p>
+
+              <p>The component implementing the controls described here must reliably identify 
+		callers to securely enforce the mechanisms.  Platform inter-process communication 
+		mechanisms which allow such identification <em class="rfc2119" title="SHOULD">SHOULD</em> be
+		used when available.</p>
+                
+              <p>It is unlikely that the component implementing the controls described here can verify
+                the integrity and intent of the entries on a <code>TrustedFacetList</code>.  If a trusted
+                facet can be compromised or enlisted as a <em>confused deputy</em> [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>] by a malicious party, it may
+                be possible to trick a user into completing an authentication ceremony under the control
+                of that malicious party.</p>
+	      
+
+	      <section class="informative" id="wildcards-in-trustedfacet-identifiers">
+		<h5 aria-level="4" role="heading" id="h5_wildcards-in-trustedfacet-identifiers"><span class="secno">3.1.7.1 </span>Wildcards in TrustedFacet identifiers</h5><p><em>This section is non-normative.</em></p>
+		<p>Wildcards are not supported in TrustedFacet identifiers.  This follows the advice of
+		  RFC6125 [<cite><a class="bibref" href="#bib-RFC6125">RFC6125</a></cite>], section 7.2.</p>
+		<p>FacetIDs are URIs that uniquely identify specific 
+		  security principals that are trusted to interact with a given registered credential. Wildcards introduce
+		  undesirable ambiguitiy in the defintion of the principal,
+		  as there is no consensus syntax for what wildcards mean, how they
+		  are expanded and where they can occur across different applications and protocols in common use.
+		  For schemes indicating application identities,
+		  it is not clear that wildcarding is appropriate in any fashion.  For Web Origins, it broadly increases
+		  the scope of the credential to potentially include rogue or buggy hosts.</p>
+		<p>Taken together, these ambiguities might introduce exploitable differences in
+      		  identity checking behavior among client implementations and would
+      		  necessitate overly complex and inefficient identity checking algorithms.</p>		
+		</section>
+
+            </section>
+        </section>
+    </section>
+
+
+
+
+
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_references"><span class="secno">A. </span>References</h2><section id="normative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_normative-references"><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography" about=""><dt id="bib-FIDOGlossary">[FIDOGlossary]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, B. Hill, J. Hodges, <cite>FIDO Technical Glossary</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.html">fido-glossary-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.pdf">fido-glossary-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd rel="dcterms:requires">S. Bradner. <a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+</dd><dt id="bib-RFC6125">[RFC6125]</dt><dd rel="dcterms:requires">P. Saint-Andre, J. Hodges, <a href="http://www.ietf.org/rfc/rfc6125.txt"><cite>Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS) (RFC 6125)</cite></a>, IETF, March 2011, URL: <a href="http://www.ietf.org/rfc/rfc6125.txt">http://www.ietf.org/rfc/rfc6125.txt</a>
+</dd><dt id="bib-RFC6454">[RFC6454]</dt><dd rel="dcterms:requires">A. Barth. <a href="https://tools.ietf.org/html/rfc6454"><cite>The Web Origin Concept</cite></a>. December 2011. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6454">https://tools.ietf.org/html/rfc6454</a>
+</dd><dt id="bib-UAFProtocol">[UAFProtocol]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, E. Tiffany, D. Balfanz, B. Hill, J. Hodges, <cite>FIDO UAF Protocol Specification v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.html">fido-uaf-protocol-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.pdf">fido-uaf-protocol-v1.0-ps-20141208.pdf</a>
+</dd></dl></section><section id="informative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_informative-references"><span class="secno">A.2 </span>Informative references</h3><dl class="bibliography" about=""><dt id="bib-ANDROID">[ANDROID]</dt><dd rel="dcterms:references"><a href="http://developer.android.com/"><cite>The Android™ Operating System</cite></a>. Google, Inc., the Open Handset Alliance and the Android Open Source Project (Work in progress) URL: <a href="http://developer.android.com/">http://developer.android.com/</a>
+</dd><dt id="bib-APK-Signing">[APK-Signing]</dt><dd rel="dcterms:references"><a href="http://developer.android.com/tools/publishing/app-signing.html"><cite>Signing Your Applications</cite></a>.The Android™ Operating System. Google, Inc., the Open Handset Alliance and the Android Open Source Project (Accessed 11-March-2014) URL: <a href="http://developer.android.com/tools/publishing/app-signing.html">http://developer.android.com/tools/publishing/app-signing.html</a>
+</dd><dt id="bib-BundleID">[BundleID]</dt><dd rel="dcterms:references"><a href="https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/ConfiguringYourApp/ConfiguringYourApp.html"><cite>"Configuring your Xcode Project for Distribution", section "About Bundle IDs",</cite></a>. Apple, Inc.  Accessed March 11, 2014. URL: <a href="https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/ConfiguringYourApp/ConfiguringYourApp.html">https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/ConfiguringYourApp/ConfiguringYourApp.html</a>
+</dd><dt id="bib-UAFArchOverview">[UAFArchOverview]</dt><dd rel="dcterms:references">S. Machani, R. Philpott, S. Srinivas, J. Kemp, J. Hodges, <cite>FIDO UAF Architectural Overview</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-overview-v1.0-ps-20141208.html">fido-uaf-overview-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-overview-v1.0-ps-20141208.pdf">fido-uaf-overview-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-iOS">[iOS]</dt><dd rel="dcterms:references"><a href="https://developer.apple.com/devcenter/ios/index.action"><cite>iOS Dev Center</cite></a> Apple, Inc. (Accessed March 11, 2014) URL: <a href="https://developer.apple.com/devcenter/ios/index.action">https://developer.apple.com/devcenter/ios/index.action</a>
+</dd></dl></section></section></body></html>

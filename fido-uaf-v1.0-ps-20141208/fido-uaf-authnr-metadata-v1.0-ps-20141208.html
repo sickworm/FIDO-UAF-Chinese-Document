@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document w3p:REC" about="" property="dcterms:language" content="en">
+<head>
+  <title>FIDO UAF Authenticator Metadata Statements v1.0</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    
+    
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #003a7c;
+}
+
+.simple th {
+    background: #003a7c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    //background: #fcfaee;    
+    background: rgba(252,250,238,0.3);    
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><style>/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #364e50;
+    border-bottom: 1px solid #364e50;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #364e50;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID, .idlCallbackID, .idlEnumID {
+    font-weight:    bold;
+    color:  #003a7c;
+}
+a.idlEnumItem {
+    color:  #000;
+    border-bottom:  1px dotted #ccc;
+    text-decoration: none;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #003a7c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #003a7c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType, .idlCallbackType {
+    color:  #003a7c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlCtor*/
+.idlCtorName {
+    color:  #ff4500;
+}
+.idlCtorName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #003a7c;
+}
+.idlParamName, .idlDefaultValue {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlSectionComment*/
+.idlSectionComment {
+    color: gray;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #003a7c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #003a7c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.constructors, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .constructors dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .constructors dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #003a7c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.constructors dt code {
+    background:  #cfc;
+}
+
+.attributes dd, .methods dd, .constants dd, .constructors dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #364e50; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #364e50; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+</style><link rel="stylesheet" href="resources/FIDO-PS.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+
+<body style="" class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    
+      <a href="https://www.fidoalliance.org/"><img width="250" id="toplogo" src="resources/logo.png" alt="FIDO Alliance"></a>
+    
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">FIDO UAF Authenticator Metadata Statements v1.0</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-12-08T08:00:00.000Z" id="fido-alliance-proposed-standard-08-december-2014"><abbr title="FIDO Alliance">FIDO Alliance</abbr> Proposed Standard <time class="dt-published" datetime="2014-12-08">08 December 2014</time></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-metadata-v1.0-ps-20141208.html">https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-metadata-v1.0-ps-20141208.html</a></dd>
+      <!--<dt>Latest published version:</dt>
+      <dd><a href='https://fidoalliance.org/specs/fido-uaf-authnr-metadata/'>https://fidoalliance.org/specs/fido-uaf-authnr-metadata/</a></dd>
+    
+    -->
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="https://fidoalliance.org/specs/fido-uaf-authnr-metadata-v1.0-rd-20141008.pdf">https://fidoalliance.org/specs/fido-uaf-authnr-metadata-v1.0-rd-20141008.pdf</a></dd>
+    
+    
+    <dt>Editors:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Brad Hill" href="mailto:bhill@paypal.com">Brad Hill</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.paypal.com/">PayPal, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Davit Baghdasaryan</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">John Kemp</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a></span>
+</dd>
+
+    
+    
+  </dl>
+  
+  
+  
+    <p>
+      The English version of this specification is the only normative version. Non-normative
+      <a href="https://www.fidoalliance.org/specifications/translation/">translations</a> may also be available.
+    </p>
+  
+  
+    
+      <p class="copyright">
+        Copyright ©
+        2013-2014
+        
+        <a href="https://www.fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a>
+        All Rights Reserved.
+      </p>
+    
+  
+  <hr>
+</div>
+
+<!-- only put content here if you want a custom status of document not
+  the specification-maturity-appropriate boilerplate -->
+
+
+<section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2><p>
+
+  FIDO authenticators may have many different form factors,
+  characteristics and capabilities. This document defines a
+  standard means to describe the relevant pieces of information
+  about an authenticator in order to interoperate with it, or to
+  make risk-based policy decisions about transactions involving a
+  particular authenticator.
+
+</p></section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="FIDO Alliance">FIDO Alliance</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="https://www.fidoalliance.org/specifications/"><abbr title="FIDO Alliance">FIDO Alliance</abbr> specifications index</a> at
+          https://www.fidoalliance.org/specifications/.</em>
+        </p>
+        
+        <p>
+          This document was published by the <a href="https://fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a> as a Proposed Standard.
+          
+          
+            If you wish to make comments regarding this document, please 
+            <a href="https://fidoalliance.org/contact">Contact Us</a>.
+          
+          
+          
+          
+            All comments are welcome.
+          
+        </p>
+        
+	
+	
+	
+        
+          <p>
+	    Implementation of certain elements of this Specification may require licenses under third party intellectual 
+	    property rights, including without limitation, patent rights. The <abbr title="FIDO Alliance">FIDO Alliance</abbr>, Inc. and its Members
+            and any other contributors to the Specification are not, and shall not be held, responsible in any manner
+            for identifying or failing to identify any or all such third party intellectual property rights.
+	  </p>
+	  <p>
+	    THIS FIDO ALLIANCE SPECIFICATION IS PROVIDED “AS IS” AND WITHOUT ANY 
+            WARRANTY OF ANY KIND, INCLUDING, WITHOUT LIMITATION, ANY EXPRESS OR IMPLIED
+	    WARRANTY OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A
+	    PARTICULAR PURPOSE.
+          </p>
+        
+        
+          <p>
+            This document has been reviewed by FIDO Aliance Members
+            and is endorsed as a Proposed Standard.
+            It is a stable document and may be used as reference material or cited from another
+            document. <abbr title="FIDO Alliance">FIDO Alliance</abbr>'s role in making the Recommendation is to draw attention to the
+            specification and to promote its widespread deployment.
+          </p>
+        
+        
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#notation" class="tocxref"><span class="secno">1. </span>Notation</a><ul class="toc"><li class="tocline"><a href="#key-words" class="tocxref"><span class="secno">1.1 </span>Key Words</a></li></ul></li><li class="tocline"><a href="#overview" class="tocxref"><span class="secno">2. </span>Overview</a><ul class="toc"><li class="tocline"><a href="#scope" class="tocxref"><span class="secno">2.1 </span>Scope</a></li><li class="tocline"><a href="#audience" class="tocxref"><span class="secno">2.2 </span>Audience</a></li><li class="tocline"><a href="#architecture" class="tocxref"><span class="secno">2.3 </span>Architecture</a></li></ul></li><li class="tocline"><a href="#types" class="tocxref"><span class="secno">3. </span>Types</a><ul class="toc"><li class="tocline"><a href="#codeaccuracydescriptor-dictionary" class="tocxref"><span class="secno">3.1 </span>CodeAccuracyDescriptor dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-codeaccuracydescriptor-members" class="tocxref"><span class="secno">3.1.1 </span>Dictionary <span class="formerLink"><code>CodeAccuracyDescriptor</code></span> Members</a></li></ul></li><li class="tocline"><a href="#biometricaccuracydescriptor-dictionary" class="tocxref"><span class="secno">3.2 </span>BiometricAccuracyDescriptor dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-biometricaccuracydescriptor-members" class="tocxref"><span class="secno">3.2.1 </span>Dictionary <span class="formerLink"><code>BiometricAccuracyDescriptor</code></span> Members</a></li></ul></li><li class="tocline"><a href="#patternaccuracydescriptor-dictionary" class="tocxref"><span class="secno">3.3 </span>PatternAccuracyDescriptor dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-patternaccuracydescriptor-members" class="tocxref"><span class="secno">3.3.1 </span>Dictionary <span class="formerLink"><code>PatternAccuracyDescriptor</code></span> Members</a></li></ul></li><li class="tocline"><a href="#verificationmethoddescriptor-dictionary" class="tocxref"><span class="secno">3.4 </span>VerificationMethodDescriptor dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-verificationmethoddescriptor-members" class="tocxref"><span class="secno">3.4.1 </span>Dictionary <span class="formerLink"><code>VerificationMethodDescriptor</code></span> Members</a></li></ul></li><li class="tocline"><a href="#verificationmethodandcombinations-typedef" class="tocxref"><span class="secno">3.5 </span>verificationMethodANDCombinations typedef</a></li><li class="tocline"><a href="#rgbpalletteentry-dictionary" class="tocxref"><span class="secno">3.6 </span>rgbPalletteEntry dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-rgbpalletteentry-members" class="tocxref"><span class="secno">3.6.1 </span>Dictionary <span class="formerLink"><code>rgbPalletteEntry</code></span> Members</a></li></ul></li><li class="tocline"><a href="#displaypngcharacteristicsdescriptor-dictionary" class="tocxref"><span class="secno">3.7 </span>DisplayPNGCharacteristicsDescriptor dictionary</a><ul class="toc"><li class="tocline"><a href="#dictionary-displaypngcharacteristicsdescriptor-members" class="tocxref"><span class="secno">3.7.1 </span>Dictionary <span class="formerLink"><code>DisplayPNGCharacteristicsDescriptor</code></span> Members</a></li></ul></li></ul></li><li class="tocline"><a href="#metadata-keys" class="tocxref"><span class="secno">4. </span>Metadata Keys</a><ul class="toc"><li class="tocline"><a href="#dictionary-metadatastatement-members" class="tocxref"><span class="secno">4.1 </span>Dictionary <span class="formerLink"><code>MetadataStatement</code></span> Members</a></li></ul></li><li class="tocline"><a href="#metadata-statement-format" class="tocxref"><span class="secno">5. </span>Metadata Statement Format</a></li><li class="tocline"><a href="#additional-considerations" class="tocxref"><span class="secno">6. </span>Additional Considerations</a><ul class="toc"><li class="tocline"><a href="#field-updates-and-metadata" class="tocxref"><span class="secno">6.1 </span>Field updates and metadata</a></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></section>
+
+<section id="notation">
+  <!--OddPage--><h2 aria-level="1" role="heading" id="h2_notation"><span class="secno">1. </span>Notation</h2>
+  
+  <p>Type names, attribute names and element names are written as <code>code</code>.
+    
+  </p><p>String literals are enclosed in “”, e.g. “UAF-TLV”.
+    
+  </p><p>In formulas we use “|” to denote byte wise concatenation
+    operations.
+    
+  </p><p>DOM APIs are described using the ECMAScript [<cite><a class="bibref" href="#bib-ECMA-262">ECMA-262</a></cite>] bindings
+    for WebIDL [<cite><a class="bibref" href="#bib-WebIDL-ED">WebIDL-ED</a></cite>].
+
+  </p><p>Following [<cite><a class="bibref" href="#bib-WebIDL-ED">WebIDL-ED</a></cite>], dictionary members are optional unless they are 
+    explicitly marked as required.</p>
+
+  <p>WebIDL dictionary members <em class="rfc2119" title="MUST NOT">MUST NOT</em> have a value of null.</p>
+  
+  <p>Unless otherwise specified, if a WebIDL dictionary member is DOMString,
+    it <em class="rfc2119" title="MUST NOT">MUST NOT</em> be empty.</p>
+  
+  <p>Unless otherwise specified, if a WebIDL dictionary member is a List, 
+    it <em class="rfc2119" title="MUST NOT">MUST NOT</em> be an empty list.</p>
+  
+  <p>UAF specific terminology used in this document is defined in
+    [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>].</p>
+
+  <p>All diagrams, examples, notes in this specification are non-normative.</p>
+
+  <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_1"><span>Note</span></div><p class="">
+    Note: Certain dictionary members need to be present in order to
+    comply with FIDO requirements. Such members are marked in the
+    WebIDL definitions found in this document, as
+    <code>required</code>. The keyword <code>required</code> has been
+    introduced by [<cite><a class="bibref" href="#bib-WebIDL-ED">WebIDL-ED</a></cite>], which is a work-in-progress. If you
+    are using a WebIDL parser which implements [<cite><a class="bibref" href="#bib-WebIDL">WebIDL</a></cite>], then you
+    may remove the keyword <code>required</code> from your WebIDL and
+    use other means to ensure those fields are present.  
+  </p></div>
+
+  <section id="key-words">
+    <h3 aria-level="2" role="heading" id="h3_key-words"><span class="secno">1.1 </span>Key Words</h3>
+    
+    <p>The key words “<em class="rfc2119" title="MUST">MUST</em>”, “<em class="rfc2119" title="MUST NOT">MUST NOT</em>”, “<em class="rfc2119" title="REQUIRED">REQUIRED</em>”, “<em class="rfc2119" title="SHALL">SHALL</em>”, “<em class="rfc2119" title="SHALL
+      NOT">SHALL
+      NOT</em>”, “<em class="rfc2119" title="SHOULD">SHOULD</em>”, “<em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em>”, “<em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em>”, “<em class="rfc2119" title="MAY">MAY</em>”, and
+      “<em class="rfc2119" title="OPTIONAL">OPTIONAL</em>” in this document are to be interpreted as
+      described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].
+  </p></section>
+</section>
+    
+<section class="informative" id="overview">
+  <!--OddPage--><h2 aria-level="1" role="heading" id="h2_overview"><span class="secno">2. </span>Overview</h2><p><em>This section is non-normative.</em></p>
+
+  <p>The FIDO family of protocols enable simpler and more secure
+    online authentication utilizing a wide variety of different
+    devices in a competitive marketplace. Much of the complexity
+    behind this variety is hidden from Relying Party applications,
+    but in order to accomplish the goals of FIDO, Relying Parties
+    must have some means of discovering and verifying various
+    characteristics of authenticators. Relying Parties can learn a
+    subset of verifiable information for authenticators certified
+    by the <abbr title="FIDO Alliance">FIDO Alliance</abbr> with an Authenticator Metadata statement. The 
+    URL to access that Metadata statement is provided by the Metadata TOC 
+    file accessible through the Metadata Service [<cite><a class="bibref" href="#bib-UAFMetadataService">UAFMetadataService</a></cite>].
+    
+  </p><p>For definitions of terms, please refer to the FIDO Glossary
+    [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>].
+
+    </p><section id="scope">
+      <h3 aria-level="2" role="heading" id="h3_scope"><span class="secno">2.1 </span>Scope</h3>
+      
+      <p>This document describes the format of and information contained
+	in <em>Authenticator Metadata</em> statements. For a definitive list
+	of possible values for the various types of information, refer
+	to the FIDO Registry of Predefined Values [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].
+	
+      </p><p>The description of the processes and methods by which
+	authenticator metadata statements are distributed and the
+	methods how these statements can be verified are described in
+	the UAF Metadata Service Specification [<cite><a class="bibref" href="#bib-UAFMetadataService">UAFMetadataService</a></cite>]. 
+    </p></section>
+
+    <section id="audience">
+      <h3 aria-level="2" role="heading" id="h3_audience"><span class="secno">2.2 </span>Audience</h3>
+      
+      <p>The intended audience for this document includes:
+	</p><ul>
+	  <li>FIDO authenticator vendors who wish to produce metadata
+	    statements for their products.</li>	 
+	  <li>FIDO server implementers who need to consume metadata statements
+	    to verify characteristics of authenticators and attestation
+	    statements, make proper algorithm choices for protocol
+	    messages, create policy statements or tailor various other
+	    modes of operation to authenticator-specific characteristics.</li>	  
+	  <li>FIDO relying parties who wish to
+	    <ul>
+	      <li>create custom policy statements about which authenticators they
+		will accept</li>	      
+	      <li>risk score authenticators based on their characteristics</li>
+	      
+	      <li>verify attested authenticator IDs for cross-referencing with</li>
+	      third party metadata
+	    </ul>
+	</li></ul>
+    </section>
+
+    <section id="architecture">
+      <h3 aria-level="2" role="heading" id="h3_architecture"><span class="secno">2.3 </span>Architecture</h3>
+      
+      <!--?xml version="1.0" encoding="UTF-8"?-->
+      
+      <figure id="fig-the-uaf-architecture">
+	<img src="./img/fido-uaf-architecture.png" onerror="./img/fido-uaf-architecture.png" alt="UAF Architecture">
+	<figcaption>Fig. <span class="figno">1</span> <span class="fig-title">The UAF Architecture</span></figcaption>
+      </figure>
+      
+      <p><em>Authenticator metadata statements</em> are used directly by the FIDO
+	server at a relying party, but the information contained in the
+	authoritative statement is used in several other places. How a
+	server obtains these metadata statements is described in [<cite><a class="bibref" href="#bib-UAFMetadataService">UAFMetadataService</a></cite>].</p>
+	
+      <p>The workflow around an authenticator metadata statement is as
+	follows:</p>
+	<ol>
+	  <li>The authenticator vendor produces a metadata statement
+	    describing the characteristics of an authenticator.</li>
+	  
+	  <li>The metadata statement is submitted to the FIDO Aliance as part of the 
+	    FIDO certification process.  The <abbr title="FIDO Alliance">FIDO Alliance</abbr> distributes the metadata 
+	    as described in [<cite><a class="bibref" href="#bib-UAFMetadataService">UAFMetadataService</a></cite>].</li>
+	  
+	  <li>A FIDO relying party configures its registration policy to allow
+	    authenticators matching certain characteristics to be
+	    registered.</li>
+	  
+	  <li>The FIDO server sends a registration challenge message containing this
+	    policy statement.</li>
+	  
+	  <li>The FIDO UAF Client receives the policy statement as part of the
+	    challenge message. It queries available authenticators for
+	    their self-reported characteristics and (with the user's input)
+	    selects an authenticator that matches the policy, to be registered.</li>
+	  
+	  <li>The client processes and sends a registration response
+	    message to the server. This message contains the AAID for
+	    the authenticator and, optionally, a signature made with
+	    the private key corresponding to the public key in the
+	    authenticator's attestation certificate.</li>
+	  
+	  <li>The FIDO Server looks up the metadata statement for the
+	    authenticator using the authenticator's AAID. If the
+	    metadata statement lists an attestation certificate(s), it
+	    verifies that an attestation signature is present, and
+	    made with the private key corresponding to 
+	    either (a) one of the certificates listed in this metadata statement or (b)
+	    corrsponding to the public key in a certificate that <em>chains</em> to one
+	    of the issuer certificates listed in the authenticator's metadata statement.</li>
+	  
+	  <li>The FIDO Server next verifies that the authenticator meets the
+	    originally supplied registration policy based on its
+	    authoritative metadata statement. This prevents a faulty,
+	    modified, or compromised FIDO UAF Client from registering
+	    authenticators that are out of policy.</li>
+	  
+	  <li><em>Optionally</em>, a FIDO Server may, with input from
+	    the Relying Party, assign a risk or trust score to the
+	    authenticator, based on its metadata, including elements
+	    not selected for by the stated policy.</li>
+	  
+	  <li><em>Optionally</em>, a FIDO Server may cross-reference the attested AAID
+	    of the authenticator with other metadata databases published by
+	    third parties. Such third-party metadata might, for example,
+	    inform the FIDO Server if an authenticator has achieved
+	    certifications relevant to certain markets or industry verticals,
+	    or whether it meets application-specific regulatory
+	    requirements.</li>
+	</ol>
+    </section>
+</section>
+
+<section class="normativeDisclaimer" id="types">
+  <!--OddPage--><h2 aria-level="1" role="heading" id="h2_types"><span class="secno">3. </span>Types</h2><p><em>This section is normative.</em></p>
+  <section id="codeaccuracydescriptor-dictionary"> 
+    <h3 aria-level="2" role="heading" id="h3_codeaccuracydescriptor-dictionary"><span class="secno">3.1 </span>CodeAccuracyDescriptor dictionary</h3>
+    <p>The <code>CodeAccuracyDescriptor</code> describes the relevant accuracy/complexity aspects 
+      of passcode user verification methods.</p>
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_2"><span>Note</span></div><div class="">
+      <p>One example of such a method is the use of 4 digit PIN codes for mobile phone SIM card unlock.</p>
+      <p>We are using the numeral system <code>base</code> (radix) and <code>minLen</code>, instead of the number of potential combinations 
+	since there is sufficient evidence [<cite><a class="bibref" href="#bib-iPhonePasscodes">iPhonePasscodes</a></cite>] [<cite><a class="bibref" href="#bib-MoreTopWorstPasswords">MoreTopWorstPasswords</a></cite>] 
+	that users don't select their code evenly distributed at random.  So software 
+	might take into account the various probability distributions for different bases.
+	This essentially means that in practice, passcodes are not as secure as they could be if randomly chosen.</p>
+    </div></div>
+    <pre class="idl"><span class="idlDictionary" id="idl-def-CodeAccuracyDescriptor">dictionary <span class="idlDictionaryID">CodeAccuracyDescriptor</span> {
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span> <span class="idlMemberName"><a href="#widl-CodeAccuracyDescriptor-base">base</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span> <span class="idlMemberName"><a href="#widl-CodeAccuracyDescriptor-minLength">minLength</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">unsigned short</span>          <span class="idlMemberName"><a href="#widl-CodeAccuracyDescriptor-maxRetries">maxRetries</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">unsigned short</span>          <span class="idlMemberName"><a href="#widl-CodeAccuracyDescriptor-blockSlowdown">blockSlowdown</a></span>;</span>
+};</span></pre><section id="dictionary-codeaccuracydescriptor-members"><h4 aria-level="3" role="heading" id="h4_dictionary-codeaccuracydescriptor-members"><span class="secno">3.1.1 </span>Dictionary <a class="idlType" href="#idl-def-CodeAccuracyDescriptor"><code>CodeAccuracyDescriptor</code></a> Members</h4><dl class="dictionary-members"><dt id="widl-CodeAccuracyDescriptor-base"><code>base</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>The numeric system base (radix) of the code, e.g. 10 in the case of decimal digits.  </dd><dt id="widl-CodeAccuracyDescriptor-minLength"><code>minLength</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>The minimum number of digits of the given base required for that code, 
+	e.g. 4 in the case of 4 digits.</dd><dt id="widl-CodeAccuracyDescriptor-maxRetries"><code>maxRetries</code> of type <span class="idlMemberType">unsigned short</span></dt><dd>Maximum number of false attempts before the authenticator will block 
+	this method (at least for some time). 0 means it will never block.</dd><dt id="widl-CodeAccuracyDescriptor-blockSlowdown"><code>blockSlowdown</code> of type <span class="idlMemberType">unsigned short</span></dt><dd>Enforced minimum number of seconds wait time after blocking (e.g. due to 
+	forced reboot or similar). 0 means this user verification 
+	method will be blocked, either permanently or until an alternative user verification method method succeeded.
+	All alternative user verification methods <em class="rfc2119" title="MUST">MUST</em> be specified appropriately in the Metadata in <code>userVerificationDetails</code>.
+      </dd></dl></section>
+  </section> 
+
+  <section id="biometricaccuracydescriptor-dictionary"> 
+    <h3 aria-level="2" role="heading" id="h3_biometricaccuracydescriptor-dictionary"><span class="secno">3.2 </span>BiometricAccuracyDescriptor dictionary</h3>
+    <p>The <code>BiometricAccuracyDescriptor</code> describes relevant accuracy/complexity aspects 
+      in the case of a biometric user verification method.</p>
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_3"><span>Note</span></div><div class="certification">
+      <p>The <em>False Acceptance Rate</em> (FAR) and <em>False Rejection Rate</em> (FRR) values typically are interdependent via the <em>Receiver 
+	Operator Characteristic</em> (ROC) curve. </p>
+      <p>The <em>False Artefact Acceptance Rate</em> (FAAR) value reflects the capability of detecting presentation attacks, such as the detection
+	of rubber finger presentation.</p>	
+      <p> The FAR, FRR, and FAAR values given here <em class="rfc2119" title="MUST">MUST</em> 
+	reflect the actual configuration of the authenticators (as opposed to 
+	being theoretical best case values).</p>
+    </div></div>
+    <p>At least one of the values <em class="rfc2119" title="MUST">MUST</em> be set.  If the vendor doesn't want to specify such values, then
+      <code>VerificationMethodDescriptor.baDesc</code> <em class="rfc2119" title="MUST">MUST</em> be omitted.</p>
+    <pre class="idl"><span class="idlDictionary" id="idl-def-BiometricAccuracyDescriptor">dictionary <span class="idlDictionaryID">BiometricAccuracyDescriptor</span> {
+<span class="idlMember">    <span class="idlMemberType">double</span>         <span class="idlMemberName"><a href="#widl-BiometricAccuracyDescriptor-FAR">FAR</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">double</span>         <span class="idlMemberName"><a href="#widl-BiometricAccuracyDescriptor-FRR">FRR</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">double</span>         <span class="idlMemberName"><a href="#widl-BiometricAccuracyDescriptor-EER">EER</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">double</span>         <span class="idlMemberName"><a href="#widl-BiometricAccuracyDescriptor-FAAR">FAAR</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">unsigned short</span> <span class="idlMemberName"><a href="#widl-BiometricAccuracyDescriptor-maxReferenceDataSets">maxReferenceDataSets</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">unsigned short</span> <span class="idlMemberName"><a href="#widl-BiometricAccuracyDescriptor-maxRetries">maxRetries</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">unsigned short</span> <span class="idlMemberName"><a href="#widl-BiometricAccuracyDescriptor-blockSlowdown">blockSlowdown</a></span>;</span>
+};</span></pre><section id="dictionary-biometricaccuracydescriptor-members"><h4 aria-level="3" role="heading" id="h4_dictionary-biometricaccuracydescriptor-members"><span class="secno">3.2.1 </span>Dictionary <a class="idlType" href="#idl-def-BiometricAccuracyDescriptor"><code>BiometricAccuracyDescriptor</code></a> Members</h4><dl class="dictionary-members"><dt id="widl-BiometricAccuracyDescriptor-FAR"><code>FAR</code> of type <span class="idlMemberType">double</span></dt><dd>The false acceptance rate [<cite><a class="bibref" href="#bib-ISO19795-1">ISO19795-1</a></cite>] for a single reference data set, 
+	i.e. the percentage of non-matching data sets
+	that are accepted as valid ones.   For example a FAR of <code>0.1%</code> 
+	would be encoded as <code>0.001</code>.
+	<div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_4"><span>Note</span></div><div class="">
+	  <p>The resulting FAR when all reference data 
+	    sets are used is <code>maxReferenceDataSets * FAR</code>.</p>
+	  <p>The false acceptance rate is relevant for the security. 
+	    Lower false acceptance rates mean better security.</p>
+	  <p>Only the live captured subjects are covered by this value - 
+	    not the presentation of artefacts.</p>
+	</div></div>
+      </dd><dt id="widl-BiometricAccuracyDescriptor-FRR"><code>FRR</code> of type <span class="idlMemberType">double</span></dt><dd>The false rejection rate for a single reference data set, 
+	i.e. the percentage of presented valid data sets 
+	that lead to a (false) non-acceptance.  For example a FRR of <code>0.1%</code> 
+	would be encoded as <code>0.001</code>.
+	<div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_5"><span>Note</span></div><p class="">The false rejection rate is relevant for the convenience.  
+	  Lower false acceptance rates mean better convenience.</p></div>
+      </dd><dt id="widl-BiometricAccuracyDescriptor-EER"><code>EER</code> of type <span class="idlMemberType">double</span></dt><dd>The equal error rate for a single reference data set.</dd><dt id="widl-BiometricAccuracyDescriptor-FAAR"><code>FAAR</code> of type <span class="idlMemberType">double</span></dt><dd>The false artefact acceptance rate [<cite><a class="bibref" href="#bib-ISO30107-1">ISO30107-1</a></cite>], i.e. the percentage of 
+	artefacts that are incorrectly accepted by the system. For example a FAAR of <code>0.1%</code> 
+	would be encoded as <code>0.001</code>.
+	<div class="note"><div class="note-title" aria-level="4" role="heading" id="h_note_6"><span>Note</span></div><div class="">
+	  <p>The false artefact acceptance rate is relevant for the security of the system. 
+	    Lower false artefact acceptance rates imply better security.</p>
+	</div></div>
+      </dd><dt id="widl-BiometricAccuracyDescriptor-maxReferenceDataSets"><code>maxReferenceDataSets</code> of type <span class="idlMemberType">unsigned short</span></dt><dd>Maximum number of alternative reference data sets, e.g. 3 if the user 
+	is allowed to enroll 3 different fingers to a fingerprint based authenticator.</dd><dt id="widl-BiometricAccuracyDescriptor-maxRetries"><code>maxRetries</code> of type <span class="idlMemberType">unsigned short</span></dt><dd>Maximum number of false attempts before the authenticator will block 
+	this method (at least for some time). 0 means it will never block.</dd><dt id="widl-BiometricAccuracyDescriptor-blockSlowdown"><code>blockSlowdown</code> of type <span class="idlMemberType">unsigned short</span></dt><dd>Enforced minimum number of seconds wait time after blocking (e.g. due to 
+	forced reboot or similar). 0 means that this user verification 
+	method will be blocked either permanently or until an alternative user verification method succeeded.
+	All alternative user verification methods <em class="rfc2119" title="MUST">MUST</em> be specified appropriately in the metadata in <code>userVerificationDetails</code>.
+      </dd></dl></section>
+  </section> 
+
+  <section id="patternaccuracydescriptor-dictionary"> 
+    <h3 aria-level="2" role="heading" id="h3_patternaccuracydescriptor-dictionary"><span class="secno">3.3 </span>PatternAccuracyDescriptor dictionary</h3>
+    <p>The <code>PatternAccuracyDescriptor</code> describes relevant accuracy/complexity aspects 
+      in the case that a pattern is used as the user verification method.</p>
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_7"><span>Note</span></div><p class="">One example of such a pattern is the 3x3 dot matrix as used in 
+      Android [<cite><a class="bibref" href="#bib-AndroidUnlockPattern">AndroidUnlockPattern</a></cite>] screen unlock.  The <code>minComplexity</code> would be 1624 in that case, based on the user choosing a 4-digit PIN, the minimum allowed for this mechanism.</p></div>
+    
+    <pre class="idl"><span class="idlDictionary" id="idl-def-PatternAccuracyDescriptor">dictionary <span class="idlDictionaryID">PatternAccuracyDescriptor</span> {
+<span class="idlMember">    <span class="idlMemberType">required unsigned long</span> <span class="idlMemberName"><a href="#widl-PatternAccuracyDescriptor-minComplexity">minComplexity</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">unsigned short</span>         <span class="idlMemberName"><a href="#widl-PatternAccuracyDescriptor-maxRetries">maxRetries</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">unsigned short</span>         <span class="idlMemberName"><a href="#widl-PatternAccuracyDescriptor-blockSlowdown">blockSlowdown</a></span>;</span>
+};</span></pre><section id="dictionary-patternaccuracydescriptor-members"><h4 aria-level="3" role="heading" id="h4_dictionary-patternaccuracydescriptor-members"><span class="secno">3.3.1 </span>Dictionary <a class="idlType" href="#idl-def-PatternAccuracyDescriptor"><code>PatternAccuracyDescriptor</code></a> Members</h4><dl class="dictionary-members"><dt id="widl-PatternAccuracyDescriptor-minComplexity"><code>minComplexity</code> of type <span class="idlMemberType">required unsigned long</span></dt><dd>Number of possible patterns (having the minimum length) out of which exactly 
+	one would be the right one, i.e. 1/probability in the case of equal distribution.</dd><dt id="widl-PatternAccuracyDescriptor-maxRetries"><code>maxRetries</code> of type <span class="idlMemberType">unsigned short</span></dt><dd>Maximum number of false attempts before the authenticator will block authentication using this 
+	method (at least temporarily). 0 means it will never block.</dd><dt id="widl-PatternAccuracyDescriptor-blockSlowdown"><code>blockSlowdown</code> of type <span class="idlMemberType">unsigned short</span></dt><dd>Enforced minimum number of seconds wait time after blocking (due to 
+	forced reboot or similar mechanism). 0 means this user verification 
+	method will be blocked, either permanently or until an alternative user verification method method succeeded.
+	All alternative user verification methods <em class="rfc2119" title="MUST">MUST</em> be specified appropriately in the metadata under <code>userVerificationDetails</code>.
+      </dd></dl></section>
+  </section> 
+  
+  
+  <section id="verificationmethoddescriptor-dictionary"> 
+    <h3 aria-level="2" role="heading" id="h3_verificationmethoddescriptor-dictionary"><span class="secno">3.4 </span>VerificationMethodDescriptor dictionary</h3>
+    <p>A descriptor for a specific <em>base user verification method</em> as 
+      implemented by the authenticator.</p>
+    <p>A base user verification method must be chosen from the list of those described in [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]</p>
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_8"><span>Note</span></div><p class="">In reality, several of the methods described above
+      might be combined. For example, a fingerprint based user
+      verification can be combined with an alternative password.</p></div>
+    <p>The specification of the related AccuracyDescriptor is optional, but recommended.</p>
+    <pre class="idl"><span class="idlDictionary" id="idl-def-VerificationMethodDescriptor">dictionary <span class="idlDictionaryID">VerificationMethodDescriptor</span> {
+<span class="idlMember">    <span class="idlMemberType">required unsigned long</span>      <span class="idlMemberName"><a href="#widl-VerificationMethodDescriptor-userVerification">userVerification</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType"><a href="#idl-def-CodeAccuracyDescriptor" class="idlType"><code>CodeAccuracyDescriptor</code></a></span>      <span class="idlMemberName"><a href="#widl-VerificationMethodDescriptor-caDesc">caDesc</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType"><a href="#idl-def-BiometricAccuracyDescriptor" class="idlType"><code>BiometricAccuracyDescriptor</code></a></span> <span class="idlMemberName"><a href="#widl-VerificationMethodDescriptor-baDesc">baDesc</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType"><a href="#idl-def-PatternAccuracyDescriptor" class="idlType"><code>PatternAccuracyDescriptor</code></a></span>   <span class="idlMemberName"><a href="#widl-VerificationMethodDescriptor-paDesc">paDesc</a></span>;</span>
+};</span></pre><section id="dictionary-verificationmethoddescriptor-members"><h4 aria-level="3" role="heading" id="h4_dictionary-verificationmethoddescriptor-members"><span class="secno">3.4.1 </span>Dictionary <a class="idlType" href="#idl-def-VerificationMethodDescriptor"><code>VerificationMethodDescriptor</code></a> Members</h4><dl class="dictionary-members"><dt id="widl-VerificationMethodDescriptor-userVerification"><code>userVerification</code> of type <span class="idlMemberType">required unsigned long</span></dt><dd>a <em>single</em> <code>USER_VERIFY</code> constant (see [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]), <strong>not a bit flag combination</strong>.
+	This value <em class="rfc2119" title="MUST">MUST</em> be non-zero.
+      </dd><dt id="widl-VerificationMethodDescriptor-caDesc"><code>caDesc</code> of type <span class="idlMemberType"><a href="#idl-def-CodeAccuracyDescriptor" class="idlType"><code>CodeAccuracyDescriptor</code></a></span></dt><dd>May optionally be used in the case of method <code>USER_VERIFY_PASSCODE</code>.</dd><dt id="widl-VerificationMethodDescriptor-baDesc"><code>baDesc</code> of type <span class="idlMemberType"><a href="#idl-def-BiometricAccuracyDescriptor" class="idlType"><code>BiometricAccuracyDescriptor</code></a></span></dt><dd>May optionally be used in the case of method <code>USER_VERIFY_FINGERPRINT</code>, <code>USER_VERIFY_VOICEPRINT</code>, 
+	<code>USER_VERIFY_FACEPRINT</code>, <code>USER_VERIFY_EYEPRINT</code>, or <code>USER_VERIFY_HANDPRINT</code>.</dd><dt id="widl-VerificationMethodDescriptor-paDesc"><code>paDesc</code> of type <span class="idlMemberType"><a href="#idl-def-PatternAccuracyDescriptor" class="idlType"><code>PatternAccuracyDescriptor</code></a></span></dt><dd><em class="rfc2119" title="MAY">MAY</em> optionally be used in case of method <code>USER_VERIFY_PATTERN</code>.</dd></dl></section>
+  </section> 
+  
+  <section id="verificationmethodandcombinations-typedef"> 
+    <h3 aria-level="2" role="heading" id="h3_verificationmethodandcombinations-typedef"><span class="secno">3.5 </span>verificationMethodANDCombinations typedef</h3>
+    <pre class="idl"><span class="idlTypedef" id="idl-def-VerificationMethodANDCombinations">typedef <span class="idlTypedefType"><a href="#idl-def-VerificationMethodDescriptor" class="idlType"><code>VerificationMethodDescriptor</code></a></span>[] <span class="idlTypedefID">VerificationMethodANDCombinations</span>;</span></pre><div class="idlTypedefDesc"> 
+      <p><code>VerificationMethodANDCombinations</code> <em class="rfc2119" title="MUST">MUST</em> be non-empty. It is a list containing 
+	the list of base user verification methods which must be passed as part 
+	of a successful user verification.</p>
+      <p>This list will contain only a single entry if using a single 
+	user verification method is sufficient.</p>
+      <p>If this list contains multiple entries, then all of the
+	listed user verification methods <em class="rfc2119" title="MUST">MUST</em> be passed as part of the
+	user verification process.</p>
+    </div>
+  </section> 
+
+  <section id="rgbpalletteentry-dictionary"> 
+    <h3 aria-level="2" role="heading" id="h3_rgbpalletteentry-dictionary"><span class="secno">3.6 </span>rgbPalletteEntry dictionary</h3>
+    <p>The <code>rgbPalletteEntry</code> is an RGB three-sample tuple pallete entry</p>
+    <pre class="idl"><span class="idlDictionary" id="idl-def-rgbPalletteEntry">dictionary <span class="idlDictionaryID">rgbPalletteEntry</span> {
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span> <span class="idlMemberName"><a href="#widl-rgbPalletteEntry-r">r</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span> <span class="idlMemberName"><a href="#widl-rgbPalletteEntry-g">g</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span> <span class="idlMemberName"><a href="#widl-rgbPalletteEntry-b">b</a></span>;</span>
+};</span></pre><section id="dictionary-rgbpalletteentry-members"><h4 aria-level="3" role="heading" id="h4_dictionary-rgbpalletteentry-members"><span class="secno">3.6.1 </span>Dictionary <a class="idlType" href="#idl-def-rgbPalletteEntry"><code>rgbPalletteEntry</code></a> Members</h4><dl class="dictionary-members"><dt id="widl-rgbPalletteEntry-r"><code>r</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>Red channel sample value</dd><dt id="widl-rgbPalletteEntry-g"><code>g</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>Green channel sample value</dd><dt id="widl-rgbPalletteEntry-b"><code>b</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>Blue channel sample value</dd></dl></section>
+  </section> 
+  <section id="displaypngcharacteristicsdescriptor-dictionary"> 
+    <h3 aria-level="2" role="heading" id="h3_displaypngcharacteristicsdescriptor-dictionary"><span class="secno">3.7 </span>DisplayPNGCharacteristicsDescriptor dictionary</h3>
+    <p>The DisplayPNGCharacteristicsDescriptor describes a PNG image characteristics
+      as defined in the PNG [<cite><a class="bibref" href="#bib-PNG">PNG</a></cite>] spec for IHDR (image header) and PLTE (palette table)</p>
+    <pre class="idl"><span class="idlDictionary" id="idl-def-DisplayPNGCharacteristicsDescriptor">dictionary <span class="idlDictionaryID">DisplayPNGCharacteristicsDescriptor</span> {
+<span class="idlMember">    <span class="idlMemberType">required unsigned long</span> <span class="idlMemberName"><a href="#widl-DisplayPNGCharacteristicsDescriptor-width">width</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned long</span> <span class="idlMemberName"><a href="#widl-DisplayPNGCharacteristicsDescriptor-height">height</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required octet</span>         <span class="idlMemberName"><a href="#widl-DisplayPNGCharacteristicsDescriptor-bitDepth">bitDepth</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required octet</span>         <span class="idlMemberName"><a href="#widl-DisplayPNGCharacteristicsDescriptor-colorType">colorType</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required octet</span>         <span class="idlMemberName"><a href="#widl-DisplayPNGCharacteristicsDescriptor-compression">compression</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required octet</span>         <span class="idlMemberName"><a href="#widl-DisplayPNGCharacteristicsDescriptor-filter">filter</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required octet</span>         <span class="idlMemberName"><a href="#widl-DisplayPNGCharacteristicsDescriptor-interlace">interlace</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType"><a href="#idl-def-rgbPalletteEntry" class="idlType"><code>rgbPalletteEntry</code></a>[]</span>     <span class="idlMemberName"><a href="#widl-DisplayPNGCharacteristicsDescriptor-plte">plte</a></span>;</span>
+};</span></pre><section id="dictionary-displaypngcharacteristicsdescriptor-members"><h4 aria-level="3" role="heading" id="h4_dictionary-displaypngcharacteristicsdescriptor-members"><span class="secno">3.7.1 </span>Dictionary <a class="idlType" href="#idl-def-DisplayPNGCharacteristicsDescriptor"><code>DisplayPNGCharacteristicsDescriptor</code></a> Members</h4><dl class="dictionary-members"><dt id="widl-DisplayPNGCharacteristicsDescriptor-width"><code>width</code> of type <span class="idlMemberType">required unsigned long</span></dt><dd>image width</dd><dt id="widl-DisplayPNGCharacteristicsDescriptor-height"><code>height</code> of type <span class="idlMemberType">required unsigned long</span></dt><dd>image height</dd><dt id="widl-DisplayPNGCharacteristicsDescriptor-bitDepth"><code>bitDepth</code> of type <span class="idlMemberType">required octet</span></dt><dd>Bit depth - bits per sample or per palette index.</dd><dt id="widl-DisplayPNGCharacteristicsDescriptor-colorType"><code>colorType</code> of type <span class="idlMemberType">required octet</span></dt><dd>Color type defines the PNG image type.</dd><dt id="widl-DisplayPNGCharacteristicsDescriptor-compression"><code>compression</code> of type <span class="idlMemberType">required octet</span></dt><dd>Compression method used to compress the image data.</dd><dt id="widl-DisplayPNGCharacteristicsDescriptor-filter"><code>filter</code> of type <span class="idlMemberType">required octet</span></dt><dd>Filter method is the preprocessing method applied to the image data before compression.</dd><dt id="widl-DisplayPNGCharacteristicsDescriptor-interlace"><code>interlace</code> of type <span class="idlMemberType">required octet</span></dt><dd>Interlace method is the transmission order of the image data.</dd><dt id="widl-DisplayPNGCharacteristicsDescriptor-plte"><code>plte</code> of type array of <span class="idlMemberType"><a href="#idl-def-rgbPalletteEntry" class="idlType"><code>rgbPalletteEntry</code></a></span></dt><dd>1 to 256 palette entries</dd></dl></section>
+  </section> 
+</section>
+
+<section class="normativeDisclaimer" id="metadata-keys">
+  <!--OddPage--><h2 aria-level="1" role="heading" id="h2_metadata-keys"><span class="secno">4. </span>Metadata Keys</h2><p><em>This section is normative.</em></p>
+  
+  <pre class="idl"><span class="idlDictionary" id="idl-def-MetadataStatement">dictionary <span class="idlDictionaryID">MetadataStatement</span> {
+<span class="idlMember">    <span class="idlMemberType">required AAID</span>                                <span class="idlMemberName"><a href="#widl-MetadataStatement-aaid">aaid</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>                           <span class="idlMemberName"><a href="#widl-MetadataStatement-description">description</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>                      <span class="idlMemberName"><a href="#widl-MetadataStatement-authenticatorVersion">authenticatorVersion</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required Version[]</span>                           <span class="idlMemberName"><a href="#widl-MetadataStatement-upv">upv</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>                           <span class="idlMemberName"><a href="#widl-MetadataStatement-assertionScheme">assertionScheme</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>                      <span class="idlMemberName"><a href="#widl-MetadataStatement-authenticationAlgorithm">authenticationAlgorithm</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>                      <span class="idlMemberName"><a href="#widl-MetadataStatement-publicKeyAlgAndEncoding">publicKeyAlgAndEncoding</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short[]</span>                    <span class="idlMemberName"><a href="#widl-MetadataStatement-attestationTypes">attestationTypes</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required VerificationMethodANDCombinations[]</span> <span class="idlMemberName"><a href="#widl-MetadataStatement-userVerificationDetails">userVerificationDetails</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>                      <span class="idlMemberName"><a href="#widl-MetadataStatement-keyProtection">keyProtection</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>                      <span class="idlMemberName"><a href="#widl-MetadataStatement-matcherProtection">matcherProtection</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned long</span>                       <span class="idlMemberName"><a href="#widl-MetadataStatement-attachmentHint">attachmentHint</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required boolean</span>                             <span class="idlMemberName"><a href="#widl-MetadataStatement-isSecondFactorOnly">isSecondFactorOnly</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required unsigned short</span>                      <span class="idlMemberName"><a href="#widl-MetadataStatement-tcDisplay">tcDisplay</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">DOMString</span>                                    <span class="idlMemberName"><a href="#widl-MetadataStatement-tcDisplayContentType">tcDisplayContentType</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType"><a href="#idl-def-DisplayPNGCharacteristicsDescriptor" class="idlType"><code>DisplayPNGCharacteristicsDescriptor</code></a>[]</span>        <span class="idlMemberName"><a href="#widl-MetadataStatement-tcDisplayPNGCharacteristics">tcDisplayPNGCharacteristics</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString[]</span>                         <span class="idlMemberName"><a href="#widl-MetadataStatement-attestationRootCertificates">attestationRootCertificates</a></span>;</span>
+<span class="idlMember">    <span class="idlMemberType">required DOMString</span>                           <span class="idlMemberName"><a href="#widl-MetadataStatement-icon">icon</a></span>;</span>
+};</span></pre><section id="dictionary-metadatastatement-members"><h3 aria-level="2" role="heading" id="h3_dictionary-metadatastatement-members"><span class="secno">4.1 </span>Dictionary <a class="idlType" href="#idl-def-MetadataStatement"><code>MetadataStatement</code></a> Members</h3><dl class="dictionary-members"><dt id="widl-MetadataStatement-aaid"><code>aaid</code> of type <span class="idlMemberType">required AAID</span></dt><dd>The Authenticator Attestation ID. See [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]
+      for the definition of the AAID structure.</dd><dt id="widl-MetadataStatement-description"><code>description</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>A human-readable short description of the authenticator.
+      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_9"><span>Note</span></div><p class="">This description should help an administrator configuring authenticator policies. 
+	This description might deviate from the description returned by the ASM for that authenticator.</p></div>
+    </dd><dt id="widl-MetadataStatement-authenticatorVersion"><code>authenticatorVersion</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>
+      Earliest (i.e. lowest) trustworthy <code>authenticatorVersion</code> meeting the requirements 
+      specified in this metadata statement. 
+      <p>Adding new <code>StatusReport</code> entries with status <code>UPDATE_AVAILABLE</code> to 
+	the metadata <code>TOC</code> object [<cite><a class="bibref" href="#bib-UAFMetadataService">UAFMetadataService</a></cite>] <em class="rfc2119" title="MUST">MUST</em> also change this
+	<code>authenticatorVersion</code> if the update fixes severe security issues, e.g. the ones
+	reported by preceding <code>StatusReport</code> entries with status code <code>USER_VERIFICATION_BYPASS</code>,
+	<code>ATTESTATION_KEY_COMPROMISE</code>, <code>USER_KEY_REMOTE_COMPROMISE</code>,
+	<code>USER_KEY_PHYSICAL_COMPROMISE</code>, <code>REVOKED</code>.</p>
+      <p>It is <em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em> to assume increased risk if this version is higher 
+	(newer) than the firmware version
+	present in an authenticator.  For example, if a <code>StatusReport</code> entry with status 
+	<code>USER_VERIFICATION_BYPASS</code> or <code>USER_KEY_REMOTE_COMPROMISE</code> precedes the 
+	<code>UPDATE_AVAILABLE</code> entry, than any firmware version lower (older) than the one 
+	specified in the metadata statement is assumed to be vulnerable.</p>
+    </dd><dt id="widl-MetadataStatement-upv"><code>upv</code> of type array of <span class="idlMemberType">required Version</span></dt><dd>
+      The UAF protocol version(s) supported by this authenticator. 
+      See [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>] for the definition of the <code>Version</code> structure.
+    </dd><dt id="widl-MetadataStatement-assertionScheme"><code>assertionScheme</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>
+      The assertion scheme supported by the Authenticator. Must be set
+      to one of the enumerated Strings defined in the FIDO UAF
+      Registry of Predefined Values [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].
+    </dd><dt id="widl-MetadataStatement-authenticationAlgorithm"><code>authenticationAlgorithm</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>
+      The authentication algorithm supported by the authenticator.
+      Must be set to one of the <code>UAF_ALG</code> constants defined in the
+      FIDO UAF Registry of Predefined Values [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]. 
+      This value <em class="rfc2119" title="MUST">MUST</em> be non-zero.
+    </dd><dt id="widl-MetadataStatement-publicKeyAlgAndEncoding"><code>publicKeyAlgAndEncoding</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>
+      The public key format used by the authenticator during registration operations.
+      Must be set to one of the <code>UAF_ALG_KEY</code> constants defined in the
+      FIDO UAF Registry of Predefined Values [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].  Because this information
+      is not present in APIs related to authenticator discovery or policy, a
+      FIDO server <em class="rfc2119" title="MUST">MUST</em> be prepared to accept and process any and all key representations
+      defined for any public key algorithm it supports.
+      This value <em class="rfc2119" title="MUST">MUST</em> be non-zero.
+    </dd><dt id="widl-MetadataStatement-attestationTypes"><code>attestationTypes</code> of type array of <span class="idlMemberType">required unsigned short</span></dt><dd>
+      The supported attestation type(s). (e.g. <code>TAG_ATTESTATION_BASIC_FULL</code>) See UAF
+      Registry for more information [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].
+    </dd><dt id="widl-MetadataStatement-userVerificationDetails"><code>userVerificationDetails</code> of type array of <span class="idlMemberType">required VerificationMethodANDCombinations</span></dt><dd>
+      A list <i>alternative</i> VerificationMethodANDCombinations.
+      Each of these entries is one alternative user verification method. 
+      Each of these alternative user verification methods might
+      itself be an "AND" combination of multiple modalities.
+      <p>All effectively available alternative user verification methods <em class="rfc2119" title="MUST">MUST</em> be properly specified here.
+	A user verification method is considered effectively available if this method can be used 
+	to either:
+	</p><ul>
+	  <li>enroll new verification reference data to one of the user verification methods</li>
+	  <p>or</p> 
+	  <li>unlock the UAuth key directly after successful user verification</li>
+	</ul>
+      <p></p>
+    </dd><dt id="widl-MetadataStatement-keyProtection"><code>keyProtection</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>
+      A 16-bit number representing the bit fields defined by the
+      <code>KEY_PROTECTION</code> constants in the FIDO Registry of Predefined
+      Values [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].
+      <p>This value <em class="rfc2119" title="MUST">MUST</em> be non-zero.</p>
+    </dd><dt id="widl-MetadataStatement-matcherProtection"><code>matcherProtection</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>
+      A 16-bit number representing the bit fields defined by the
+      <code>MATCHER_PROTECTION</code> constants in the FIDO Registry of Predefined
+      Values [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].  
+      <p>This value <em class="rfc2119" title="MUST">MUST</em> be non-zero.</p>
+      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_10"><span>Note</span></div><p class="certification">If multiple matchers are implemented, 
+	then this value must reflect the <em>weakest</em> implementation of all matchers.</p></div>
+    </dd><dt id="widl-MetadataStatement-attachmentHint"><code>attachmentHint</code> of type <span class="idlMemberType">required unsigned long</span></dt><dd>
+      A 32-bit number representing the bit fields defined by the
+      <code>ATTACHMENT_HINT</code> constants in the FIDO Registry of Predefined
+      Values [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>]. 
+      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_11"><span>Note</span></div><p class="">The connection state and topology of an
+	authenticator may be transient and cannot be relied on as
+	authoritative by a relying party, but the metadata field should
+	have all the bit flags set for the topologies possible for the
+	authenticator. For example, an authenticator instantiated as a
+	single-purpose hardware token that can communicate over
+	bluetooth should set <code>ATTACHMENT_HINT_EXTERNAL</code> but not
+	<code>ATTACHMENT_HINT_INTERNAL</code>.</p></div>
+    </dd><dt id="widl-MetadataStatement-isSecondFactorOnly"><code>isSecondFactorOnly</code> of type <span class="idlMemberType">required boolean</span></dt><dd>
+      Indicates if the authenticator is designed to be used only as a
+      second factor, i.e. requiring some other authentication method as 
+      a first factor (e.g. username+password).
+    </dd><dt id="widl-MetadataStatement-tcDisplay"><code>tcDisplay</code> of type <span class="idlMemberType">required unsigned short</span></dt><dd>
+      A 16-bit number representing the bit fields defined by the
+      <code>TRANSACTION_CONFIRMATIOM_DISPLAY</code> constants in the FIDO Registry of Predefined
+      Values [<cite><a class="bibref" href="#bib-UAFRegistry">UAFRegistry</a></cite>].
+      <p>This value <em class="rfc2119" title="MUST">MUST</em> be 0, if transaction confirmation is not supported by the authenticator.</p>
+    </dd><dt id="widl-MetadataStatement-tcDisplayContentType"><code>tcDisplayContentType</code> of type <span class="idlMemberType">DOMString</span></dt><dd>
+      Supported MIME content type [<cite><a class="bibref" href="#bib-RFC2049">RFC2049</a></cite>] for the transaction confirmation
+      display, such as <code>text/plain</code> or <code>image/png</code>.
+      <p>This value <em class="rfc2119" title="MUST">MUST</em> be present if transaction confirmation is supported, 
+	i.e. <code>tcDisplay</code> is non-zero.</p>
+    </dd><dt id="widl-MetadataStatement-tcDisplayPNGCharacteristics"><code>tcDisplayPNGCharacteristics</code> of type array of <span class="idlMemberType"><a href="#idl-def-DisplayPNGCharacteristicsDescriptor" class="idlType"><code>DisplayPNGCharacteristicsDescriptor</code></a></span></dt><dd>
+      A list of <i>alternative</i> DisplayPNGCharacteristicsDescriptor.
+      Each of these entries is one alternative of supported image characteristics 
+      for displaying a PNG image.
+      <p>This list <em class="rfc2119" title="MUST">MUST</em> be present if transaction confirmation is supported, 
+	i.e. <code>tcDisplay</code> is non-zero.</p>
+    </dd><dt id="widl-MetadataStatement-attestationRootCertificates"><code>attestationRootCertificates</code> of type array of <span class="idlMemberType">required DOMString</span></dt><dd>Each element of this array represents a PKIX [<cite><a class="bibref" href="#bib-RFC5280">RFC5280</a></cite>] trust
+      root X.509 certificate that is valid for this AAID. Multiple
+      certificates might be used for different batches without
+      distinct AAIDs. The array does not represent a certificate
+      chain, but only the trust anchor of that chain.
+      
+      <p>Each array element is a Base64-encoded (section 4 of
+	[<cite><a class="bibref" href="#bib-RFC4648">RFC4648</a></cite>]), DER-encoded [<cite><a class="bibref" href="#bib-ITU-X690-2008">ITU-X690-2008</a></cite>] PKIX certificate
+	value. Each element <em class="rfc2119" title="MUST">MUST</em> be dedicated for authenticator
+	attestation.</p>
+      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_12"><span>Note</span></div><div class="">
+	<p>A certificate listed here is a trust root. It might be the
+	  actual certificate presented by the authenticator, or it might
+	  be an issuing authority certificate from the vendor that the
+	  actual certificate in the authenticator chains to.</p>	
+	<p>The attestation certificate itself and the ordered certificate
+	  chain is included in the registration
+	  assertion (see [<cite><a class="bibref" href="#bib-UAFAuthnrCommands">UAFAuthnrCommands</a></cite>]).</p>
+      </div></div>
+      <p>Either</p>
+      <ul>
+	<li>the manufacturer attestation root certificate</li> 
+	<p>or</p> 
+	<li>the root certificate related to a specific AAID</li>
+      </ul>
+      <p><em class="rfc2119" title="MUST">MUST</em> be specified included here.</p>
+      <p>
+	In the case (a), the root certificate might cover multiple
+	authenticator types (i.e. multiple AAIDs). In this case, the AAID <em class="rfc2119" title="MUST">MUST</em> be
+	specified in the SubjectDN CommonName (oid 2.5.4.3) of the
+	Attestation Certificate. In the case (b) it is not required to include the AAID in 
+	the SubjectDN CommonName of the attestation certificate, as the 
+	root certificate only covers a single AAID.</p>
+      <p>In the case of surrogate basic attestation (see [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>], 
+	section "Surrogate Basic Attestation"), no attestation
+	root certificate is required/used.
+	So this array <em class="rfc2119" title="MUST">MUST</em> be empty in that case.</p>
+    </dd><dt id="widl-MetadataStatement-icon"><code>icon</code> of type <span class="idlMemberType">required DOMString</span></dt><dd>
+      A <code>data:</code> url [<cite><a class="bibref" href="#bib-RFC2397">RFC2397</a></cite>] encoded PNG [<cite><a class="bibref" href="#bib-PNG">PNG</a></cite>] icon for the Authenticator.
+    </dd></dl></section>
+</section>
+
+<section class="informative" id="metadata-statement-format">
+  <!--OddPage--><h2 aria-level="1" role="heading" id="h2_metadata-statement-format"><span class="secno">5. </span>Metadata Statement Format</h2><p><em>This section is non-normative.</em></p>
+  
+  <p class="normative">A FIDO Authenticator Metadata Statement is a document containing
+    a JSON encoded <a href="#idl-def-MetadataStatement">dictionary MetadataStatement</a>.</p>
+    
+    <p>Example of the metadata statement for an authenticator with:</p>
+    <ul>
+      <li>authenticatorVersion 2.</li>
+      <li>Fingerprint based user verification with false acceptance rate of 0.001.</li>
+      <li>Authenticator is embedded with the FIDO User device.</li>
+      <li>The authentication keys are protected by TEE.</li>
+      <li>The (fingerprint) matcher is implemented in TEE.</li>
+      <li>The Transaction Confirmation Display is implemented in a TEE.</li>
+      <li>The Transaction Confirmation Display supports display of "image/png" objects only.</li>
+      <li>Display has a width of 320 and a height of 480 pixel. A bit depth of 16 bits per pixel 
+	offering True Color (=Color Type 2). The zlib compression method (0). It doesn't support
+	filtering (i.e. filter type of=0) and no interlacing support (interlace method=0).</li>
+      <li>The Authentiator can act as first factor or as second factor, i.e. isSecondFactorOnly = false.</li>
+      <li>It supports the "UAFV1TLV" assertion scheme.</li>
+      <li>It uses the <code>UAF_ALG_SIGN_ECDSA_SHA256_RAW</code> authentication algorithm.</li>
+      <li>It uses the <code>UAF_ALG_KEY_ECC_X962_RAW</code> public key format (0x100=256 decimal).</li>
+      <li>It only implements the <code>TAG_ATTESTATION_BASIC_FULL</code> method (0x3E07=15879 decimal).</li>
+      <li>It implements UAF protocol version 1.0 only.</li>
+    </ul>
+    <div class="example"><div class="example-title"><span>Example 1</span>: MetadataStatement</div><pre class="example">{ "aaid": "1234#5678",
+  "description": "FIDO Alliance Sample UAF Authenticator",
+  "authenticatorVersion": 2,
+  "upv": [{ "major": 1, "minor": 0 }],
+  "assertionScheme": "UAFV1TLV",
+  "authenticationAlgorithm": 1,
+  "publicKeyAlgAndEncoding": 256,
+  "attestationTypes": [15879],
+  "userVerificationDetails": [ [ { "userVerification": 2, "baDesc": { "FAR": 0.001 } } ] ],
+  "keyProtection": 6,
+  "matcherProtection": 2,
+  "attachmentHint": 1,
+  "isSecondFactorOnly": "false",
+  "tcDisplay": 4,
+  "tcDisplayContentType": ["image/png"],
+  "tcDisplayPNGCharacteristics": [{"width": 320, "height": 480, "bitDepth": 16,
+        "colorType": 2, "compression": 0, "filter": 0, "interlace": 0}],
+  "attestationRootCertificates": [
+"MIICPTCCAeOgAwIBAgIJAOuexvU3Oy2wMAoGCCqGSM49BAMCMHsxIDAeBgNVBAMM
+F1NhbXBsZSBBdHRlc3RhdGlvbiBSb290MRYwFAYDVQQKDA1GSURPIEFsbGlhbmNl
+MREwDwYDVQQLDAhVQUYgVFdHLDESMBAGA1UEBwwJUGFsbyBBbHRvMQswCQYDVQQI
+DAJDQTELMAkGA1UEBhMCVVMwHhcNMTQwNjE4MTMzMzMyWhcNNDExMTAzMTMzMzMy
+WjB7MSAwHgYDVQQDDBdTYW1wbGUgQXR0ZXN0YXRpb24gUm9vdDEWMBQGA1UECgwN
+RklETyBBbGxpYW5jZTERMA8GA1UECwwIVUFGIFRXRywxEjAQBgNVBAcMCVBhbG8g
+QWx0bzELMAkGA1UECAwCQ0ExCzAJBgNVBAYTAlVTMFkwEwYHKoZIzj0CAQYIKoZI
+zj0DAQcDQgAEH8hv2D0HXa59/BmpQ7RZehL/FMGzFd1QBg9vAUpOZ3ajnuQ94PR7
+aMzH33nUSBr8fHYDrqOBb58pxGqHJRyX/6NQME4wHQYDVR0OBBYEFPoHA3CLhxFb
+C0It7zE4w8hk5EJ/MB8GA1UdIwQYMBaAFPoHA3CLhxFbC0It7zE4w8hk5EJ/MAwG
+A1UdEwQFMAMBAf8wCgYIKoZIzj0EAwIDSAAwRQIhAJ06QSXt9ihIbEKYKIjsPkri
+VdLIgtfsbDSu7ErJfzr4AiBqoYCZf0+zI55aQeAHjIzA9Xm63rruAxBZ9ps9z2XN
+lQ=="],
+  "icon": "data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAE8AAAAvCAYAAACiwJfcAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAahSURBVGhD7Zr5bxRlGMf9KzTB8AM/YEhE2W7p
+QZcWKKBclSpHATlELARE7kNECCA3FkWK0CKKSCFIsKBcgVCDWGNESdAYidwgggJBiRiMhFc/4wy8
+884zu9NdlnGTfZJP2n3nO++88933fveBBx+PqCzJkTUvBbLmpUDWvBTImpcCSZvXLCdX9R05Sk19
+bb5atf599fG+/erA541q47aP1LLVa9SIyVNUi8Ii8d5kGTsi30NFv7ai9n7QZPMwbdys2erU2XMq
+Udy8+ZcaNmGimE8yXN3RUd3a18nF0fUlovZ+0CTzWpd2Vj+eOm1bEyy6Dx4i5pUMGWveo506q227
+dtuWBIuffr6oWpV0FPNLhow1751Nm21LvPH3rVtWjfz66Lfql8tX7FRl9YFSXsmSseb9ceOGbYk7
+MNUcGPg8ZsbMe9rfQUaaV/JMX9sqdzDCSvp0kZHmTZg9x7bLHcMnThb16eJ+mVfQq8yaUZQNG64i
+XZ+0/kq6uOZFO0QtatdWKfXnRQ99Bj91R5OIFnk54jN0mkUiqlO3XDW+Ml+98mKB6tW7rWpZcPc+
+0zg4tLrYlUc86E6eGDjIMubVpcusearfgIYGRk6brhZVr/JcHzooL7550jedLExopWcApi2ZUqhu
+7JLvrVsQU81zkzOPeemMRYvVuQsX7PbiDQY5JvZonftK+1VY8H9utx530h0ob+jmRYqj6ouaYvEe
+nW/WlYjp8cwbMm682tPwqW1R4tj/2SH13IRJYl4moZvXpiSqDr7dXtQHxa/PK3/+BWsK1dTgHu6V
+8tQJ3bwFkwpFrUOQ50s1r3levm8zZcq17+BBaw7K8lEK5qzkYeark9A8p7P3GzDK+nd3DQow+6UC
+8SVN82iuv38im7NtaXtV1CVq6Rgw4pksmbdi3bu2De7YfaBBxcqfvqPrUjFQNTQ22lfdUVVT68rT
+JKF5DnSmUjgdqg4mSS9pmsfDJR3G6ToH0iW9aV7LWLHYXKllTDt0LTAtkYIaamp1QjVv++uyGUxV
+dJ0DNVXSm+b1qRxpl84ddfX1Lp1O/d69tsod0vs5hGre9xu8o+fpLR1cGhNTD6Z57C9KMWXefJdO
+Z94bb9oqd1ROnS7qITTzHimMqivbO3g0DdVyk3WQBhBztK35YKNdOnc8O3acS6fDZFgKaXLsEJp5
+rdrliBqp89cJcs/m7Tvs0rkjGfN4b0kPoZn3UJuIOrnZ22yP1fmvUx+O5gSqebV1m+zSuYNVhq7T
+WbDiLVvljplLlop6CLXP+2qtvGLIL/1vimISdMBgzSoFZyu6Tqd+jzxgsPaV9BCqee/NjYk6v6lK
+9cwiUc/STtf1HDpM3b592y7h3Thx5ozK69HLpYWuAwaqS5cv26q7ceb8efVYaReP3iFU8zj1knSw
+ZXHMmnCjY0Ogalo7UQfSCM3qQQr2H/XFP7ssXx45Yl91ByeCep4moZoH+1fG3xD4tT7x8kwyj8nw
+b9ev26V0B6d+7H4zKvudAH537FjqyzOHdJnHEuzmXq/WjxObvNMbv7nhywsX2aVsWtC8+48aLeap
+E7p5wKZi0A2AQRV5nvR4E+uJc+b61kApqInxBgmd/4V5QP/mt18HDC7sRHftmeu5lmhV0rn/ALX2
+32bqd4BFnDx7Vi1cWS2uff0IbB47qexxmUj9QutYjupd3tYD6abWBBMrh+apNbOKrNF1+ugCa4ri
+XGfwMPPtViavhU3YMOAAnuUb/R07L0yOSeOadE88ApsXFGff30ynhlJgM51CU6vN9EzgnpvHBFUy
+iVraePiwJ53DF5ZTZnomENg85kNUd2oJi2Wpr4OmmkfN4x4zHfiVFc8Dv8NzuhNqOidilGvA6DGu
+eZwO78AAQn6ciEk6+rw5VcvjvqNDYPOoIUwaKShrxAuXLlkH4aYuGfMYDc10WF5Ta31hPJOfcUhr
+U/JlINi6c6elRYdBpo6++Yfjx61lGNfRm4MD5rJ1j3FoGHnjDSBNarYUgMLyMszKpb7tXpoHfPs8
+h3Wp1LzNfNk54XxC1wDGUmYzXYefh6z/cKtVm4EBxa9VQGDzYr3LrUMRjHEKkk7zaFKYQA2hGQU1
+z+85NFWpXDrkz3vx10GqxQ6BzeNboBk5n8k4nebRh+k1hWfxTF0D1EyWUs5nv+dgQqKaxzuCdE0i
+sHl02NQ8ah0mXr12La3m0f9wik9+wLNTMY/86MPo8yi31OfxmT6PWoqG9+DZukYna56mSZt5WWSy
+5qVA1rwUyJqXAlnzkiai/gHSD7RkTyihogAAAABJRU5ErkJggg=="
+}</pre></div>
+
+    <p>Example of an <em>User Verification Methods</em> entry for an authenticator with:</p>
+  <ul>
+    <li>Fingerprint based user verification method, with:</li>
+    <ul>
+      <li>the ability for the user to enroll up to 5 fingers (reference data sets) with</li>
+      <ul>
+	<li>a false acceptance rate of 1 in 50000 (0.002%) per finger. This results in a FAR of 0.01% (0.0001).</li>
+	<li>The fingerprint verification will be blocked after 5 unsuccessful attempts.</li>
+      </ul>
+    </ul>
+    <li>A PIN code with a minimum length of 4 decimal digits has to be set-up as 
+      alternative verification method.  Entering the PIN will be required to
+      re-activate fingerprint based user verification after it has been blocked.</li>
+  </ul>
+  
+  <div class="example"><div class="example-title"><span>Example 2</span>: User Verification Methods Entry</div><pre class="example">[
+  [ { "userVerification": 2, "baDesc": { "FAR": 0.00002, "maxReferenceDataSets": 5, 
+                           "maxRetries": 5, "blockSlowdown": 0} }],
+  [ { "userVerification": 4, "caDesc": { "base": 10, "minLength": 4 } } ]
+]</pre></div>    
+
+</section>
+
+<section class="informative" id="additional-considerations">
+  <!--OddPage--><h2 aria-level="1" role="heading" id="h2_additional-considerations"><span class="secno">6. </span>Additional Considerations</h2><p><em>This section is non-normative.</em></p>
+
+  <section id="field-updates-and-metadata">
+    <h3 aria-level="2" role="heading" id="h3_field-updates-and-metadata"><span class="secno">6.1 </span>Field updates and metadata</h3>
+    <p>Metadata statements are intended to be stable once they have been published.  When authenticators 
+      are updated in the field, such updates are expected to improve the authenticator security 
+      (for example, improve FRR or FAR).
+      The <code>authenticatorVersion</code> must be updated if firmware updates fixing severe security 
+      issues (e.g. as reported previously) are available.
+    </p>
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_13"><span>Note</span></div><p class="">The metadata statement is assumed to relate to all authenticators having the same AAID.</p></div>
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_14"><span>Note</span></div><p class="">The FIDO Server is recommended to assume increased risk if the <code>authenticatorVersion</code> 
+      specified in the metadata statement is newer (higher) than the one present in the authenticator.</p></div>
+    
+    <p class="normative">Significant changes in authenticator
+      functionality are not anticipated in firmware updates.  For
+      example, if an authenticator vendor wants to modify a PIN-based
+      authenticator to use "Speaker Recognition" as a user
+      verification method, the vendor would <em class="rfc2119" title="MUST">MUST</em> assign a new AAID to
+      this authenticator.
+    </p>
+
+    <p class="normative">A single authenticator implementation could report itself as two "virtual" 
+      authenticators using different AAIDs.  Such implementations <em class="rfc2119" title="MUST">MUST</em> properly (i.e. according to 
+      the security characteristics claimed in the metadata) protect <code>UAuth</code> keys
+      and other sensitive data from the other "virtual" authenticator
+      - just as a normal authenticator would do.
+    </p>
+
+    <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_15"><span>Note</span></div><p class="">Authentication keys (<code>UAuth.pub</code>) registered for one AAID cannot 
+      be used by authenticators reporting a different AAID - even when running on the same hardware 
+      (see section "Authentication Response Processing Rules for FIDO Server" in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]).  
+    </p></div>
+  </section>
+  
+</section>
+
+
+
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_references"><span class="secno">A. </span>References</h2><section id="normative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_normative-references"><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography" about=""><dt id="bib-ISO19795-1">[ISO19795-1]</dt><dd rel="dcterms:requires">ISO/IEC JTC 1/SC 37, <a href="http://www.iso.org/iso/catalogue_detail.htm?csnumber=41447"><cite>Information Technology - Biometric peformance testing and reporting - Part 1: Principles and framework</cite></a>, URL: <a href="http://www.iso.org/iso/catalogue_detail.htm?csnumber=41447">http://www.iso.org/iso/catalogue_detail.htm?csnumber=41447</a>
+</dd><dt id="bib-ISO30107-1">[ISO30107-1]</dt><dd rel="dcterms:requires">ISO/IEC JTC 1/SC 37, <a href="http://www.iso.org/iso/catalogue_detail.htm?csnumber=53227"><cite>Information Technology - Biometrics - Presentation attack detection - Part 1: Framework</cite></a>, URL: <a href="http://www.iso.org/iso/catalogue_detail.htm?csnumber=53227">http://www.iso.org/iso/catalogue_detail.htm?csnumber=53227</a>
+</dd><dt id="bib-RFC2049">[RFC2049]</dt><dd rel="dcterms:requires">N. Freed, N. Borenstein, <a href="http://www.ietf.org/rfc/rfc2049.txt"><cite>Multipurpose Internet Mail Extensions (MIME) Part Five: Conformance Criteria and Examples (RFC 2049)</cite></a>, IETF, November 1996, URL: <a href="http://www.ietf.org/rfc/rfc2049.txt">http://www.ietf.org/rfc/rfc2049.txt</a>
+</dd><dt id="bib-RFC2397">[RFC2397]</dt><dd rel="dcterms:requires">L. Masinter. <a href="https://tools.ietf.org/html/rfc2397"><cite>The "data" URL scheme</cite></a>. August 1998. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc2397">https://tools.ietf.org/html/rfc2397</a>
+</dd><dt id="bib-WebIDL-ED">[WebIDL-ED]</dt><dd rel="dcterms:requires">Cameron McCormack, <a href="http://heycam.github.io/webidl/"><cite>Web IDL</cite></a>, W3C.  Editor's Draft 13 November 2014.  URL: <a href="http://heycam.github.io/webidl/">http://heycam.github.io/webidl/</a>
+</dd></dl></section><section id="informative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_informative-references"><span class="secno">A.2 </span>Informative references</h3><dl class="bibliography" about=""><dt id="bib-AndroidUnlockPattern">[AndroidUnlockPattern]</dt><dd rel="dcterms:references"><a href="http://www.sinustrom.info/2012/05/21/android-unlock-pattern-security-analysis/"><cite>Android Unlock Pattern Security Analysis</cite></a>. Sinustrom.info web site. URL: <a href="http://www.sinustrom.info/2012/05/21/android-unlock-pattern-security-analysis/">http://www.sinustrom.info/2012/05/21/android-unlock-pattern-security-analysis/</a>
+</dd><dt id="bib-ECMA-262">[ECMA-262]</dt><dd rel="dcterms:references"><a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm"><cite>ECMAScript Language Specification, Edition 5.1</cite></a>. June 2011. URL: <a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm">http://www.ecma-international.org/publications/standards/Ecma-262.htm</a>
+</dd><dt id="bib-FIDOGlossary">[FIDOGlossary]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, B. Hill, J. Hodges, <cite>FIDO Technical Glossary</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.html">fido-glossary-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.pdf">fido-glossary-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-ITU-X690-2008">[ITU-X690-2008]</dt><dd rel="dcterms:references"><a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en"><cite>X.690: Information technology - ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER), (T-REC-X.690-200811)</cite></a>. International Telecommunications Union, November 2008 URL: <a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en">http://www.itu.int/rec/T-REC-X.690-200811-I/en</a>
+</dd><dt id="bib-MoreTopWorstPasswords">[MoreTopWorstPasswords]</dt><dd rel="dcterms:references"><a href="https://xato.net/passwords/more-top-worst-passwords/">10000 Top Passwords</a>, Mark Burnett (Accessed July 11, 2014) URL: <a href="https://xato.net/passwords/more-top-worst-passwords/">https://xato.net/passwords/more-top-worst-passwords/</a>
+</dd><dt id="bib-PNG">[PNG]</dt><dd rel="dcterms:references">Tom Lane. <a href="http://www.w3.org/TR/PNG"><cite>Portable Network Graphics (PNG) Specification (Second Edition)</cite></a>. 10 November 2003. W3C Recommendation. URL: <a href="http://www.w3.org/TR/PNG">http://www.w3.org/TR/PNG</a>
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd rel="dcterms:references">S. Bradner. <a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+</dd><dt id="bib-RFC4648">[RFC4648]</dt><dd rel="dcterms:references">S. Josefsson, <a href="http://www.ietf.org/rfc/rfc4648.txt"><cite>The Base16, Base32, and Base64 Data Encodings (RFC 4648)</cite></a>, IETF, October 2006, URL: <a href="http://www.ietf.org/rfc/rfc4648.txt">http://www.ietf.org/rfc/rfc4648.txt</a>
+</dd><dt id="bib-RFC5280">[RFC5280]</dt><dd rel="dcterms:references">D. Cooper, S. Santesson, s. Farrell, S.Boeyen, R. Housley, W. Polk; <a href="http://www.ietf.org/rfc/rfc5280.txt"><cite>Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</cite></a>, IETF, May 2008, URL: <a href="http://www.ietf.org/rfc/rfc5280.txt">http://www.ietf.org/rfc/rfc5280.txt</a>
+</dd><dt id="bib-UAFAuthnrCommands">[UAFAuthnrCommands]</dt><dd rel="dcterms:references">D. Baghdasaryan, J. Kemp, R. Lindemann, R. Sasson, B. Hill, <cite>FIDO UAF Authenticator Commands v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML:  <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-cmds-v1.0-ps-20141208.html">fido-uaf-authnr-cmds-v1.0-ps-20141208.html</a><br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-authnr-cmds-v1.0-ps-20141208.pdf">fido-uaf-authnr-cmds-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFMetadataService">[UAFMetadataService]</dt><dd rel="dcterms:references">R. Lindemann, B. Hill, D. Baghdasaryan, <cite>FIDO UAF Metadata Service v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-metadata-service-v1.0-ps-20141208.html">fido-uaf-metadata-service-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-metadata-service-v1.0-ps-20141208.pdf">fido-uaf-metadata-service-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFProtocol">[UAFProtocol]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, E. Tiffany, D. Balfanz, B. Hill, J. Hodges, <cite>FIDO UAF Protocol Specification v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.html">fido-uaf-protocol-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-protocol-v1.0-ps-20141208.pdf">fido-uaf-protocol-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-UAFRegistry">[UAFRegistry]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, B. Hill, <cite>FIDO UAF Registry of Predefined Values</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.html">fido-uaf-reg-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.pdf">fido-uaf-reg-v1.0-ps-20141208.pdf</a>
+</dd><dt id="bib-WebIDL">[WebIDL]</dt><dd rel="dcterms:references">Cameron McCormack. <a href="http://www.w3.org/TR/WebIDL/"><cite>Web IDL</cite></a>. 19 April 2012. W3C Candidate Recommendation. URL: <a href="http://www.w3.org/TR/WebIDL/">http://www.w3.org/TR/WebIDL/</a>
+</dd><dt id="bib-iPhonePasscodes">[iPhonePasscodes]</dt><dd rel="dcterms:references"><a href="http://danielamitay.com/blog/2011/6/13/most-common-iphone-passcodes">Most Common iPhone Passcodes</a>, Daniel Amitay (Accessed July 11, 2014) URL: <a href="http://danielamitay.com/blog/2011/6/13/most-common-iphone-passcodes">http://danielamitay.com/blog/2011/6/13/most-common-iphone-passcodes</a>
+</dd></dl></section></section></body></html>
