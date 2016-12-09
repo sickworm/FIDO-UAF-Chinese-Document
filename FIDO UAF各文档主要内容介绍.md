@@ -40,3 +40,6 @@ UAF Server和UAF Client中间通过app作为中介，app先向UAF Server发送�
 
 ### fido-uaf-reg
 主要介绍规范中定义的常量，包括它们的意义和值。
+
+> 版权所有，转载请注明出处： 
+> https://github.com/SickWorm/FIDO-UAF-Chinese-Document
