@@ -19,4 +19,4 @@ Service：
 获取到Uid之后，使用`getPackageManager().getPackagesForUid(uid)`获取到对应的包名。如果多个apk使用了shareUserId的话，返回值将会是多个包，这时候就没办法知道具体是哪个package调用的了。不过使用shareUserId的前提是使用相同的签名文件签名，而UAF要求是得到调用者apk签名的hash，这样的话哪个package调用结果都一样了。
 
 > 版权所有，转载请注明出处：
-> [http://sickworm.com/?p=270](http://sickworm.com/?p=270)
+> [https://github.com/SickWorm/FIDO-UAF-Chinese-Document/](https://github.com/SickWorm/FIDO-UAF-Chinese-Document/)
