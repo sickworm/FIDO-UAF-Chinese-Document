@@ -5,7 +5,7 @@
 
 当用户在App上进行操作时，App会先向Server发出请求，然后将Server返回的数据转发给Client。最后再将Client返回的结果转发给Server。Server最后回复操作结果。具体如下：
 
-首先，App向FIDO Server发送`GetUAFRequest`，Server会返回`ReturnUAFRequest`，里面包含了与Client交互的数据。然后，App调用UAF Client并传入Server的数据执行注册，签名，注销灯操作。UAF Client收到请求后，选择合适的ASM下发，ASM选择合适的UAF Authenticator下发。而UAF Authenticator可能内部拥有多个内部Authenticator（通过authenticatorIndex区分），UAF Authenticator也会选择对应的内部Authenticator来处理这条指令。指令处理完毕后将原路返回。App收到UAF Client的回复后向FIDO Server发送`SendUAFResponse`，并收到FIDO Server的`ServerResponse`，里面包含了操作的结果。
+首先，App向FIDO Server发送`GetUAFRequest`，Server会返回`ReturnUAFRequest`，里面包含了与Client交互的数据。然后，App调用UAF Client并传入Server的数据执行注册，签名，注销灯操作。UAF Client收到请求后，选择合适的ASM下发（最开始Client会访问所有能访问的ASM，枚举所有的Authenticator给用户选择，然后再选择Authenticator对应的ASM下发），ASM选择合适的UAF Authenticator下发。而UAF Authenticator可能内部拥有多个内部Authenticator（通过authenticatorIndex区分），UAF Authenticator也会选择对应的内部Authenticator来处理这条指令。指令处理完毕后将原路返回。App收到UAF Client的回复后向FIDO Server发送`SendUAFResponse`，并收到FIDO Server的`ServerResponse`，里面包含了操作的结果。
 
 ### 对于Android：
 多个UAF Client可能同时存在，通过指定Intent寻找（UAF Client以Activity或Service的形式提供服务，这是官方给出的2种方案）。最终App只会选择一个UAF Client进行通讯。可以使用PackageName来辨别UAF Client。
