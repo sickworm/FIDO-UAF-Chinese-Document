@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document w3p:CR" about="" property="dcterms:language" content="en" prefix="bibo: http://purl.org/ontology/bibo/ w3p: http://www.w3.org/2001/02pd/rec54#">
+<head>
+    <title>FIDO UAF Registry of Predefined Values</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    
+       
+<style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #003a7c;
+}
+
+.simple th {
+    background: #003a7c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    //background: #fcfaee;    
+    background: rgba(252,250,238,0.3);    
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><link rel="stylesheet" href="resources/FIDO-RD.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+
+<body class="h-entry" style="" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    
+      <a href="https://www.fidoalliance.org/"><img width="250" id="toplogo" src="resources/logo.png" alt="FIDO Alliance"></a>
+    
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">FIDO UAF Registry of Predefined Values</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2016-07-09T07:00:00.000Z" id="fido-alliance-review-draft-09-july-2016"><abbr title="FIDO Alliance">FIDO Alliance</abbr> Review Draft <time class="dt-published" datetime="2016-07-09">09 July 2016</time></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="https://fidoalliance.org/specs/fido-uaf-v1.1-rd-20160709/fido-uaf-reg-v1.1-rd-20160709.html">https://fidoalliance.org/specs/fido-uaf-v1.1-rd-20160709/fido-uaf-reg-v1.1-rd-20160709.html</a></dd>
+      <!--<dt>Latest published version:</dt>
+      <dd><a href='https://fidoalliance.org/specs/fido-uaf-reg/'>https://fidoalliance.org/specs/fido-uaf-reg/</a></dd>
+    
+    -->
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.html">https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.html</a></dd>
+    
+    
+    <dt>Editor:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Dr. Rolf Lindemann" href="mailto:rolf@noknok.com">Dr. Rolf Lindemann</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+
+    
+      <dt>Contributors:</dt>
+      <dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Davit Baghdasaryan</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.noknok.com/">Nok Nok Labs, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Brad Hill</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="https://www.paypal.com/">PayPal</a></span>
+</dd>
+
+    
+    
+  </dl>
+  
+  
+  
+  
+    
+      <p class="copyright">
+        Copyright ©
+        2013-2016
+        
+        <a href="https://www.fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a>
+        All Rights Reserved.
+      </p>
+    
+  
+  <hr>
+</div>
+  <!-- only modify this if a custom Status of this Document is needed -->
+  
+  
+  <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+    <p>This document defines all the strings and constants reserved by UAF protocols. 
+      The values defined in this document are referenced by various UAF specifications.</p>
+  </section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="FIDO Alliance">FIDO Alliance</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="https://www.fidoalliance.org/specifications/"><abbr title="FIDO Alliance">FIDO Alliance</abbr> specifications index</a> at
+          https://www.fidoalliance.org/specifications/.</em>
+        </p>
+        
+        <p>
+          This document was published by the <a href="https://fidoalliance.org/"><abbr title="FIDO Alliance">FIDO Alliance</abbr></a> as a Review Draft.
+          
+            This document is intended to become a <abbr title="FIDO Alliance">FIDO Alliance</abbr> Proposed Standard.
+          
+          
+            If you wish to make comments regarding this document, please 
+            <a href="https://fidoalliance.org/contact">Contact Us</a>.
+          
+          
+          
+          
+            All comments are welcome.
+          
+        </p>
+        
+	
+	
+	  <div class="ribbon-wrapper"><div class="ribbon">REVIEW DRAFT</div></div>
+	  <p>
+	    <strong>This is a Review Draft Specification and
+            is not intended to be a basis for any implementations as the Specification may change.</strong> Permission is
+            hereby granted to use the Specification solely for the purpose of reviewing the Specification. No rights
+            are granted to prepare derivative works of this Specification. Entities seeking permission to reproduce
+            portions of this Specification for other uses must contact the <abbr title="FIDO Alliance">FIDO Alliance</abbr> to determine whether an 
+            appropriate license for such use is available.
+	  </p>
+	
+	
+        
+          <p>
+	    Implementation of certain elements of this Specification may require licenses under third party intellectual 
+	    property rights, including without limitation, patent rights. The <abbr title="FIDO Alliance">FIDO Alliance</abbr>, Inc. and its Members
+            and any other contributors to the Specification are not, and shall not be held, responsible in any manner
+            for identifying or failing to identify any or all such third party intellectual property rights.
+	  </p>
+	  <p>
+	    THIS FIDO ALLIANCE SPECIFICATION IS PROVIDED “AS IS” AND WITHOUT ANY 
+            WARRANTY OF ANY KIND, INCLUDING, WITHOUT LIMITATION, ANY EXPRESS OR IMPLIED
+	    WARRANTY OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A
+	    PARTICULAR PURPOSE.
+          </p>
+        
+        
+        
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#notation" class="tocxref"><span class="secno">1. </span>Notation</a><ul class="toc"><li class="tocline"><a href="#key-words" class="tocxref"><span class="secno">1.1 </span>Key Words</a></li></ul></li><li class="tocline"><a href="#overview" class="tocxref"><span class="secno">2. </span>Overview</a></li><li class="tocline"><a href="#authenticator-characteristics" class="tocxref"><span class="secno">3. </span>Authenticator Characteristics</a><ul class="toc"><li class="tocline"><a href="#assertion-schemes" class="tocxref"><span class="secno">3.1 </span>Assertion Schemes</a></li></ul></li><li class="tocline"><a href="#predefined-tags" class="tocxref"><span class="secno">4. </span>Predefined Tags</a><ul class="toc"><li class="tocline"><a href="#tags-used-in-the-protocol" class="tocxref"><span class="secno">4.1 </span>Tags used in the protocol</a></li></ul></li><li class="tocline"><a href="#predefined-untagged-extensions" class="tocxref"><span class="secno">5. </span>Predefined (untagged) Extensions</a><ul class="toc"><li class="tocline"><a href="#android-safetynet-extension" class="tocxref"><span class="secno">5.1 </span>Android SafetyNet Extension</a></li><li class="tocline"><a href="#android-key-attestation" class="tocxref"><span class="secno">5.2 </span>Android Key Attestation</a></li></ul></li><li class="tocline"><a href="#other-identifiers-specific-to-fido-uaf" class="tocxref"><span class="secno">6. </span>Other Identifiers specific to FIDO UAF</a><ul class="toc"><li class="tocline"><a href="#fido-uaf-application-identifier-aid" class="tocxref"><span class="secno">6.1 </span>FIDO UAF Application Identifier (AID)</a></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></section>
+  
+  <section id="notation">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_notation"><span class="secno">1. </span>Notation</h2>
+    
+    <p>Type names, attribute names and element names are written as <code>code</code>.</p>
+    
+    <p>String literals are enclosed in “”, e.g. “UAF-TLV”.</p>
+    
+    <p>In formulas we use “|” to denote byte wise concatenation operations.</p>
+    
+    <p>UAF specific terminology used in this document is defined in [<cite><a class="bibref" href="#bib-FIDOGlossary">FIDOGlossary</a></cite>].</p>
+
+    <p>All diagrams, examples, notes in this specification are non-normative.</p>
+      
+    <section id="key-words">
+      <h3 aria-level="2" role="heading" id="h3_key-words"><span class="secno">1.1 </span>Key Words</h3>
+      
+      <p>The key words “<em class="rfc2119" title="MUST">MUST</em>”, “<em class="rfc2119" title="MUST NOT">MUST NOT</em>”, “<em class="rfc2119" title="REQUIRED">REQUIRED</em>”, “<em class="rfc2119" title="SHALL">SHALL</em>”, “<em class="rfc2119" title="SHALL NOT">SHALL NOT</em>”, 
+	“<em class="rfc2119" title="SHOULD">SHOULD</em>”, “<em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em>”, “<em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em>”, “<em class="rfc2119" title="MAY">MAY</em>”, and “<em class="rfc2119" title="OPTIONAL">OPTIONAL</em>” in
+	this document are to be interpreted as described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].</p>
+    </section>
+  </section>
+  <section class="informative" id="overview">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_overview"><span class="secno">2. </span>Overview</h2><p><em>This section is non-normative.</em></p>
+    <p>This document defines the registry of UAF-specific constants that are used and 
+      referenced in various UAF specifications.
+      It is expected that, over time, new constants will be added to this registry. For 
+      example new authentication algorithms and
+      new types of authenticator characteristics will require new constants to be defined 
+      for use within the specifications.</p>
+    <p>FIDO-specific constants that are common to multiple protocol families are defined in [<cite><a class="bibref" href="#bib-FIDORegistry">FIDORegistry</a></cite>].
+    </p>
+  </section>
+
+  <section class="normativeDisclaimer" id="authenticator-characteristics">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_authenticator-characteristics"><span class="secno">3. </span>Authenticator Characteristics</h2><p><em>This section is normative.</em></p>
+   
+    <section id="assertion-schemes">
+      <h3 aria-level="2" role="heading" id="h3_assertion-schemes"><span class="secno">3.1 </span>Assertion Schemes</h3>
+      <p>Names of assertion schemes are strings with a length of 8 characters.
+        </p><dl>
+          <dt><code>UAF TLV based assertion scheme “UAFV1TLV”</code></dt>
+          <dd>This assertion scheme allows the authenticator and the FIDO Server 
+	    to exchange an asymmetric authentication key generated by the authenticator. 
+	    The authenticator <em class="rfc2119" title="MUST">MUST</em> generate a key pair (UAuth.pub/UAuth.priv) to be 
+	    used with algorithm suites listed in [<cite><a class="bibref" href="#bib-FIDORegistry">FIDORegistry</a></cite>] section "Authentication Algorithms" (with prefix
+            <code>ALG_</code>). This assertion scheme is using a compact 
+	    Tag Length Value (TLV) encoding for the KRD and SignData messages generated 
+	    by the authenticators. This is the default assertion scheme for the UAF protocol.</dd>
+        </dl>
+      <p></p>
+    </section>
+  </section>
+  <section class="normativeDisclaimer" id="predefined-tags">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_predefined-tags"><span class="secno">4. </span>Predefined Tags</h2><p><em>This section is normative.</em></p>
+    <p>The internal structure of UAF authenticator commands is a “Tag-Length-Value” (TLV) 
+      sequence. The tag is a 2-byte unique unsigned value describing the type of field 
+      the data represents, the length is a 2-byte unsigned value indicating the size 
+      of the value in bytes, and the value is the variable-sized series of bytes which 
+      contain data for this item in the sequence.</p>
+    <p>Although 2 bytes are allotted for the tag, only the first 14 bits 
+      (values up to 0x3FFF) should be used to accommodate the limitations 
+      of some hardware platforms.</p>
+    <p>A tag that has the 14th bit (0x2000) set indicates that it is critical 
+      and a receiver must abort processing the entire message if it cannot process that tag.</p>
+    <p>A tag that has the 13th bit (0x1000) set indicates a composite tag that 
+      can be parsed by recursive descent.</p>      
+
+    <section id="tags-used-in-the-protocol">
+      <h3 aria-level="2" role="heading" id="h3_tags-used-in-the-protocol"><span class="secno">4.1 </span>Tags used in the protocol</h3>
+      <p>The following tags have been allocated for data types in UAF protocol messages:</p>
+      <dl>
+	<dt><code>TAG_UAFV1_REG_ASSERTION</code> <code>0x3E01</code></dt>
+	<dd>The content of this tag is the authenticator response to a Register command.</dd>
+	<dt><code>TAG_UAFV1_AUTH_ASSERTION</code> <code>0x3E02</code></dt>
+	<dd>The content of this tag is the authenticator response to a Sign command.</dd>
+	<dt><code>TAG_UAFV1_KRD</code> <code>0x3E03</code></dt>
+	<dd>Indicates Key Registration Data.</dd>
+	<dt><code>TAG_UAFV1_SIGNED_DATA</code> <code>0x3E04</code></dt>
+	<dd>Indicates data signed by the authenticator using UAuth.priv key.</dd>
+	<dt><code>TAG_ATTESTATION_CERT</code> <code>0x2E05</code></dt>
+	<dd>Indicates DER encoded attestation certificate.</dd>
+	<dt><code>TAG_SIGNATURE</code> <code>0x2E06</code></dt>
+	<dd>Indicates a cryptographic signature.</dd>
+	<dt><code>TAG_ATTESTATION_BASIC_FULL</code> <code>0x3E07</code></dt>
+	<dd>Indicates full basic attestation as defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].
+	</dd>
+	<dt><code>TAG_ATTESTATION_BASIC_SURROGATE</code> <code>0x3E08</code></dt>
+	<dd>Indicates surrogate basic attestation as defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].
+	</dd>
+	<dt><code>TAG_ATTESTATION_ECDAA</code> <code>0x3E09</code></dt>
+	<dd>Indicates use of elliptic curve based direct anonymous attestation as defined in [<cite><a class="bibref" href="#bib-FIDOEcdaaAlgorithm">FIDOEcdaaAlgorithm</a></cite>].
+	  Support for this attestation type is optional at this time.  It might be required by FIDO Certification.
+	</dd>
+	<dt><code>TAG_KEYID</code> <code>0x2E09</code></dt>
+	<dd>Represents a generated KeyID.</dd>
+	<dt><code>TAG_FINAL_CHALLENGE_HASH</code> <code>0x2E0A</code></dt>
+	<dd>Represents a generated final challenge hash as defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].</dd>
+	<dt><code>TAG_AAID</code> <code>0x2E0B</code></dt>
+	<dd>Represents an Authenticator Attestation ID as defined in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>].</dd>
+	<dt><code>TAG_PUB_KEY</code> <code>0x2E0C</code></dt>
+	<dd>Represents a generated public key.</dd>
+	<dt><code>TAG_COUNTERS</code> <code>0x2E0D</code></dt>
+	<dd>Represents the use counters for an authenticator.</dd>
+	<dt><code>TAG_ASSERTION_INFO</code> <code>0x2E0E</code></dt>
+	<dd>Represents authenticator information necessary for message processing.</dd>
+	<dt><code>TAG_AUTHENTICATOR_NONCE</code> <code>0x2E0F</code></dt>
+	<dd>Represents a nonce value generated by the authenticator.</dd>
+	<dt><code>TAG_TRANSACTION_CONTENT_HASH</code> <code>0x2E10</code></dt>
+	<dd>Represents a hash of the transaction content sent to the authenticator.</dd>
+	<dt><code>TAG_EXTENSION</code> <code>0x3E11, 0x3E12</code></dt>
+	<dd>This is a composite tag indicating that the content is an extension.
+	  </dd><dt><code>TAG_EXTENSION_ID</code> <code>0x2E13</code></dt>
+	<dd>Represents extension ID. Content of this tag is a UINT8[] encoding of a UTF-8 string.</dd>
+	<dt><code>TAG_EXTENSION_DATA</code> <code>0x2E14</code></dt>
+	<dd>Represents extension data. Content of this tag is a UINT8[] byte array.</dd>
+	<dt><code>TAG_RAW_USER_VERIFICATION_INDEX</code> <code>0x0103</code></dt>
+	<dd>This is the raw UVI as it might be used internally by authenticators.  
+	  This TAG <em class="rfc2119" title="SHALL NOT">SHALL NOT</em> appear in assertions leaving the authenticator boundary as it could be used
+	  as global correlation handle.
+	</dd>
+	<dt><code>TAG_USER_VERIFICATION_INDEX</code> <code>0x0104</code></dt>
+	<dd>The user verification index (UVI) is a value uniquely identifying 
+	  a user verification data record.  
+	  <p>Each UVI value <em class="rfc2119" title="MUST">MUST</em> be specific to the related key (in order to provide unlinkability).  
+	    It also must contain sufficient entropy that makes guessing impractical.  
+	    UVI values <em class="rfc2119" title="MUST NOT">MUST NOT</em> be reused by the Authenticator (for other biometric data or users).
+	  </p>
+	  <p>The UVI data can be used by FIDO Servers to understand whether an authentication
+	    was authorized by the exact same biometric data as the initial key generation.
+	    This allows the detection and prevention of "friendly fraud".
+	  </p>
+	  <p>As an example, the UVI could be computed as SHA256(KeyID | SHA256(rawUVI)),
+	    where the rawUVI reflects (a) the biometric reference data, 
+	    (b) the related OS level user ID and (c) an identifier which changes whenever a
+	    factory reset is performed for the device, e.g. 
+	    rawUVI = biometricReferenceData | OSLevelUserID | FactoryResetCounter.
+	  </p>
+	  <p>FIDO Servers supporting UVI extensions <em class="rfc2119" title="MUST">MUST</em> support a length of up to 32 bytes
+	    for the UVI value.
+	  </p>
+	  <p>Example of the TLV encoded UVI extension (contained in an assertion, 
+	    i.e. TAG_UAFV1_REG_ASSERTION or TAG_UAFV1_AUTH_ASSERTION)</p>
+	  <pre>    ...
+    04 01                       -- TAG_USER_VERIFICATION_INDEX (0x0104)
+    20                          -- length of UVI 
+    00 43 B8 E3 BE 27 95 8C     -- the UVI value itself
+    28 D5 74 BF 46 8A 85 CF 
+    46 9A 14 F0 E5 16 69 31 
+    DA 4B CF FF C1 BB 11 32 
+    82
+    ...
+	  </pre>
+	</dd>	
+	<dt><code>TAG_RAW_USER_VERIFICATION_STATE</code> <code>0x0105</code></dt>
+	<dd>This is the raw UVS as it might be used internally by authenticators.  
+	  This TAG <em class="rfc2119" title="SHALL NOT">SHALL NOT</em> appear in assertions leaving the authenticator boundary as it could be used
+	  as global correlation handle.
+	</dd>
+	<dt><code>TAG_USER_VERIFICATION_STATE</code> <code>0x0106</code></dt>
+	<dd>The user verification state (UVS) is a value uniquely identifying 
+	  the set of active user verification data records.  
+	  <p>Each UVS value <em class="rfc2119" title="MUST">MUST</em> be specific to the related key (in order to provide unlinkability).  
+	    It also must contain sufficient entropy that makes guessing impractical.  
+	    UVS values <em class="rfc2119" title="MUST NOT">MUST NOT</em> be reused by the Authenticator (for other biometric data sets or users).
+	  </p>
+	  <p>The UVS data can be used by FIDO Servers to understand whether an authentication
+	    was authorized by one of the biometric data records already known at the initial key generation.
+	  </p>
+	  <p>As an example, the UVS could be computed as SHA256(KeyID | SHA256(rawUVS)),
+	    where the rawUVS reflects (a) the biometric reference data sets, 
+	    (b) the related OS level user ID and (c) an identifier which changes whenever a
+	    factory reset is performed for the device, e.g. 
+	    rawUVS = biometricReferenceDataSet | OSLevelUserID | FactoryResetCounter.
+	  </p>
+	  <p>FIDO Servers supporting UVS extensions <em class="rfc2119" title="MUST">MUST</em> support a length of up to 32 bytes
+	    for the UVS value.
+	  </p>
+	  <p>Example of the TLV encoded UVS extension (contained in an assertion, 
+	    i.e. TAG_UAFV1_REG_ASSERTION or TAG_UAFV1_AUTH_ASSERTION)</p>
+	  <pre>    ...
+    06 01                       -- TAG_USER_VERIFICATION_STATE (0x0106)
+    20                          -- length of UVS
+    00 18 C3 47 81 73 2B 65     -- the UVS value itself
+    83 E7 43 31 46 8A 85 CF 
+    93 6C 36 F0 AF 16 69 14 
+    DA 4B 1D 43 FE C7 43 24 
+    45
+    ...
+	  </pre>
+	</dd>	
+	<dt><code>TAG_RESERVED_5</code> <code>0x0201</code></dt>
+	<dd>Reserved for future use.  Name of the tag will change, value is fixed.</dd>	
+      </dl>      
+    </section>
+  </section>
+
+  <section class="normativeDisclaimer" id="predefined-untagged-extensions">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_predefined-untagged-extensions"><span class="secno">5. </span>Predefined (untagged) Extensions</h2><p><em>This section is normative.</em></p>
+
+
+    <section id="android-safetynet-extension">
+      <h3 aria-level="2" role="heading" id="h3_android-safetynet-extension"><span class="secno">5.1 </span>Android SafetyNet Extension</h3>
+      This extension can be added 
+      <ul>
+	<li>by FIDO Servers to the UAF Request object (request extension) 
+	  in the <code>OperationHeader</code> in order to 
+	  trigger generation of the related response extension.
+	</li>
+	<li>by FIDO Clients to the ASM Request object (request extension) 
+	  in order to trigger generation of the related response extension.
+	</li>
+	<li>by the ASM to the respective <code>exts</code> 
+	  array in the <code>ASMResponse</code> object (response extension).
+	</li>
+	<li>by the FIDO Client to the respective <code>exts</code> 
+	  array in either the <code>OperationHeader</code>, or 
+	  the <code>AuthenticatorRegistrationAssertion</code>, 
+	  or the <code>AuthenticatorSignAssertion</code> 
+	  of the UAF Response object (response extension).
+	</li>
+      </ul>
+
+      <dl>
+	<dt>Extension identifier</dt>
+	<dd>fido.uaf.safetynet</dd>
+	<dt>Extension fail-if-unknown flag</dt>
+	<dd><code>false</code>, i.e. this (request and response) extension can safely be ignored by all entities.</dd>
+	<dt>Extension <code>data</code> value</dt>
+	<dd>
+	  <dl>
+	    <dt>When present in a request (request extension)</dt>
+	    <dd>
+	      empty string, i.e. the FIDO Server might add 
+	      this extension to the UAF Request with an empty <code>data</code> value
+	      in order to trigger the generation of this extension for the UAF Response.
+	      <div class="example"><div class="example-title"><span>Example 1</span>: SafetyNet Request Extension</div><pre class="example">"exts": [{"id": "fido.uaf.safetynet", "data": "", "fail_if_unknown": false}]</pre></div>
+	    </dd>
+	    <dt>When present in a response (response extension)</dt>
+	    <dd>
+	      <ul>
+		<li>If the request extension was successfully processed, the <code>data</code> value
+		  is set to the JSON Web Signature attestation result as returned by the call to
+		  <a href="https://developers.google.com/android/reference/com/google/android/gms/safetynet/SafetyNetApi.AttestationResult"><code>
+		  com.google.android.gms.safetynet.SafetyNetApi.AttestationResult</code></a>.
+		</li>
+		<li>If the FIDO Client or the ASM support this extension, but 
+		  the underlying Android platform
+		  does not support it (e.g. Google Play Services is not installed), 
+		  the <code>data</code> value
+		  is set to the string "p" (i.e. platform issue).
+	      <div class="example"><div class="example-title"><span>Example 2</span>: SafetyNet Response Extension - not supported by platform</div><pre class="example">"exts": [{"id": "fido.uaf.safetynet", "data": "p", "fail_if_unknown": false}]</pre></div>
+
+		</li>
+		<li>If the FIDO Client or the ASM support this extension and the underlying 
+		  Android platform supports it, but the functionality is temporarily 
+		  unavailable (e.g. Google servers are unreachable), the <code>data</code> value
+		  is set to the string "a" (i.e. availability issue).
+	      <div class="example"><div class="example-title"><span>Example 3</span>: SafetyNet Response Extension - temporarily unavailable</div><pre class="example">"exts": [{"id": "fido.uaf.safetynet", "data": "a", "fail_if_unknown": false}]</pre></div>
+		</li>
+	      </ul>
+	      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_1"><span>Note</span></div><p class="">If neither the FIDO Client nor the ASM support this extension, 
+		it won't be present in the response object.
+	      </p></div>
+	    </dd>
+	  </dl>
+	</dd>
+	<dt>FIDO Client processing</dt>
+	<dd>
+	  <p>FIDO Clients running on Android should support processing of this extension.</p>
+
+	  If the FIDO Client finds this (request) extension with empty <code>data</code> value 
+	  in the UAF Request and it supports processing this extension, then the FIDO Client
+	  <ol>
+	    <li><em class="rfc2119" title="MUST">MUST</em> call the Android API 
+	      <code>SafetyNet.SafetyNetApi.attest(mGoogleApiClient, nonce)</code>
+	      (see <a href="https://developer.android.com/training/safetynet/index.html#compat-check-response">SafetyNet 
+		online documentation</a>) and add the response (or an error code as described above)
+	      as extension to the response object.
+	    </li>
+	    <li>
+	      <em class="rfc2119" title="MUST NOT">MUST NOT</em> copy the (request) extension to the ASM Request object 
+	      (deviating from the general rule in  [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>], section 3.4.6.2 and 3.5.7.2).
+	    </li>
+	  </ol>
+	  <p>	    
+	    If the FIDO Client does not support this extension it <em class="rfc2119" title="MUST">MUST</em> copy this 
+	    extension from the UAF Request 
+	    to the ASM Request object (according to the general rule in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>], 
+	    section 3.4.6.2 and 3.5.7.2).
+	  </p>
+	  <p>
+	    If the ASM supports this extension it <em class="rfc2119" title="MUST">MUST</em> call the SafetyNet API 
+	    (see above) and add the response
+	    as extension to the ASM Response object.  The FIDO Client <em class="rfc2119" title="MUST">MUST</em>
+	    copy the extension in the ASM Response
+	    to the UAF Response object (according to sections 
+	    3.4.6.4. and 3.5.7.4 step 4 in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]).
+	  </p>
+	  <p>
+	    When calling the Android API, the nonce parameter <em class="rfc2119" title="MUST">MUST</em> be 
+	    set to the serialized JSON object with the following structure:
+	    </p><pre>{
+  "hashAlg": "S256", // the hash algorithm 
+  "fcHash": "..."    // the finalChallengeHash
+}
+	    </pre>
+            Where 
+	    <ul>
+	      <li><code>hashAlg</code> identifies the hash algorithm according 
+		to [<cite><a class="bibref" href="#bib-FIDOSignatureFormat">FIDOSignatureFormat</a></cite>], section IANA Considerations.</li>
+	      <li>
+		<code>fcHash</code> is the base64url encoded hash value of 
+		FinalChallenge (see section 3.6.3 and 
+		3.7.4 in [<cite><a class="bibref" href="#bib-UAFASM">UAFASM</a></cite>] for details on how to compute <code>finalChallengeHash</code>). 
+	      </li>
+	      We use this method to bind this SafetyNet extension to the 
+	      respective FIDO UAF message.
+	      <p>Only hash algorithms belonging to the Authentication Algorithms 
+		mentioned in [<cite><a class="bibref" href="#bib-FIDORegistry">FIDORegistry</a></cite>] <em class="rfc2119" title="SHALL">SHALL</em> be used (e.g. SHA256 because
+		it belongs to <code>ALG_SIGN_SECP256R1_ECDSA_SHA256_RAW</code>).
+	      </p>
+	  <p></p>
+	</ul></dd>
+	<dt>Authenticator argument</dt>
+	<dd>N/A</dd>
+	<dt>Authenticator processing</dt>
+	<dd>N/A.  This extension is related to the Android platform in general 
+	  and not to the authenticator in particular.  As a consequence there is no need for 
+	  an authenticator to receive the (request) extension nor to process it.
+	</dd>
+	<dt>Authenticator data</dt>
+	<dd>N/A</dd>
+	<dt>Server processing</dt>
+	<dd>If the FIDO Server requested the SafetyNet extension, 
+	  <ol>
+	    <li>it <em class="rfc2119" title="SHOULD">SHOULD</em> verify that a proper response is provided 
+	      (if client side support can be assumed), and</li>
+	    <li>it <em class="rfc2119" title="SHOULD">SHOULD</em> verify the SafetyNet AttestationResult (see 
+		<a href="https://developer.android.com/training/safetynet/index.html#compat-check-response">
+	          SafetyNet online documentation</a>).
+	      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_2"><span>Note</span></div><p class="">The package name in AttestationResult might relate 
+		to either the FIDO Client or the ASM.
+	      </p></div>
+	    </li>
+	  </ol>
+	  <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_3"><span>Note</span></div><p class="">The response extension is not part of the signed assertion 
+	    generated by the authenticator.  If an MITM or MITB attacker
+	    would remove the response extension, the FIDO server might not be able to 
+	    distinguish this from the
+	    "SafetyNet extension not supported by FIDO Client/ASM" case.
+	  </p></div>
+	</dd>
+      </dl>
+
+    </section>
+
+    <section id="android-key-attestation">
+      <h3 aria-level="2" role="heading" id="h3_android-key-attestation"><span class="secno">5.2 </span>Android Key Attestation</h3>
+      This extension can be added 
+      <ul>
+	<li>by FIDO Servers to the UAF Request object (request extension) 
+	  in the <code>OperationHeader</code> in order to 
+	  trigger generation of the related response extension.
+	</li>
+	<li>by FIDO Clients to the ASM Request object (request extension) 
+	  in order to trigger generation of the related response extension.
+	</li>
+	<li>by the ASM to the respective <code>exts</code> 
+	  array in the <code>ASMResponse</code> object (response extension).
+	</li>
+	<li>by the FIDO Client to the respective <code>exts</code> 
+	  array in either the <code>OperationHeader</code>, or 
+	  the <code>AuthenticatorRegistrationAssertion</code>, 
+	  or the <code>AuthenticatorSignAssertion</code> 
+	  of the UAF Response object (response extension).
+	</li>
+      </ul>
+
+      <dl>
+	<dt>Extension identifier</dt>
+	<dd>fido.uaf.android.key_attestation</dd>
+	<dt>Extension fail-if-unknown flag</dt>
+	<dd><code>false</code>, i.e. this (request and response) extension can safely be ignored by all entities.</dd>
+	<dt>Extension <code>data</code> value</dt>
+	<dd>
+	  <dl>
+	    <dt>When present in a request (request extension)</dt>
+	    <dd>
+	      empty string, i.e. the FIDO Server might add 
+	      this extension to the UAF Request with an empty <code>data</code> value
+	      in order to trigger the generation of this extension for the UAF Response.
+	      <div class="example"><div class="example-title"><span>Example 4</span>: Android KeyAttestation Request Extension</div><pre class="example">"exts": [{"id": "fido.uaf.android.key_attestation", "data": "", "fail_if_unknown": false}]</pre></div>
+	    </dd>
+	    <dt>When present in a response (response extension)</dt>
+	    <dd>
+	      <ul>
+		<li>If the request extension was successfully processed, the <code>data</code> value
+		  is set to a JSON array containing the base64 encoded entries of the array returned by the call to the 
+		  KeyStore API function getCertificateChain.
+	          <div class="example"><div class="example-title"><span>Example 5</span>: Retrieve KeyAttestation and add it as extension</div><pre class="example">KeyPairGenerator kpGenerator = KeyPairGenerator.getInstance(
+  KeyProperties.KEY_ALGORITHM_EC, "AndroidKeyStore");
+kpGenerator.initialize(
+  new KeyGenParameterSpec.Builder(keyUUID, KeyProperties.PURPOSE_SIGN)
+    .setDigests(KeyProperties.DIGEST_SHA256)
+    .setAlgorithmParameterSpec(new ECGenParameterSpec("prime256v1"))
+    .setCertificateSubject(
+      new X500Principal(String.format("CN=%s, OU=%s",
+        keyUUID, aContext.getPackageName())))
+    .setCertificateSerialNumber(BigInteger.ONE)
+    .setCertificateNotBefore(notBefore.getTime())
+    .setCertificateNotAfter(notAfter.getTime())
+    .setUserAuthenticationRequired(true) 
+    .setAttestationChallenge(fcHash) -- bind to Final Challenge
+    .build());
+
+kpGenerator.generateKeyPair(); // generate Uauth key pair
+
+Certificate[] certarray=myKeyStore.getCertificateChain(keyUUID);
+String certArray[]=new String[certarray.length];
+int i=0;
+for (Certificate cert : certarray) {
+    byte[] buf = cert.getEncoded();
+    certArray[i] = new String(Base64.encode(buf, Base64.DEFAULT));
+    i++;
+}
+
+JSONArray jarray=new JSONArray(certArray);
+String key_attestation_data=jarray.toString();</pre></div>
+		</li>
+		<li>If the FIDO Client or the ASM support this extension, but 
+		  the underlying Android platform
+		  does not support it (e.g. Android version doesn't yet support it), 
+		  the <code>data</code> value
+		  is set to the string "p" (i.e. platform issue).
+	      <div class="example"><div class="example-title"><span>Example 6</span>: KeyAttestation Response Extension - not supported by platform</div><pre class="example">"exts": [{"id": "fido.uaf.android.key_attestation", "data": "p", "fail_if_unknown": false}]</pre></div>
+		</li>
+		<li>If the FIDO Client or the ASM support this extension and the underlying 
+		  Android platform supports it, but the functionality is temporarily 
+		  unavailable (e.g. Google servers are unreachable), the <code>data</code> value
+		  is set to the string "a".
+	      <div class="example"><div class="example-title"><span>Example 7</span>: KeyAttestation Response Extension - temporarily unavailable</div><pre class="example">"exts": [{"id": "fido.uaf.android.key_attestation", "data": "a", "fail_if_unknown": false}]</pre></div>
+		</li>
+	      </ul>
+	      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_4"><span>Note</span></div><p class="">If neither the FIDO Client nor the ASM support this extension, 
+		it won't be present in the response object.
+	      </p></div>
+	    </dd>
+	  </dl>
+	</dd>
+	<dt>FIDO Client processing</dt>
+	<dd>
+	  <p>FIDO Clients running on Android <em class="rfc2119" title="MUST">MUST</em> pass this (request) extension 
+	    with empty <code>data</code> value to the ASM.</p>
+
+	  <p>
+	    If the ASM supports this extension it <em class="rfc2119" title="MUST">MUST</em> call the KeyStore API 
+	    (see above) and add the response
+	    as extension to the ASM Response object.  The FIDO Client <em class="rfc2119" title="MUST">MUST</em>
+	    copy the extension in the ASM Response
+	    to the UAF Response object (according to sections 
+	    3.4.6.4. and 3.5.7.4 step 4 in [<cite><a class="bibref" href="#bib-UAFProtocol">UAFProtocol</a></cite>]).
+	  </p>
+
+	  <p>
+	    More details on Android key attestation can be found at:
+	    </p><ul>
+	      <li><a href="https://developer.android.com/preview/api-overview.html#key_attestation">
+		  https://developer.android.com/preview/api-overview.html#key_attestation</a></li>
+	      <li><a href="https://source.android.com/security/keystore/">
+		  https://source.android.com/security/keystore/</a></li>
+	      <li><a href="https://source.android.com/security/keystore/implementer-ref.html">
+		  https://source.android.com/security/keystore/implementer-ref.html</a></li>
+	    </ul>
+	  <p></p>
+	</dd>
+	<dt>Authenticator argument</dt>
+	<dd>N/A</dd>
+	<dt>Authenticator processing</dt>
+	<dd>The authenticator generates the attestation response.  The call 
+	  keyStore.getCertificateChain is finally processed by the authenticator.
+	</dd>
+	<dt>Authenticator data</dt>
+	<dd>N/A</dd>
+	<dt>Server processing</dt>
+	<dd>If the FIDO Server requested the key attestation extension, 
+	  <ol>
+	    <li>it <em class="rfc2119" title="MUST">MUST</em> follow the registration response processing rules 
+	      (see FIDO UAF Protocol, section 3.4.6.5) before processing this extension</li>
+	    <li>it <em class="rfc2119" title="MUST">MUST</em> verify the syntax of the key attestation extension and it <em class="rfc2119" title="MUST">MUST</em> perform 
+	      RFC5280 compliant chain validation of the entries in the array
+	      to one attestationRootCertificate specified in the Metadata Statement.</li>
+	    <li>it <em class="rfc2119" title="MUST">MUST</em> determine the leaf certificate from that chain, and it <em class="rfc2119" title="MUST">MUST</em> 
+	      perform the following checks on this leaf certificate
+	      <ol>
+		<li>Verify that KeyDescripion.attestationChallenge == FCHash 
+		  (see FIDO UAF Protocol, section 3.4.6.5 Step 6.)</li>
+		<li>Verify that the public key included in the leaf certificate is identical to the 
+		  public key included in the FIDO UAF Surrogate attestation block</li>
+		<li>If the related Metadata Statement claims keyProtection KEY_PROTECTION_TEE, 
+		  then refer to KeyDescription.teeEnforced using "authzList".
+		  If the related Metadata Statement claims keyProtection KEY_PROTECTION_SOFTWARE, 
+		  then refer to KeyDescription.softwareEnforced using "authzList".
+		</li>
+		<li>Verify that	      
+		  <ol>
+		    <li>authzList.origin == KM_TAG_GENERATED</li>
+		    <li>authzList.purpose == KM_PURPOSE_SIGN</li>
+		    <li>authzList.keySize is acceptable, i.e. =2048 (bit) RSA or =256 (bit) ECDSA.</li>
+		    <li>authzList.digest == KM_DIGEST_SHA_2_256.</li>
+		    <li>authzList.authType only contains acceptable user verification methods.</li>
+		    <li>authzList.authTimeout == 0 (or <em>not</em> present).</li>
+		    <li>authzList.noAuthRequired is <em>not</em> present 
+		      (unless the Metadata Statement marks this authenticator as silent 
+		      authenticator, i.e. userVerificaton set to USER_VERIFY_NONE).</li>
+		    <li>authzList.allApplications is <em>not</em> present, since FIDO Uauth keys <em class="rfc2119" title="MUST">MUST</em> 
+		      be bound to the generating app (AppID).</li>
+		  </ol>
+		</li>
+	      </ol>
+	    </li>
+	  </ol>
+	  <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_5"><span>Note</span></div><p class="">The response extension is not part of the signed assertion 
+	    generated by the authenticator.  If an MITM or MITB attacker
+	    would remove the response extension, the FIDO server might not be able to 
+	    distinguish this from the
+	    "KeyAttestation extension not supported by ASM/Authenticator" case.
+	  </p></div>
+	</dd>
+	<dt>ExtensionDescriptor <code>data</code> value (for Metadata Statement)</dt>
+	<dd>
+	  In the case of extension id="fido.uaf.android.key_attestation", the data 
+	  field of the ExtensionDescriptor as included in 
+	  the Metadata Statement will contain a dictionary containing the following data fields
+	  <dl>
+	    <dt>DOMString attestationRootCertificates[]</dt>
+	    <dd>
+	      Each element of this array represents a PKIX [<cite><a class="bibref" href="#bib-RFC5280">RFC5280</a></cite>] 
+	       X.509 certificate that is valid for this authenticator model. 
+	      Multiple certificates might be used for different batches of the same model. 
+	      The array does not represent a certificate
+	      chain, but only the trust anchor of that chain.
+      
+	      <p>Each array element is a base64-encoded (section 4 of
+		[<cite><a class="bibref" href="#bib-RFC4648">RFC4648</a></cite>]), DER-encoded [<cite><a class="bibref" href="#bib-ITU-X690-2008">ITU-X690-2008</a></cite>] PKIX certificate
+		value.</p>
+
+	      <div class="note"><div class="note-title" aria-level="3" role="heading" id="h_note_6"><span>Note</span></div><div class="">
+		<p>A certificate listed here is either a root certificate or an intermediate CA certificate. 
+		</p>
+	      </div></div>
+	    </dd>
+	  </dl>
+
+	  An example for the <code>supportedExtensions</code> field in the Metadata Statement could look as follows:
+	  <div class="example"><div class="example-title"><span>Example 8</span>: Example of a supportedExtensions field in Metadata Statement</div><pre class="example">"supportedExtensions": [{
+       "id": "fido.uaf.android.key_attestation", 
+       "data": {
+          "attestationRootCertificates": [
+"MIICPTCCAeOgAwIBAgIJAOuexvU3Oy2wMAoGCCqGSM49BAMCMHsxIDAeBgNVBAMM
+F1NhbXBsZSBBdHRlc3RhdGlvbiBSb290MRYwFAYDVQQKDA1GSURPIEFsbGlhbmNl
+MREwDwYDVQQLDAhVQUYgVFdHLDESMBAGA1UEBwwJUGFsbyBBbHRvMQswCQYDVQQI
+DAJDQTELMAkGA1UEBhMCVVMwHhcNMTQwNjE4MTMzMzMyWhcNNDExMTAzMTMzMzMy
+WjB7MSAwHgYDVQQDDBdTYW1wbGUgQXR0ZXN0YXRpb24gUm9vdDEWMBQGA1UECgwN
+RklETyBBbGxpYW5jZTERMA8GA1UECwwIVUFGIFRXRywxEjAQBgNVBAcMCVBhbG8g
+QWx0bzELMAkGA1UECAwCQ0ExCzAJBgNVBAYTAlVTMFkwEwYHKoZIzj0CAQYIKoZI
+zj0DAQcDQgAEH8hv2D0HXa59/BmpQ7RZehL/FMGzFd1QBg9vAUpOZ3ajnuQ94PR7
+aMzH33nUSBr8fHYDrqOBb58pxGqHJRyX/6NQME4wHQYDVR0OBBYEFPoHA3CLhxFb
+C0It7zE4w8hk5EJ/MB8GA1UdIwQYMBaAFPoHA3CLhxFbC0It7zE4w8hk5EJ/MAwG
+A1UdEwQFMAMBAf8wCgYIKoZIzj0EAwIDSAAwRQIhAJ06QSXt9ihIbEKYKIjsPkri
+VdLIgtfsbDSu7ErJfzr4AiBqoYCZf0+zI55aQeAHjIzA9Xm63rruAxBZ9ps9z2XN
+lQ=="]
+       }, 
+       "fail_if_unknown": false
+                       }]</pre></div>
+
+	</dd>
+      </dl>
+
+    </section>
+
+  </section>
+
+  <section id="other-identifiers-specific-to-fido-uaf">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_other-identifiers-specific-to-fido-uaf"><span class="secno">6. </span>Other Identifiers specific to FIDO UAF</h2>
+    
+    <section id="fido-uaf-application-identifier-aid">
+      <h3 aria-level="2" role="heading" id="h3_fido-uaf-application-identifier-aid"><span class="secno">6.1 </span>FIDO UAF Application Identifier (AID)</h3>
+      <p>This AID [<cite><a class="bibref" href="#bib-ISOIEC-7816-5">ISOIEC-7816-5</a></cite>] is used to identify 
+	FIDO UAF authenticator applications in a Secure Element.
+      </p>
+      
+      The FIDO UAF AID consists of the following fields:        
+      <table>
+	<tbody><tr><td>
+            <table title="Table 1: FIDO UAF Applet AID" class="tlv">
+	      <caption style="caption-side:bottom">
+		Table 1: FIDO UAF Applet AID
+	      </caption>
+	      <tbody><tr>
+		<th>Field</th>
+		<th>RID</th>
+		<th>AC</th>
+		<th>AX</th>
+		
+	      </tr>
+	      <tr>
+		<th><b>Value</b></th>
+		<td>0xA000000647</td>
+		<td>0xAF</td>
+		<td>0x0001</td>
+	      </tr>                            
+            </tbody></table>        
+	  </td>
+	</tr>
+      </tbody></table>
+    </section>
+  </section>
+    
+  <section id="tof" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+  </section>
+
+
+
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_references"><span class="secno">A. </span>References</h2><section id="normative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_normative-references"><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography" about=""><dt id="bib-FIDOEcdaaAlgorithm">[FIDOEcdaaAlgorithm]</dt><dd rel="dcterms:requires">R. Lindemann, A. Edgington, R. Urian, <cite>FIDO ECDAA Algorithm</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="./fido-ecdaa-algorithm.-v1.1-rd-20160709.html">fido-ecdaa-algorithm-ps-20141208.html.-v1.1-rd-20160709</a><br>PDF: <a href="./fido-ecdaa-algorithm.-v1.1-rd-20160709.pdf">fido-ecdaa-algorithm-ps-20141208.pdf.-v1.1-rd-20160709</a>
+</dd><dt id="bib-FIDOGlossary">[FIDOGlossary]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, B. Hill, J. Hodges, <cite>FIDO Technical Glossary</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="./fido-glossary-v1.1-rd-20160709.html">fido-glossary-v1.1-rd-20160709.html</a> <br>PDF: <a href="./fido-glossary-v1.1-rd-20160709.pdf">fido-glossary-v1.1-rd-20160709.pdf</a>
+</dd><dt id="bib-FIDORegistry">[FIDORegistry]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, B. Hill, <cite>FIDO Registry of Predefined Values</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="./fido-registry-v1.1-rd-20160709.html">fido-registry-v1.1-rd-20160709.html</a> <br>PDF: <a href="./fido-registry-v1.1-rd-20160709.pdf">fido-registry-v1.1-rd-20160709.pdf</a>
+</dd><dt id="bib-ISOIEC-7816-5">[ISOIEC-7816-5]</dt><dd rel="dcterms:requires">ISO 7816-5: Identification cards - Integrated circuit cards - Part 5: Registration of application providers
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd rel="dcterms:requires">S. Bradner. <a href="https://tools.ietf.org/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+</dd></dl></section><section id="informative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_informative-references"><span class="secno">A.2 </span>Informative references</h3><dl class="bibliography" about=""><dt id="bib-FIDOSignatureFormat">[FIDOSignatureFormat]</dt><dd rel="dcterms:references"><a href="fido-signature-format.html"><cite>FIDO 2.0: Signature format</cite></a>. URL: <a href="fido-signature-format.html">fido-signature-format.html</a>
+</dd><dt id="bib-ITU-X690-2008">[ITU-X690-2008]</dt><dd rel="dcterms:references"><a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en"><cite>X.690: Information technology - ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER), (T-REC-X.690-200811)</cite></a>. International Telecommunications Union, November 2008 URL: <a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en">http://www.itu.int/rec/T-REC-X.690-200811-I/en</a>
+</dd><dt id="bib-RFC4648">[RFC4648]</dt><dd rel="dcterms:references">S. Josefsson, <a href="http://www.ietf.org/rfc/rfc4648.txt"><cite>The Base16, Base32, and Base64 Data Encodings (RFC 4648)</cite></a>, IETF, October 2006, URL: <a href="http://www.ietf.org/rfc/rfc4648.txt">http://www.ietf.org/rfc/rfc4648.txt</a>
+</dd><dt id="bib-RFC5280">[RFC5280]</dt><dd rel="dcterms:references">D. Cooper, S. Santesson, s. Farrell, S.Boeyen, R. Housley, W. Polk; <a href="http://www.ietf.org/rfc/rfc5280.txt"><cite>Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</cite></a>, IETF, May 2008, URL: <a href="http://www.ietf.org/rfc/rfc5280.txt">http://www.ietf.org/rfc/rfc5280.txt</a>
+</dd><dt id="bib-UAFASM">[UAFASM]</dt><dd rel="dcterms:references">D. Baghdasaryan, J. Kemp, R. Lindemann, B. Hill, R. Sasson, <cite>FIDO UAF Authenticator-Specific Module API</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="./fido-uaf-asm-api-v1.1-rd-20160709.html">fido-uaf-asm-api-v1.1-rd-20160709.html</a><br>PDF:  <a href="./fido-uaf-asm-api-v1.1-rd-20160709.pdf">fido-uaf-asm-api-v1.1-rd-20160709.pdf</a>
+</dd><dt id="bib-UAFProtocol">[UAFProtocol]</dt><dd rel="dcterms:references">R. Lindemann, D. Baghdasaryan, E. Tiffany, D. Balfanz, B. Hill, J. Hodges, <cite>FIDO UAF Protocol Specification v1.0</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="./fido-uaf-protocol-v1.1-rd-20160709.html">fido-uaf-protocol-v1.1-rd-20160709.html</a> <br>PDF: <a href="./fido-uaf-protocol-v1.1-rd-20160709.pdf">fido-uaf-protocol-v1.1-rd-20160709.pdf</a>
+</dd></dl></section></section></body></html>
