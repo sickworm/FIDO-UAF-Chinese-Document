@@ -465,14 +465,14 @@ first factor authenticator**必须**存储Username在RawKeyHandle中（译者注
 本文档提供了“vendor_specific_UserVerify“命令（验证用户使用的authenticator内置技术）如何安全地绑定到UAF Register和Sign Command的一个例子。绑定通过一个叫`UserVerificationToken`的概念完成。这个绑定使得"vendor_specific_UserVerify"和"UAF Register/Sign"互相独立（解耦）。
 
 UserVerificationToken的定义如下：
-    * ASM调用“vendor_specific_UserVerify”命令。authenticator验证用户并返回`UserVerificationToken`。
-    * ASM调用 UAF.Register/Sign命令并传入参数`UserVerificationToken`。authenticator验证`UserVerificationToken`的合法性，如果合法则执行FIDO操作。
+  * ASM调用“vendor_specific_UserVerify”命令。authenticator验证用户并返回`UserVerificationToken`。
+  * ASM调用 UAF.Register/Sign命令并传入参数`UserVerificationToken`。authenticator验证`UserVerificationToken`的合法性，如果合法则执行FIDO操作。
 
 UserVerificationToken这个概念不是规范的。authenticator可能以完全不同的方式实现这个绑定功能。例如一个authenticator厂商可能决定直接追加UAF Register请求到他们的"vendor_specific_UserVerify"命令，并当作一个单命令处理。（？？没理解）
 
 如果`UserVerificationToken`绑定机制实现了，则应该满足下面其中一个标准，或实现一个机制来提供更简单或更好的安全性：
-    * `UserVerificationToken`必须允许仅执行一个单UAF Register或UAF Sign操作。
-    * `UserVerificationToken`必须和时间绑定，并允许在规定时间内执行多次UAF操作。
+  * `UserVerificationToken`必须允许仅执行一个单UAF Register或UAF Sign操作。
+  * `UserVerificationToken`必须和时间绑定，并允许在规定时间内执行多次UAF操作。
 
 ## 6.2 Commands
 *该章节不是规范的。*
