@@ -1040,8 +1040,8 @@ Wrap.sym                    |   如果authenticator有打包密钥（Wrap.sym）
 
 [Fig. 2 FIDO Authenticator Logical Sub-Components](#logical-sub-components)
 
-# C. 参考
-## C.1 规范参考
+# C. 参考文献
+## C.1 标准参考文献
 <section id="references" class="appendix" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><dt id="bib-Coron99">[Coron99]</dt><dd rel="dcterms:requires">J. Coron and D. Naccache <a href="http://www.jscoron.fr/publications/universal.pdf"><cite>An accurate evaluation of Maurer's universal test</cite></a>. LNCS 1556, February 1999, URL: <a href="http://www.jscoron.fr/publications/universal.pdf">http://www.jscoron.fr/publications/universal.pdf</a>
 </dd><dt id="bib-FIDOGlossary">[FIDOGlossary]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, B. Hill, J. Hodges, <cite>FIDO Technical Glossary</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.html">fido-glossary-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-glossary-v1.0-ps-20141208.pdf">fido-glossary-v1.0-ps-20141208.pdf</a>
 </dd><dt id="bib-ITU-X690-2008">[ITU-X690-2008]</dt><dd rel="dcterms:requires"><a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en"><cite>X.690: Information technology - ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER), (T-REC-X.690-200811)</cite></a>. International Telecommunications Union, November 2008 URL: <a href="http://www.itu.int/rec/T-REC-X.690-200811-I/en">http://www.itu.int/rec/T-REC-X.690-200811-I/en</a>
@@ -1051,7 +1051,7 @@ Wrap.sym                    |   如果authenticator有打包密钥（Wrap.sym）
 </dd><dt id="bib-UAFRegistry">[UAFRegistry]</dt><dd rel="dcterms:requires">R. Lindemann, D. Baghdasaryan, B. Hill, <cite>FIDO UAF Registry of Predefined Values</cite>. FIDO Alliance Proposed Standard. URLs: <br>HTML: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.html">fido-uaf-reg-v1.0-ps-20141208.html</a> <br>PDF: <a href="https://fidoalliance.org/specs/fido-uaf-v1.0-ps-20141208/fido-uaf-reg-v1.0-ps-20141208.pdf">fido-uaf-reg-v1.0-ps-20141208.pdf</a>
 </dd></dl></section>
 
-## C.2 非规范参考
+## C.2 参考性文献
 
 <section id="informative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><dl class="bibliography" about=""><dt id="bib-CLICKJACKING">[CLICKJACKING]</dt><dd rel="dcterms:references">D. Lin-Shung Huang, C. Jackson, A. Moshchuk, H. Wang, S. Schlechter <a href="https://www.usenix.org/system/files/conference/usenixsecurity12/sec12-final39.pdf"><cite>Clickjacking: Attacks and Defenses</cite></a>. USENIX, July 2012, URL: <a href="https://www.usenix.org/system/files/conference/usenixsecurity12/sec12-final39.pdf">https://www.usenix.org/system/files/conference/usenixsecurity12/sec12-final39.pdf</a>
 </dd><dt id="bib-CommonCriteria">[CommonCriteria]</dt><dd rel="dcterms:references"><a href="http://www.commoncriteriaportal.org/cc/"><cite>CommonCriteria Publications</cite></a>. CCRA Members, Work in progress, accessed March 2014. URL: <a href="http://www.commoncriteriaportal.org/cc/">http://www.commoncriteriaportal.org/cc/</a>
