@@ -118,8 +118,9 @@ C.2 [参考性文献](#C.2)
     * 定义UAF功能的一系列指令实现，这些指令可以被不同类型的authenticator实现。
     * 定义`UAFV1TLV`断言方案结构，该断言可被FIDO Server解析。
 
->NOTE
->UAF Protocol支持不同的断言方案。本文档定义的指令和结构都假设authenticator支持`UAFV1TLV`断言方案。实现了不同断言方案的Authenticator不需要遵循本文档规定的要求。（译者注：目前UAF协议1.2版本只支持这一个断言方案）
+> NOTE
+>
+> UAF Protocol支持不同的断言方案。本文档定义的指令和结构都假设authenticator支持`UAFV1TLV`断言方案。实现了不同断言方案的Authenticator不需要遵循本文档规定的要求。（译者注：目前UAF协议1.2版本只支持这一个断言方案）
 
 整个UAF Protocol的架构和其操作定义在[[UAFProtocol](#bib-UAFProtocol)]中。下面这个简化的架构图说明了本文档涉及的交互和行为：
 [img]
@@ -155,13 +156,14 @@ Fig. 2 FIDO Authenticator逻辑上的子组件
 
 ## 4.1 Authenticators的种类
 本文档一共定义了4中authenticator。这些定义不是规范的（除非另有说明），仅仅为了下文的简化描述。
->NOTE
->以下是仅考虑这4种authenticator的原理：
->* 绑定authenticator是典型的嵌入在用户计算设备中并使用宿主存储的设备。从经济角度上使用宿主的存储比使用（自己的）嵌入式存储更有意义。Trusted Execution Environments (TEE), Secure Elements and Trusted Platform Modules (TPM)就是典型的以此理念设计的设备。
->* 第一因素漫游设备（First-factor roaming authenticators）必须拥有内部存储来存储key handles。
->* 第二因素漫游设备（Second-factor roaming authenticators）可以把key handles存储在相关服务器上，而不用提供内部存储。
->* 定义这些约束使得在主要的用例中，规范描述将会更加简洁清晰
-> 尽管如此，厂商（设计authenticator）并不受这些限制影响。例如一个用内部存储来存储key handles的绑定authenticator也是可以的。厂商可以自由的设计和实现这些authenticator，只要设计符合本文档描述的规范要求。
+> NOTE
+>
+> 以下是仅考虑这4种authenticator的原理：  
+> * 绑定authenticator是典型的嵌入在用户计算设备中并使用宿主存储的设备。从经济角度上使用宿主的存储比使用（自己的）嵌入式存储更有意义。  Trusted Execution Environments (TEE), Secure Elements and Trusted Platform Modules (TPM)就是典型的以此理念设计的设备。  
+> * 第一因素漫游设备（First-factor roaming authenticators）必须拥有内部存储来存储key handles。  
+> * 第二因素漫游设备（Second-factor roaming authenticators）可以把key handles存储在相关服务器上，而不用提供内部存储。  
+> * 定义这些约束使得在主要的用例中，规范描述将会更加简洁清晰  
+> 尽管如此，厂商（设计authenticator）并不受这些限制影响。例如一个用内部存储来存储key handles的绑定authenticator也是可以的。厂商可以自由的设计和实现这些authenticator，只要设计符合本文档描述的规范要求。  
 
 * First-factor Bound Authenticator
     * 这类authenticator拥有内部匹配器。匹配器可以认证一个已经登记了的用户。如果有多个用户登记——匹配器依然可以认证该用户。
@@ -209,13 +211,15 @@ Fig. 2 FIDO Authenticator逻辑上的子组件
 
 整篇文章中会有针对这几类型的authenticator指定的特殊条件。
 
->规范
->在某些部署中，ASM和bound authenticator的组合可以作为一个roaming authenticator使用（例如当一个移动设备上的ASM和一个内嵌的authenticator的组合作为另一台设备的roaming authenticator）。当这种情况发生时，这个authenticator**必须**遵循这个bound authenticator所绑定的系统的要求，并且遵循其连接的在另一系统中，作为roaming authenticator的要求。
+> 规范
+>
+> 在某些部署中，ASM和bound authenticator的组合可以作为一个roaming authenticator使用（例如当一个移动设备上的ASM和一个内嵌的authenticator的组合作为另一台设备的roaming authenticator）。当这种情况发生时，这个authenticator**必须**遵循这个bound authenticator所绑定的系统的要求，并且遵循其连接的在另一系统中，作为roaming authenticator的要求。
 >
 > （译者注：1.2版本在此段新增了：为了符合authenticator的要求，authenticator**必须**至少实现一个[ [UAFRegistry](#bib-UAFRegistry)]中的认证类型，和[[UAFRegistry](#bib-UAFRegistry)]中的一个认证算法和一个密钥对格式。）
 
->NOTE
->书上所述，bound authenticator不存储key handles，而roaming authenticator存储key handles（译者注：这里在1.2版本中，roaming authenticators to store them被改为roaming authenticators do store them，猜测是笔误。这里按照1.2的版本翻译）。上面的例子中ASM会存储bound authenticator的key handles，以满足上面的假设。
+> NOTE
+>
+> 如上所述，bound authenticator不存储key handles，而roaming authenticator存储key handles（译者注：这里在1.2版本中，roaming authenticators to store them被改为roaming authenticators do store them，猜测是笔误。这里按照1.2的版本翻译）。上面的例子中ASM会存储bound authenticator的key handles，以满足上面的假设。
 
 # 5. Tags
 *该章节是规范的。*
@@ -358,8 +362,9 @@ first factor authenticator**必须**存储Username在RawKeyHandle中（译者注
 
 如果authenticator实现了"UAFV1TLV"断言方案，则**必须**生成这些结构。
 
->NOTE
->"UAFV1TLV"断言方案假设authenticator拥有TAG_UAFV1_KRD 和TAG_UAFV1_SIGNED_DATA内部所有数据的独占控制权。
+> NOTE
+>
+> "UAFV1TLV"断言方案假设authenticator拥有TAG_UAFV1_KRD 和TAG_UAFV1_SIGNED_DATA内部所有数据的独占控制权。
 
 嵌套关系结构必须保留，但在一个复合tag中的tag的顺序不必遵循规范。FIDO Servers**必须**准备好处理任何顺序的tag。
 
@@ -472,13 +477,15 @@ UserVerificationToken这个概念不是规范的。authenticator可能以完全�
 ## 6.2 Commands
 *该章节不是规范的。*
 
->规范
->可以和不同厂商的ASM交互的UAF Authenticators**必须**实现本章节的command接口。例如：
->* 核心功能由一个厂商生产的bound authenticator，但需要和另一个厂商开发的ASM交互
->* Roaming Authenticators
+> 规范
+> 
+> 可以和不同厂商的ASM交互的UAF Authenticators**必须**实现本章节的command接口。例如：  
+> * 核心功能由一个厂商生产的bound authenticator，但需要和另一个厂商开发的ASM交互  
+> * Roaming Authenticators  
 
->规范
->和自定义ASM紧密耦合的UAF Authenticators**可以**实现不同的command接口。
+> 规范
+>
+> 和自定义ASM紧密耦合的UAF Authenticators**可以**实现不同的command接口。
 
 所有的UAF Authenticators command和responses在语义上是相似的——它们都表现为TLV编码块。每个command前面的2bytes是command code。接收完一个command后，authenticator必须解析第一个TLV tag并了解是发过来的是哪个command。
 
@@ -609,7 +616,7 @@ authenticator必须遵循以下步骤（浏览下面的command结构的表格）
         * 例：Command.KHAccessToken=hash(Command.KHAccessToken | Command.TAG_APPID)
     
     > NOTE
-    
+    > 
     > 这个方法允许我们避免在RawKeyHandle分开存储AppID。
 
 2. 如果用户已经使用此authenticator进行了登记（通过生物识别验证，PIN验证或者类似的机制）—— 验证该用户。如果验证已经在之前的command完成了 —— 保证`Command.TAG_USERVERIFY_TOKEN`合法。
@@ -641,12 +648,14 @@ authenticator必须遵循以下步骤（浏览下面的command结构的表格）
     3. 如果需要外部存储key handle，添加TAG_KEY_HANDLE
 
 > 规范
-> authenticator**不可以**在验证用户（或登记用户（用户第一次使用authenticator））前处理`Register` command。
-> authenticator**必须**在每次调用Register command时都必须生成唯一的UAuth密钥对。
-> authenticator**应该**存储key handle在内部安全存储中，或加密传送给ASM。
-> 对于silent authenticators，key handle**不可以**存储在FIDO Server，否则会使用户可能被跟踪但又没有为用户提供从本地设备上清除key handle的能力。
-> 如果KeyID不是key handle（如second-factor roaming authenticator）——则其必须是一个唯一的无规律的byte数组且最大长度为32。其**必须**是同样AAID的设备中唯一的。
+> 
+> authenticator**不可以**在验证用户（或登记用户（用户第一次使用authenticator））前处理`Register` command。  
+> authenticator**必须**在每次调用Register command时都必须生成唯一的UAuth密钥对。  
+> authenticator**应该**存储key handle在内部安全存储中，或加密传送给ASM。  
+> 对于silent authenticators，key handle**不可以**存储在FIDO Server，否则会使用户可能被跟踪但又没有为用户提供从本地设备上清除key handle的能力。  
+> 如果KeyID不是key handle（如second-factor roaming authenticator）——则其必须是一个唯一的无规律的byte数组且最大长度为32。其**必须**是同样AAID的设备中唯一的。  
 > > NOTE
+> >
 > > 如果KeyID是随机生成的（而不是根据key handle计算出来的（比如hash））——则其应该存储KeyID到RawKeyHandle里面，使得authenticator在处理Sign command的时候可以根据RawKeyHandle获取到keyID。
 > 如果authenticator不支持`SignCount`或`RegCounter`，则**必须**在TAG_UAFV1_KRD中设置它们为0。authenticator恢复出厂设置时，`RegCount`和`SignCount`**必须**设置为0。
 
@@ -711,8 +720,9 @@ authenticator必须遵循以下步骤（浏览下面的command结构的表格）
 
 # 6.2.3.4 Command描述
 > NOTE
+> 
 > First-factor authenticator应该将该命令实现分为两个阶段：
-> 1. 第一阶段：验证KHAccessToken后，authenticator发现存在多个key handles。该阶段中，authenticator必须返回所有key handles的username+key handles组合给ASM。
+> 1. 第一阶段：验证KHAccessToken后，authenticator发现存在多个key handles。该阶段中，authenticator必须返回所有key handles的username+key handles组合给ASM。  
 > 2. 第二阶段：用户选择了一个username后，ASM再次调用Sign Command，此时command中只有一个key handle，authenticator根据此key handle返回UAF断言。
 >
 > 如果second-factor authenticator收到多与一个合法的key handle，则必须选择第一个，并忽略其他。
@@ -726,7 +736,7 @@ authenticator必须遵循以下步骤：
         * 例：Command.KHAccessToken=hash(Command.KHAccessToken | Command.TAG_APPID)
     
     > NOTE
-    
+    >
     > 这个方法允许我们避免在RawKeyHandle分开存储AppID。
 2.  如果用户已经在此authenticator登记过（如生物识别录入，PIN初始化等），则验证该用户。如果在之前的command中已经验证过，则保证`Command.TAG_USERVERIFY_TOKEN`合法。（译者注：可以做成：如果`Command.TAG_USERVERIFY_TOKEN`存在，则验证是否合法。如果不合法或者过期，则重新进行验证）
     1.  如果认证失败——返回UAF_COD_STATUS_ACCESS_DENIED
@@ -746,6 +756,7 @@ authenticator必须遵循以下步骤：
         * 如果是first-factor roaming authenticator，则返回的TAG_USERNAME_AND_KEYHANDLES必须按照key handle注册日期排序（最后注册的key handle必须排在最后）
         （译者注：1.2版本新增了提示如下）
         > NOTE
+        > 
         > 如果发现多个拥有同样username的key handles，first-factor roaming authenticator应该只保留最近注册的，并删除其余key handles。这样可以避免authenticator持有无用的（旧的）私钥，这些私钥可能会在删除新生成的key handles时重新变成可用的。
     3. 拷贝TAG_USERNAME_AND_KEYHANDLE到TAG_UAFV1_SIGN_CMD_RESPONSE并返回
 8. 如果RawKeyHandles数量为1
@@ -770,6 +781,7 @@ authenticator必须遵循以下步骤：
     5. 拷贝TAG_AUTHENTICATOR_ASSERTION到TAG_UAFV1_SIGN_CMD_RESPONSE并返回结果
     
     > 规范
+    > 
     > Authenticator**不可以**不先验证用户而去处理Sign command  
     > Authenticator**不可以**不先验证用户而展示username  
     > Bound authenticators**不可以**不先验证KHAccessToken而先去处理Sign command  
@@ -824,7 +836,7 @@ Authenticator必须遵循以下步骤：
         * 例：Command.KHAccessToken=hash(Command.KHAccessToken | Command.TAG_APPID)
     
     > NOTE
-    
+    >
     > 这个方法允许我们避免在RawKeyHandle分开存储AppID。
 2. 如果该authenticator没有自行存储key handles，则返回`UAF_CMD_STATUS_CMD_NOT_SUPPORTED`
 3. 寻找匹配Command.KeyID的KeyHandle
@@ -844,6 +856,7 @@ Authenticator必须遵循以下步骤：
  ）
 
 > 规范
+> 
 > Bound authenticators**不可以**不验证KHAccessToken而先处理Deregister command。
 
 ## 6.2.5 OpenSettings Command
