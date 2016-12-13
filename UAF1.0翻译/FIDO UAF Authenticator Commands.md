@@ -770,13 +770,13 @@ authenticator必须遵循以下步骤：
     5. 拷贝TAG_AUTHENTICATOR_ASSERTION到TAG_UAFV1_SIGN_CMD_RESPONSE并返回结果
     
     > 规范
-    > Authenticator**不可以**不先验证用户而去处理Sign command
-    > Authenticator**不可以**不先验证用户而展示username
-    > Bound authenticators**不可以**不先验证KHAccessToken而先去处理Sign command
-    > UAuth.priv密钥在解析为明文的时候，**必须**留存在Authenticator的安全区域。UAuth.priv保护边界声明在[[UAFAuthnrMetadata](#bib-UAFAuthnrMetadata)]的`Metadata.keyProtection`中。
-    > 如果Authenticator的Metadata表示其支持“交易确认显示”（Transaction Confirmation display）——则其**必须**显示提供的交易信息并在TAG_UAFV1_SIGNED_DATA加入交易信息的哈希值
-    > Silent Authenticators**不可以**工作在first-factor模式，以遵循[[FIDOSecRef](#bib-FIDOSecRef)]中的假设
-    > 如果Authenticator不支持`SignCounter`，则在TAG_UAFV1_SIGNED_DAT中**必须**设置`SignCounter`为0。当Authenticator恢复出厂设置时`SignCounter`必须设置为0，以遵循[[FIDOSecRef](#bib-FIDOSecRef)]中的假设
+    > Authenticator**不可以**不先验证用户而去处理Sign command  
+    > Authenticator**不可以**不先验证用户而展示username  
+    > Bound authenticators**不可以**不先验证KHAccessToken而先去处理Sign command  
+    > UAuth.priv密钥在解析为明文的时候，**必须**留存在Authenticator的安全区域。UAuth.priv保护边界声明在[[UAFAuthnrMetadata](#bib-UAFAuthnrMetadata)]的`Metadata.keyProtection`中。  
+    > 如果Authenticator的Metadata表示其支持“交易确认显示”（Transaction Confirmation display）——则其**必须**显示提供的交易信息并在TAG_UAFV1_SIGNED_DATA加入交易信息的哈希值  
+    > Silent Authenticators**不可以**工作在first-factor模式，以遵循[[FIDOSecRef](#bib-FIDOSecRef)]中的假设  
+    > 如果Authenticator不支持`SignCounter`，则在TAG_UAFV1_SIGNED_DAT中**必须**设置`SignCounter`为0。当Authenticator恢复出厂设置时`SignCounter`必须设置为0，以遵循[[FIDOSecRef](#bib-FIDOSecRef)]中的假设  
     >
     > 一些Authenticators可能支持“交易确认显示”功能，但不是在Authenticator内，而是在ASM的边界中。典型例子是基于软件的“交易确认显示”。当处理提供了交易的Sign command的时候，这些Authenticators应该假设他们的确有一个内置的“交易确认显示”，并讲交易信息的哈希值包括在最后的断言中，但并不显示东西给用户。不仅如此，这些Authenticator的Metadata文件**必须**明确显示交易确认显示”的类型。典型例子是“交易确认显示”的flag为TRANSACTION_CONFIRMATION_DISPLAY_ANY或TRANSACTION_CONFIRMATION_DISPLAY_PRIVILEGED_SOFTWARE。查看[[UAFRegistry](#bib-UAFRegistry)]了解“交易确认显示”的flag类型。
 
