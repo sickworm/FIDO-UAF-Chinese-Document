@@ -20,9 +20,9 @@ Jeff Hodges, PayPal, Inc.
 Copyright © 2013-2015 [FIDO Alliance](https://www.fidoalliance.org/) All Rights Reserved.
 
 # 摘要
-通用认证框架（Universal Authentication Framework，UAF）提供了一个统一的可扩展的认证机制，以代替密码，同时避免当前选择的身份验证方法的缺点。
+通用认证框架（Universal Authentication Framework，简称UAF）提供了一个统一的可扩展的认证机制，以代替密码，同时避免当前选择的身份验证方法的缺点。
 
-该方法被设计为允许依赖方为特定的终端用户或交互选择最适合的认证机制，同时保留了在未来利用新兴设备安全功能的可能性，而不用做额外的集成工作。
+该方法被设计为允许依赖方为特定的终端用户或交互选择最适合的认证机制，同时考虑到在未来利用新兴设备安全功能的可能性，而不用再做额外的集成工作。
 
 本文档描述了FIDO架构的细节，FIDO架构定义了所有UAF协议message的处理流程和内容，并阐述了其设计背后的基本原理。
 
@@ -139,3 +139,40 @@ Copyright © 2013-2015 [FIDO Alliance](https://www.fidoalliance.org/) All Rights
 A. [参考文献](#A)  
 A.1 [标准参考文献](#A.1)  
 A.2 [参考性文献](#A.2)  
+
+# 1. 符号解释
+类型名，属性名和成员名将写成`code`。
+
+字符串会被“”包起来，例如“UAF-TLV”。
+
+在公式中使用“|”表示将两个byte数组串联（译者注：注意不是或）
+
+符号base64url表示“Base64编码的URL和文件名安全的字符集”[RFC4648](#bib-RFC4648)且没有补位。（*译者注：即base64末尾的“=”号*）
+
+遵循[WebIDL-ED](#bib-WebIDL-ED)，除非显式标注为`required`，则字典成员是可选的。
+
+WebIDL字典成员**不可以**值为null （*译者注：1.2添加说明如下：“—— 也就是说，本规范中，所有的字典成员值都不可以为null。”*）（*译者注：json中，null和空{}是不同的概念*）
+
+如果字典成员是DOMString，除非特别说明，否则不能为空（empty）
+
+如果字典成员是List，除非特别说明，否则不能为空（empty）list
+
+本文档中用到的UAF特定的术语在[FIDOGlossary](#bib-FIDOGlossary)中可以找到相关定义。
+
+本规范中所有的图表，例子，notes都不属于规范。
+
+> NOTE
+>
+> Note：某些字典成员必须出现，·以符合FIDO的要求。在本文档中这些成员在WebIDL定义中被标记为`required`。关键字`required`在[WebIDL-ED](#bib-WebIDL-ED)（还是半成品）中有相关介绍。如果你使用了实现了[WebIDL](#bib-WebIDL)的WebIDL解析器，则可能需要从你的WebIDL定义中去掉`required`关键字，并使用其他方式来保证这些域必须存在。
+
+# 1.1 关键字
+本文中出现的关键字**必须**，**不可以**，**需要**，**不应**，**应该（SHOULD）**，**建议**，**应该（MAY）**，**可选**，遵循[RFC2119](#bib-RFC2119)中的解释。（*译者注：原文为“must”, “must not”, “required”, “shall”, “shall not”, “should”, “should not”, “recommended”, “may”, and “optional”*）
+
+# 2 概述
+*本章节不是规范。*
+
+通用认证框架（Universal Authentication Framework，UAF）的目标是提供一个统一的可扩展的认证机制，以代替密码，同时避免当前选择的身份验证方法的缺点。
+
+设计的协议的目标是，允许依赖方（Relying Parties）通过一个统一的协议，来利用终端用户上多种多样的安全功能。
+
+该方法被设计为允许依赖方为特定的终端用户或交互选择最适合的认证机制，同时考虑到在未来利用新兴设备安全功能的可能性，而不用再做额外的集成工作。
