@@ -191,7 +191,7 @@ WebIDL字典成员**不可以**值为null （*译者注：1.2添加说明如下�
 ## 2.2 FIDO结构
 下面的图表描述了UAF协议的涉及的接口：
 
-![](../img/fido-uaf-architecture.png)
+![](https://github.com/SickWorm/FIDO-UAF-Chinese-Document/raw/master/UAF1.0翻译/img/fido-uaf-architecture.png)
 Fig. 1 UAF架构
 
 这些接口里面，只有这3个会直接生成或处理UAF协议message：
