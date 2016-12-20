@@ -176,3 +176,48 @@ WebIDL字典成员**不可以**值为null （*译者注：1.2添加说明如下�
 设计的协议的目标是，允许依赖方（Relying Parties）通过一个统一的协议，来利用终端用户上多种多样的安全功能。
 
 该方法被设计为允许依赖方为特定的终端用户或交互选择最适合的认证机制，同时考虑到在未来利用新兴设备安全功能的可能性，而不用再做额外的集成工作。
+
+## 2.1 内容范围
+本文档介绍了FIDO架构的细节，并定义了UAF协议作为网络协议。其定义了所有UAF messages的处理流程和内容，并阐述了其设计背后的基本原理。
+
+特定平台的应用层的绑定方案不在此文档的范围之内。该文档不会解答比如这样的问题： 
+
+* UAF的HTTP binding是什么样子的？
+* web application如何与FIDO UAF Client进行通信？
+* FIDO UAF Client如何与具有FIDO功能的Authenticators通信？
+
+这些问题的答案可以在其他UAF规范中找到，如[[UAFAppAPIAndTransport](#bib-UAFAppAPIAndTransport)] [[UAFASM](#bib-UAFASM)] [[UAFAuthnrCommands](#bib-UAFAuthnrCommands)]。
+
+## 2.2 FIDO结构
+下面的图表描述了UAF协议的涉及的接口：
+
+![](../img/fido-uaf-architecture.png)
+Fig. 1 UAF架构
+
+这些接口里面，只有这3个会直接生成或处理UAF协议message：
+
+* FIDO Server，在依赖方（服务提供商，如腾讯）的服务器上运行
+* FIDO UAF Client（Web，App），在FIDO使用者的设备上运行，属于user agent的一部分
+* FIDO 认证设备（Authenticator），和FIDO使用者的设备配合使用
+
+本文档假设FIDO Server已经向UAF Authenticator Metadata [[UAFAuthnrMetadata](#bib-UAFAuthnrMetadata)]提交了所有可能会交互的Authenticator的信息。
+
+### 2.3 协议会话：
+FIDO UAF Client和FIDO Server之间的UAF协议核心共有4种会话：
+
+* 注册（Registration）
+UAF可以让依赖方使用用户账户注册FIDO Authenticator，依赖方可以制定具体策略支持各种不同的FIDO Authenticator类型。FIDO UAF Client只能根据policy注册依赖方提供的类型。
+
+* 认证（Authentication）
+UAF可以让依赖方的终端用户使用已经注册过的FIDO Authenticator进行认证。认证可以在任意时候执行，由依赖方自行判断。
+
+* 交易确认（Transacation Confirmation）
+通了提供一个通用的认证请求之外，UAF也可以让用户认证一次特定的交易。
+该次认证会有额外的信息给client（*译者注：泛指终端，不是FIDO UAF Client*)，通过client交易确认显示模块显示给终端用户。这个额外的认证操作用于依赖方确保用户了解这个交易的信息细节（而不是只是简单的给user agent做一次认证session）（*译者注：比如说登录只需要Authentication，但做银行转账就需要Transcation Confirmation*）)
+
+* 注销（Deregistration）
+依赖方可以用于删除与帐户相关的认证key的数据
+
+虽然该文档定义了FIDO Server是请求的发起者，在实际情况中第一个UAF操作请求总是user agent's（如HTTP）向依赖方服务器发起的（*译者注：client发起，然后server创建UAF message返回给client。[[UAFAppAPIAndTransport](#bib-UAFAppAPIAndTransport)]中有介绍。*）。
+
+以下的章节提供了每一个UAF操作的简要的协议会话介绍 。更详细的描述在3.4 Registration Operation，3.5 Authentication Operation，3.6 Deregistration Operation中。
