@@ -221,3 +221,61 @@ UAF可以让依赖方的终端用户使用已经注册过的FIDO Authenticator�
 虽然该文档定义了FIDO Server是请求的发起者，在实际情况中第一个UAF操作请求总是user agent's（如HTTP）向依赖方服务器发起的（*译者注：client发起，然后server创建UAF message返回给client。[[UAFAppAPIAndTransport](#bib-UAFAppAPIAndTransport)]中有介绍。*）。
 
 以下的章节提供了每一个UAF操作的简要的协议会话介绍 。更详细的描述在3.4 Registration Operation，3.5 Authentication Operation，3.6 Deregistration Operation中。
+
+### 2.3.1 Registration
+下图表为Registration的信息流：
+![](https://github.com/SickWorm/FIDO-UAF-Chinese-Document/raw/master/UAF1.0翻译/img/fido-uaf-protocol-registration.png)
+Fig. 2 Registration信息流
+
+> NOTE
+> client application 应该使用适合的API去通知FIDO UAF Client操作的结果（详细查看2.3.1[[UAFAppAPIAndTransport](#bib-UAFAppAPIAndTransport)]，FIDO UAF Client可能会根据结果执行一些内部操作。
+
+### 2.3.2 Authentication
+下图表为Authentication的信息流：
+![](https://github.com/SickWorm/FIDO-UAF-Chinese-Document/raw/master/UAF1.0翻译/img/fido-uaf-protocol-authentication.png)
+Fig. 3 Authentication信息流
+
+> NOTE
+> client application 应该使用适合的API去通知FIDO UAF Client操作的结果（详细查看2.3.1[[UAFAppAPIAndTransport](#bib-UAFAppAPIAndTransport)]，FIDO UAF Client可能会根据结果执行一些内部操作。
+
+### 2.3.3 Transcation Confirmation
+下图表为Transcation Confirmation的信息流：
+![](https://github.com/SickWorm/FIDO-UAF-Chinese-Document/raw/master/UAF1.0翻译/img/fido-uaf-protocol-transaction-confirm.png)
+Fig. 3 Transcation Confirmation信息流
+
+> NOTE
+> client application 应该使用适合的API去通知FIDO UAF Client操作的结果（详细查看2.3.1[[UAFAppAPIAndTransport](#bib-UAFAppAPIAndTransport)]，FIDO UAF Client可能会根据结果执行一些内部操作。
+
+### 2.3.4 Deregistration
+下图表为Deregistration的信息流：
+![](https://github.com/SickWorm/FIDO-UAF-Chinese-Document/raw/master/UAF1.0翻译/img/fido-uaf-protocol-deregistration.png)
+Fig. 3 Deregistration信息流
+
+> NOTE
+> client application 应该使用适合的API去通知FIDO UAF Client操作的结果（详细查看2.3.1[[UAFAppAPIAndTransport](#bib-UAFAppAPIAndTransport)]，FIDO UAF Client可能会根据结果执行一些内部操作。
+
+# 3. 协议细节
+*本章节属于规范。*
+
+本章节包括了UAF Protocol支持的各个操作的细节描述。 
+
+除非另外说明，规范强制性要求软件需要支持所有的协议元素。
+
+本规范中所有字符值的范围是Unicode的`U+0000`..`U+007F`。
+
+除非另外说明，协议message都用UTF-8编码。
+
+> NOTE
+> 协议中FIDO UAF Client和依赖方之间用到的所有数据都必须使用安全传输协议进行传输（如TLS/HTTPS），以遵循[[FIDOSecRef](#bib-FIDOSecRef)]中的假设；详细内容在[4.1.7 TLS Protected Communication](#4.1.7)。
+
+`base64url(byte[8..64])`表示8到64字节的base64url编码的数据，base64url表示“URL和文件名安全的Base64编码字符集”且没有padding[[RFC4648](#bib-RFC4648)]。（*译者注：即Base64.NO_WRAP | Base64.NO_PADDING | Base64.URL_SAFE*）
+
+`string[5]`表示5个unicode字符，即UTF-8 [[RFC3629](#bib-RFC3629)]编码的声明中指定的类型的string，如WebIDL [[WebIDL-ED](#bib-WebIDL-ED)]的DOMString。
+
+因为UTF-8是变长编码，所以`string[5]`的*最大*长度为`string[4*5]`。
+
+除非另外说明，所有的string都是大小写敏感的。
+
+本文档使用WebIDL [[WebIDL-ED](#bib-WebIDL-ED)]来定义UAF protocol messages。
+
+在协议实现中，传输过程中**必须**使用UTF-8编码的JSON [[RFC4627](#bib-RFC4627)]来串行化UAF protocol messages。
