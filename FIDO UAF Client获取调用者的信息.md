@@ -6,7 +6,7 @@ Activity：
 `getCallingPackage()`
 
 注意：
-只有调用者使用的是`startActivityForResult()`时才可以获取，`startActivity()`返回的是null。
+只有调用者使用的是startActivityForResult()，且Intent不设置NEW_TASK时才可以获取，调用startActivity()得到的是null。
 
 Service：
 
