@@ -27,9 +27,9 @@ U2F （ Universal Second Factor ），旨在提供一种硬件设备来代替现
  FIDO UAF 提供了用户注册，登陆认证，交易认证，注销等功能。登陆认证和交易认证需要用户先进行注册。
 
 ### 3.1.1 reg 注册
-注册需要提供 username。first factor authenticator 会为注册的 username 生成一对非对称密钥对（或所有 username 都使用同一张预植的证书），second factor authenticator 不会识别 username，所以所有使用同一个 second factor authenticator 的 user 会共享同一对非对称密钥对（或预植证书）。FIDO UAF 要求密钥对存储在 UAF Authenticator 或 UAF ASM 的安全环境中。
+注册需要提供 username。first factor authenticator 会为注册的 username 生成一对非对称密钥对（或所有 username 都使用同一张预制的证书），second factor authenticator 不会识别 username，所以所有使用同一个 second factor authenticator 的 user 会共享同一对非对称密钥对（或预制证书）。FIDO UAF 要求密钥对存储在 UAF Authenticator 或 UAF ASM 的安全环境中。
 
-注册的实质就是 authenticator 为用户生成一对非对称密钥对（或使用已有预植证书），在登陆认证和交易认证的时候使用私钥进行签名，服务器再通过 authenticator 提供的公钥对签名报文进行验签，验签成功则认可这个用户，从而实现免密登陆的特性。authenticator 使用私钥签名之前需要用户先通过指纹，虹膜或其他的验证方式（由该 authenticator 的特性决定）。也就是说，用户以指纹，虹膜或其他的验证方式来代替了普通密码登陆。
+注册的实质就是 authenticator 为用户生成一对非对称密钥对（或使用已有预制证书），在登陆认证和交易认证的时候使用私钥进行签名，服务器再通过 authenticator 提供的公钥对签名报文进行验签，验签成功则认可这个用户，从而实现免密登陆的特性。authenticator 使用私钥签名之前需要用户先通过指纹，虹膜或其他的验证方式（由该 authenticator 的特性决定）。也就是说，用户以指纹，虹膜或其他的验证方式来代替了普通密码登陆。
 
 注册得到的非对称密钥会和 app，以及 UAF Client 绑定，加密存储在 UAF ASM 或 UAF Authenticator （根据 authenticator 特性）中。
 
@@ -932,7 +932,7 @@ Policy 和 MatchCriteria 看起来有很多匹配的规则，很复杂，但实�
     1. 对每一个`MatchCriteria`匹配到的 A & K （一个`MatchCriteria`可能匹配上多个 A & K ）建立一个列表`l`，建立一个新对象`FilteredAuthenticator`，`FilteredAuthenticator`会存储：
         1. `AuthenticatorInfo`。从 GetInfo 中得到。
         2. `keyIDs`。值为 A & K 中的 keyIDs 与`MatchCriteria`的 keyIDs 的交集（这点很重要，你只能使用`MatchCriteria`提供的 keyID，如果 keyID 为空，则将 A & K 的 keyID 设为空列表）。
-        3. `atteatationType`。这个变量表示 Authenticator 的认证方式。目前 Authenticator 可能支持多种认证方式（使用预植证书或使用自生成证书的认证方式，在 UAF Authenticator 中会介绍）。如果`MatchCriteria`含有`atteatationType`，则你只能使用`MatchCriteria`的`atteatationType`，即是你支持多种认证方式。该变量在后面签名时会用到。
+        3. `atteatationType`。这个变量表示 Authenticator 的认证方式。目前 Authenticator 可能支持多种认证方式（使用预制证书或使用自生成证书的认证方式，在 UAF Authenticator 中会介绍）。如果`MatchCriteria`含有`atteatationType`，则你只能使用`MatchCriteria`的`atteatationType`，即是你支持多种认证方式。该变量在后面签名时会用到。
     2. 当遍历完一个`MatchCriteria[]`集合时，对所有的`l`进行排列组合，并去重。例子：
 
     * 在极端条件下，如： mm[0]：要求支持指纹，mm[1]：要求支持面部识别，mm[2]：要求支持 RSA 算法。而现在符合 mm[0]的有 a，b，c 三个，符合 mm[1]有 d，e，符合 mm[2]有 a，c，g。即每个`MatchCriteria[]`{ a , b , c },{ d , e },{ a , c , g }
@@ -1235,7 +1235,7 @@ public class AuthenticatorInfo implements Serializable {
     @Required public AAID                 aaid; // 该 authenticator 的 AAID
     @Required public String               assertionScheme; // 该 authenticator 的断言方案，目前规范 1.0 & 1.1 只有 UAFV1TLV 一种，也就是 TLV 格式
     @Required public short                authenticationAlgorithm; // 该 authenticator 的认证算法，ECDSA，RSA之类的
-    @Required public short[]              attestationTypes; // 该 authenticator 的认证类型（Full预植证书/Surrogate自生成密钥）
+    @Required public short[]              attestationTypes; // 该 authenticator 的认证类型（Full 预制证书/Surrogate 自生成密钥）
     @Required public int                  userVerification; // 该 authenticator 使用了哪种认证方法（指纹，密码，掌纹等）
     @Required public short                keyProtection; // 密钥保护的方法（软件保护，硬件保护，TEE保护，SE保护，远程存储）
     @Required public short                matcherProtection; // 匹配器（就是用来认证的那个东西）保护方法（软件保护，TEE保护，芯片保护）
